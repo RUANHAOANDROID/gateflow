@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           //padding: EdgeInsets.zero,
           children: [
-            const MyHeader('优驰-中继服务'),
+            const MyHeader('GateFlow-Desktop'),
             ListTile(
               leading: Icon(Icons.info_rounded),
               title: Text('运行概要'),
