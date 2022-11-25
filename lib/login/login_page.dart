@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../home/home_page.dart';
-
+import 'package:gateflow/home/home_page.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -48,21 +46,13 @@ class _LoginPageState extends State<LoginPage> {
                     hintText: '请输入密码'),
               ),
             ),
-            FlatButton(
-              onPressed: () {
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
-              },
-              child: const Text(
-                '修改密码',
-                style: TextStyle(color: Colors.blue, fontSize: 15),
-              ),
-            ),
+
             Container(
               height: 50,
               width: 250,
               decoration: BoxDecoration(
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
+              child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const HomePage()));
@@ -76,10 +66,19 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 130,
             ),
-            const Text('This is tip')
+            TextButton(
+              onPressed: () {
+                //TODO FORGOT PASSWORD SCREEN GOES HERE
+              },
+              child: const Text(
+                '修改密码',
+                style: TextStyle(color: Colors.blue, fontSize: 15),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
 }
