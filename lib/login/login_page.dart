@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/home/home_page.dart';
+import 'package:http/http.dart' as http;
+
+import '../home/home_page2.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -12,9 +15,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text("登录"),
-      ),
+      // appBar: AppBar(
+      //   title: const Text("登录"),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -55,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const HomePage()));
+                      MaterialPageRoute(builder: (_) => const HomePage2()));
                 },
                 child: const Text(
                   '登录',
