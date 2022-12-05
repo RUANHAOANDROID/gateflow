@@ -41,7 +41,7 @@ class SideMenu extends StatelessWidget {
             title: "设备绑定",
             svgSrc: "assets/icons/menu_doc.svg",
             press: () {
-              pageController.jumpToPage(2);
+              pageController.jumpToPage(3);
             },
           ),
         ],
