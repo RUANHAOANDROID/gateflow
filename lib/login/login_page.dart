@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gateflow/home/home_page.dart';
+import 'package:gateflow/screens/main/main_screen.dart';
 import 'package:http/http.dart' as http;
 
-import '../home/home_page2.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -58,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const HomePage2()));
+                      MaterialPageRoute(builder: (_) => MainScreen()));
                 },
                 child: const Text(
                   '登录',
