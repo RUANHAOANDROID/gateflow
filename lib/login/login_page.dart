@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: SizedBox(
                     width: 200,
                     height: 150,
-                    child: Image.asset('asset/images/logo.png')),
+                    child: Image.asset('asset/images/logo1.png')),
               ),
             ),
             const Padding(
