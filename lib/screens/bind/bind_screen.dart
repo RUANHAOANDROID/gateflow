@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gateflow/models/DeviceInfo.dart';
 
 import '../../../constants.dart';
-import '../../../models/RecentFile.dart';
 import '../../responsive.dart';
 
 class BindScreen extends StatelessWidget {
@@ -13,7 +12,7 @@ class BindScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    var container = Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: secondaryColor,
@@ -68,6 +67,21 @@ class BindScreen extends StatelessWidget {
         ],
       ),
     );
+    return SafeArea(
+        child: SingleChildScrollView(
+            primary: false,
+            padding: EdgeInsets.all(defaultPadding),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: defaultPadding),
+                child: Text(
+                  "设备调试",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              container
+            ])));
   }
 }
 

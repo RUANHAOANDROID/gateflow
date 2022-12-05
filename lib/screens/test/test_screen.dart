@@ -79,7 +79,7 @@ class TestScreen extends StatelessWidget {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
-                padding: EdgeInsets.all(defaultPadding),
+                padding: EdgeInsets.only(bottom: defaultPadding),
                 child: Text(
                   "设备调试",
                   style: Theme.of(context).textTheme.headline6,

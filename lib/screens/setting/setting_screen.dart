@@ -1,74 +1,104 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../constants.dart';
-import '../../controllers/MenuController.dart';
+import '../../models/DeviceInfo.dart';
 import '../../responsive.dart';
-import '../dashboard/components/header.dart';
-import '../dashboard/components/my_fields.dart';
-import '../dashboard/components/recent_files.dart';
-import '../dashboard/components/storage_details.dart';
-
-
-
 
 class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        primary: false,
-        padding: EdgeInsets.all(defaultPadding),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                if (!Responsive.isDesktop(context))
-                  IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: context.read<MenuController>().controlMenu,
-                  ),
-                if (!Responsive.isMobile(context))
-                  Text(
-                    "运行概要",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                if (!Responsive.isMobile(context))
-                  Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-                Expanded(child: SearchField()),
-                ProfileCard()
-              ],
-            ),
-            SizedBox(height: defaultPadding),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [
-                      MyFiles(),
-                      SizedBox(height: defaultPadding),
-                      RecentFiles(),
-                      if (Responsive.isMobile(context))
-                        SizedBox(height: defaultPadding),
-                      if (Responsive.isMobile(context)) StarageDetails(),
-                    ],
-                  ),
-                ),
-                if (!Responsive.isMobile(context))
-                  SizedBox(width: defaultPadding),
-                // On Mobile means if the screen is less than 850 we dont want to show it
-                if (!Responsive.isMobile(context))
-                  Expanded(
-                    flex: 2,
-                    child: StarageDetails(),
-                  ),
-              ],
-            )
-          ],
-        ),
+    var buttonStyleFrom = TextButton.styleFrom(
+      padding: EdgeInsets.symmetric(
+        horizontal: defaultPadding * 1.5,
+        vertical: defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
       ),
     );
+    var content = Container(
+      padding: EdgeInsets.all(defaultPadding),
+      decoration: BoxDecoration(
+        color: secondaryColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          RichText(
+            text: TextSpan(
+              children: [
+                WidgetSpan(
+                  child: Icon(
+                    Icons.settings,
+                    color: Colors.blue,
+                  ),
+                ),
+                TextSpan(
+                  text: "  获取配置 ",
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            color: secondaryColor,
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: 300,
+                  padding:EdgeInsets.only(right: defaultPadding) ,
+                  child: Expanded(
+                    child: TextField(
+                      autofocus:true ,
+                      decoration: InputDecoration(
+                        hoverColor: Colors.blueGrey,
+                        border: OutlineInputBorder(),
+                        labelText: '设备编号',
+                        labelStyle: TextStyle(color: Colors.white70),
+                        hintText: '请输入设备编号',
+                        hintStyle: TextStyle(color: Colors.white70),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: TextFormField(
+                    initialValue: 'http://101.43.113.148:8194/',
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: '平台地址',
+                        labelStyle: TextStyle(color: Colors.white70),
+                        hintText: '请输入平台地址',
+                        hintStyle: TextStyle(color: Colors.white70)),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(defaultPadding),
+                  child: ElevatedButton.icon(
+                    style: buttonStyleFrom,
+                    onPressed: () {},
+                    icon: Icon(Icons.sync),
+                    label: Text("获取配置参数"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+    var title = Padding(
+      padding: EdgeInsets.only(bottom: defaultPadding),
+      child: Text(
+        "参数设置",
+        style: Theme.of(context).textTheme.headline6,
+      ),
+    );
+    return SafeArea(
+        child: SingleChildScrollView(
+            primary: false,
+            padding: EdgeInsets.all(defaultPadding),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [title, content])));
   }
 }

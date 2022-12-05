@@ -47,5 +47,4 @@ List demoDevices = [
     version: "1.1.1",
     status: "0",
   ),
-
 ];
