@@ -94,7 +94,7 @@ DataRow devicesDataRow(DeviceInfo info) {
               onPressed: () {},
               icon: Icon(
                 Icons.edit,
-                color: Colors.cyanAccent,
+                color: primaryColor,
               )),
           IconButton(
               onPressed: () {},
