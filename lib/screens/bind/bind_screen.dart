@@ -1,18 +1,58 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:gateflow/models/DeviceInfo.dart';
-
+import 'package:gateflow/models/devices_entity.dart';
+import 'package:gateflow/screens/bind/compand/edit_dialog.dart';
+import 'package:gateflow/utils/HttpUtils.dart';
 import '../../../constants.dart';
-import '../../../models/RecentFile.dart';
 import '../../responsive.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class BindScreen extends StatelessWidget {
-  const BindScreen({
-    Key? key,
-  }) : super(key: key);
+class BindScreen extends StatefulWidget {
+  @override
+  State<BindScreen> createState() => _BindScreen();
+}
+
+class _BindScreen extends State<BindScreen> {
+  List<DevicesData> devices = List.empty(growable: true);
+
+  Future<String> getDevices() async {
+    try {
+      var response = await HttpUtils.post("/devices/list", "");
+      setState(() {
+        devices = DevicesEntity.fromJson(response).data!;
+      });
+    } catch (e) {
+      print(e);
+      return Future.value(e.toString());
+    }
+    return Future.value("OK");
+  }
+
+  void _deleteDevices(int? dId) async {
+    try {
+      var response = await HttpUtils.post("/devices/delete", dId);
+      //getDevices();
+      print(response);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    var value = getDevices();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print("deactivate");
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("getDevices");
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
@@ -30,7 +70,7 @@ class BindScreen extends StatelessWidget {
                     defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {_showMyDialog(null);},
             icon: Icon(Icons.add),
             label: Text("添加设备"),
           ),
@@ -60,8 +100,8 @@ class BindScreen extends StatelessWidget {
                 ),
               ],
               rows: List.generate(
-                demoDevices.length,
-                (index) => devicesDataRow(demoDevices[index]),
+                devices.length,
+                (index) => devicesDataRow(devices[index]),
               ),
             ),
           ),
@@ -69,41 +109,57 @@ class BindScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-DataRow devicesDataRow(DeviceInfo info) {
-  return DataRow(
-    cells: [
-      DataCell(
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(info.flowId!),
-            ),
-          ],
+  DataRow devicesDataRow(DevicesData info) {
+    print(info);
+    return DataRow(
+      cells: [
+        DataCell(
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                child: Text("${info.id}"),
+              ),
+            ],
+          ),
         ),
-      ),
-      DataCell(Text(info.dId!.toString())),
-      DataCell(Text(info.ip!.toString())),
-      DataCell(Text(info.version!.toString())),
-      DataCell(Text(info.status!.toString())),
-      DataCell(Row(
-        children: [
-          IconButton(
-              onPressed: () {},
+        DataCell(Text("${info.deviceNo}")),
+        DataCell(Text("${info.deviceIp}")),
+        DataCell(Text("${info.deviceVersion}")),
+        DataCell(Text("${info.status}")),
+        DataCell(Row(
+          children: [
+            IconButton(
               icon: Icon(
                 Icons.edit,
                 color: primaryColor,
-              )),
-          IconButton(
-              onPressed: () {},
+              ),
+              onPressed: () {
+                _showMyDialog(info);
+              },
+            ),
+            IconButton(
               icon: Icon(
                 Icons.delete,
                 color: Colors.red,
-              )),
-        ],
-      )),
-    ],
-  );
+              ),
+              onPressed: () {
+                _deleteDevices(info.id);
+              },
+            ),
+          ],
+        )),
+      ],
+    );
+  }
+  Future<void> _showMyDialog(DevicesData? data) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return EditDialog(device: data,);
+      },
+    );
+  }
 }
