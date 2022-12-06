@@ -44,6 +44,7 @@ dependencies:
   data_table_2: ^2.0.3
   dio: ^4.0.6
   dio_cookie_manager: ^2.0.0
+  shelf_proxy: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

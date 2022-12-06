@@ -6,6 +6,6 @@ const bgColor = Color(0xFF212332);
 
 const defaultPadding = 16.0;
 
-const MyUrl ='http://localhost:9090';
-const ICBC_URL ='http://localhost:9090';
-const EMCS_URL ='http://localhost:9090';
+const MyUrl = 'http://localhost:8888';
+const ICBC_URL = 'http://localhost:9090';
+const EMCS_URL = 'http://localhost:9090';
