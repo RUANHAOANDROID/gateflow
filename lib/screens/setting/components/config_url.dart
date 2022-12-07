@@ -73,12 +73,21 @@ class _ConfigUrl extends State<ConfigUrl> {
               child: textFormField("获取参数地址", "http://101.43.113.148:8194")),
         ),
         Padding(
-          padding: EdgeInsets.all(defaultPadding),
+          padding: EdgeInsets.all(defaultPadding/2),
           child: ElevatedButton.icon(
             style: buttonStyleFrom,
             onPressed: () {},
             icon: Icon(Icons.sync),
-            label: Text("获取配置参数"),
+            label: Text("获取"),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(defaultPadding/2),
+          child: ElevatedButton.icon(
+            style: buttonStyleFrom,
+            onPressed: () {},
+            icon: Icon(Icons.save),
+            label: Text("保存"),
           ),
         ),
       ],
