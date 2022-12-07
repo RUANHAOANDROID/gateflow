@@ -59,34 +59,18 @@ class _ConfigUrl extends State<ConfigUrl> {
   Row rowConfigPull(ButtonStyle buttonStyleFrom) {
     return Row(
       children: <Widget>[
-        Container(
-          width: 300,
-          padding: EdgeInsets.only(right: defaultPadding),
-          child: TextFormField(
-            autofocus: true,
-            initialValue: "3Y32225000630212",
-            decoration: InputDecoration(
-              hoverColor: Colors.blueGrey,
-              border: OutlineInputBorder(),
-              labelText: '设备编号',
-              labelStyle: TextStyle(color: Colors.white70),
-              hintText: '请输入设备编号',
-              hintStyle: TextStyle(color: Colors.white70),
-            ),
+        Expanded(
+          flex: 1,
+          child: Padding(
+            padding: EdgeInsets.all(defaultPadding / 2),
+            child: textFormField("设备编号", "3Y32224500630212"),
           ),
         ),
-        Container(
-          width: 500,
-          padding: EdgeInsets.only(right: defaultPadding),
-          child: TextFormField(
-            initialValue: 'http://101.43.113.148:8194/',
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: '平台地址',
-                labelStyle: TextStyle(color: Colors.white70),
-                hintText: '获取参数地址',
-                hintStyle: TextStyle(color: Colors.white70)),
-          ),
+        Expanded(
+          flex: 2,
+          child: Padding(
+              padding: EdgeInsets.all(defaultPadding / 2),
+              child: textFormField("获取参数地址", "http://101.43.113.148:8194")),
         ),
         Padding(
           padding: EdgeInsets.all(defaultPadding),
@@ -98,6 +82,21 @@ class _ConfigUrl extends State<ConfigUrl> {
           ),
         ),
       ],
+    );
+  }
+
+  TextFormField textFormField(String hite, String initValue) {
+    return TextFormField(
+      autofocus: true,
+      initialValue: initValue,
+      decoration: InputDecoration(
+        hoverColor: Colors.blueGrey,
+        border: OutlineInputBorder(),
+        labelText: hite,
+        labelStyle: TextStyle(color: Colors.white70),
+        hintText: hite,
+        hintStyle: TextStyle(color: Colors.white70),
+      ),
     );
   }
 }
