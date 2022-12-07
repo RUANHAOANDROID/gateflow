@@ -91,6 +91,18 @@ class _dialog extends State<EditDialog> {
           Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
             child: TextFormField(
+              controller: c5,
+              decoration: InputDecoration(
+                  border: outlineInputBorder,
+                  labelStyle: Theme.of(context).textTheme.subtitle2,
+                  hintStyle: Theme.of(context).textTheme.subtitle2,
+                  labelText: '设备点位',
+                  hintText: '设备点位'),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(defaultPadding / 2),
+            child: TextFormField(
               controller: c1,
               decoration: InputDecoration(
                   border: outlineInputBorder,
@@ -136,18 +148,7 @@ class _dialog extends State<EditDialog> {
                   hintText: '请输设备序列号'),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
-            child: TextFormField(
-              controller: c5,
-              decoration: InputDecoration(
-                  border: outlineInputBorder,
-                  labelStyle: Theme.of(context).textTheme.subtitle2,
-                  hintStyle: Theme.of(context).textTheme.subtitle2,
-                  labelText: '备注',
-                  hintText: '备注'),
-            ),
-          ),
+
         ],
       ),
     );

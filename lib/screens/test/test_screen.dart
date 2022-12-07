@@ -36,7 +36,7 @@ class _TestScreen extends State<TestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var content = Container(
+    var container = Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: secondaryColor,
@@ -96,20 +96,24 @@ class _TestScreen extends State<TestScreen> {
       ),
     );
     return SafeArea(
-        child: SingleChildScrollView(
-            primary: false,
-            padding: EdgeInsets.all(defaultPadding),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: defaultPadding),
-                child: Text(
-                  "设备调试",
-                  style: Theme.of(context).textTheme.headline6,
-                ),
+      child: SingleChildScrollView(
+        primary: false,
+        padding: EdgeInsets.all(defaultPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: defaultPadding),
+              child: Text(
+                "设备调试",
+                style: Theme.of(context).textTheme.headline6,
               ),
-              content
-            ])));
+            ),
+            container,
+          ],
+        ),
+      ),
+    );
   }
 }
 

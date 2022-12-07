@@ -28,7 +28,7 @@ class _BindScreen extends State<BindScreen> {
   void onRefresh() {
     print("onRefresh");
     getDevices();
-    Future.delayed(Duration(seconds: 1), (){
+    Future.delayed(Duration(seconds: 1), () {
       getDevices();
     });
   }
@@ -55,10 +55,27 @@ class _BindScreen extends State<BindScreen> {
     print("deactivate");
   }
 
+  /**
+
+      child: SingleChildScrollView(
+      primary: false,
+      padding: EdgeInsets.all(defaultPadding),
+      child:
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Padding(
+      padding: EdgeInsets.only(bottom: defaultPadding),
+      child: Text(
+      "设备调试",
+      style: Theme.of(context).textTheme.headline6,
+      ),
+      ),
+      content
+      ])));
+   */
   @override
   Widget build(BuildContext context) {
     print("getDevices");
-    return Container(
+    var container = Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
         color: secondaryColor,
@@ -84,7 +101,7 @@ class _BindScreen extends State<BindScreen> {
                     device: null,
                   );
                 },
-              ).then((value) =>onRefresh());
+              ).then((value) => onRefresh());
             },
             icon: Icon(Icons.add),
             label: Text("添加设备"),
@@ -96,7 +113,7 @@ class _BindScreen extends State<BindScreen> {
               minWidth: 600,
               columns: [
                 DataColumn(
-                  label: Text("ID"),
+                  label: Text("点位"),
                 ),
                 DataColumn(
                   label: Text("设备编号"),
@@ -123,6 +140,25 @@ class _BindScreen extends State<BindScreen> {
         ],
       ),
     );
+    return SafeArea(
+      child: SingleChildScrollView(
+        primary: false,
+        padding: EdgeInsets.all(defaultPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: defaultPadding),
+              child: Text(
+                "设备绑定",
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+            container,
+          ],
+        ),
+      ),
+    );
   }
 
   DataRow devicesDataRow(DevicesData info) {
@@ -134,7 +170,7 @@ class _BindScreen extends State<BindScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Text("${info.id}"),
+                child: Text("${info.tag}"),
               ),
             ],
           ),
@@ -151,15 +187,15 @@ class _BindScreen extends State<BindScreen> {
                 color: primaryColor,
               ),
               onPressed: () {
-                 showDialog<bool>(
-                    context: context,
-                    //barrierDismissible: false, // user must tap button!
-                    builder: (BuildContext context) {
-                      return EditDialog(
-                        device: info,
-                      );
-                    },
-                 ).then((value) =>onRefresh());
+                showDialog<bool>(
+                  context: context,
+                  //barrierDismissible: false, // user must tap button!
+                  builder: (BuildContext context) {
+                    return EditDialog(
+                      device: info,
+                    );
+                  },
+                ).then((value) => onRefresh());
               },
             ),
             IconButton(
