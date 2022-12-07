@@ -5,7 +5,6 @@ import 'package:gateflow/screens/bind/compand/edit_dialog.dart';
 import 'package:gateflow/utils/HttpUtils.dart';
 import '../../../constants.dart';
 import '../../responsive.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class BindScreen extends StatefulWidget {
   @override
@@ -15,7 +14,7 @@ class BindScreen extends StatefulWidget {
 class _BindScreen extends State<BindScreen> {
   List<DevicesData> devices = List.empty(growable: true);
 
-  Future<String> getDevices() async {
+  void getDevices() async {
     try {
       var response = await HttpUtils.post("/devices/list", "");
       setState(() {
@@ -23,25 +22,31 @@ class _BindScreen extends State<BindScreen> {
       });
     } catch (e) {
       print(e);
-      return Future.value(e.toString());
     }
-    return Future.value("OK");
+  }
+
+  void onRefresh() {
+    print("onRefresh");
+    getDevices();
+    Future.delayed(Duration(seconds: 1), (){
+      getDevices();
+    });
   }
 
   void _deleteDevices(int? dId) async {
     try {
       var response = await HttpUtils.post("/devices/delete", dId);
-      //getDevices();
       print(response);
     } catch (e) {
       print(e);
     }
+    getDevices();
   }
 
   @override
   void initState() {
     super.initState();
-    var value = getDevices();
+    getDevices();
   }
 
   @override
@@ -70,7 +75,17 @@ class _BindScreen extends State<BindScreen> {
                     defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
               ),
             ),
-            onPressed: () {_showMyDialog(null);},
+            onPressed: () {
+              showDialog<bool>(
+                context: context,
+                //barrierDismissible: false, // user must tap button!
+                builder: (BuildContext context) {
+                  return EditDialog(
+                    device: null,
+                  );
+                },
+              ).then((value) =>onRefresh());
+            },
             icon: Icon(Icons.add),
             label: Text("添加设备"),
           ),
@@ -124,9 +139,9 @@ class _BindScreen extends State<BindScreen> {
             ],
           ),
         ),
-        DataCell(Text("${info.deviceNo}")),
-        DataCell(Text("${info.deviceIp}")),
-        DataCell(Text("${info.deviceVersion}")),
+        DataCell(Text("${info.number}")),
+        DataCell(Text("${info.ip}")),
+        DataCell(Text("${info.version}")),
         DataCell(Text("${info.status}")),
         DataCell(Row(
           children: [
@@ -136,7 +151,15 @@ class _BindScreen extends State<BindScreen> {
                 color: primaryColor,
               ),
               onPressed: () {
-                _showMyDialog(info);
+                 showDialog<bool>(
+                    context: context,
+                    //barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return EditDialog(
+                        device: info,
+                      );
+                    },
+                 ).then((value) =>onRefresh());
               },
             ),
             IconButton(
@@ -153,12 +176,15 @@ class _BindScreen extends State<BindScreen> {
       ],
     );
   }
-  Future<void> _showMyDialog(DevicesData? data) async {
-    return showDialog<void>(
+
+  Future<Future<bool?>> showEditDialog(DevicesData? data) async {
+    return showDialog<bool>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return EditDialog(device: data,);
+        return EditDialog(
+          device: data,
+        );
       },
     );
   }

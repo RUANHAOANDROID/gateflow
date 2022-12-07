@@ -7,9 +7,9 @@ DevicesEntity $DevicesEntityFromJson(Map<String, dynamic> json) {
 	if (code != null) {
 		devicesEntity.code = code;
 	}
-	final String? message = jsonConvert.convert<String>(json['message']);
-	if (message != null) {
-		devicesEntity.message = message;
+	final String? msg = jsonConvert.convert<String>(json['msg']);
+	if (msg != null) {
+		devicesEntity.msg = msg;
 	}
 	final List<DevicesData>? data = jsonConvert.convertListNotNull<DevicesData>(json['data']);
 	if (data != null) {
@@ -21,7 +21,7 @@ DevicesEntity $DevicesEntityFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> $DevicesEntityToJson(DevicesEntity entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
 	data['code'] = entity.code;
-	data['message'] = entity.message;
+	data['msg'] = entity.msg;
 	data['data'] =  entity.data?.map((v) => v.toJson()).toList();
 	return data;
 }
@@ -32,33 +32,38 @@ DevicesData $DevicesDataFromJson(Map<String, dynamic> json) {
 	if (id != null) {
 		devicesData.id = id;
 	}
-	final String? deviceId = jsonConvert.convert<String>(json['deviceId']);
-	if (deviceId != null) {
-		devicesData.deviceId = deviceId;
+	final String? tag = jsonConvert.convert<String>(json['tag']);
+	if (tag != null) {
+		devicesData.tag = tag;
 	}
-	final String? deviceNo = jsonConvert.convert<String>(json['deviceNo']);
-	if (deviceNo != null) {
-		devicesData.deviceNo = deviceNo;
+
+	final String? number = jsonConvert.convert<String>(json['number']);
+	if (number != null) {
+		devicesData.number = number;
 	}
-	final String? deviceIp = jsonConvert.convert<String>(json['deviceIp']);
-	if (deviceIp != null) {
-		devicesData.deviceIp = deviceIp;
+	final String? ip = jsonConvert.convert<String>(json['ip']);
+	if (ip != null) {
+		devicesData.ip = ip;
 	}
-	final String? serialNumber = jsonConvert.convert<String>(json['serialNumber']);
-	if (serialNumber != null) {
-		devicesData.serialNumber = serialNumber;
+	final String? sn = jsonConvert.convert<String>(json['sn']);
+	if (sn != null) {
+		devicesData.sn = sn;
 	}
-	final String? deviceVersion = jsonConvert.convert<String>(json['deviceVersion']);
-	if (deviceVersion != null) {
-		devicesData.deviceVersion = deviceVersion;
+	final String? version = jsonConvert.convert<String>(json['version']);
+	if (version != null) {
+		devicesData.version = version;
 	}
-	final String? deviceStatus = jsonConvert.convert<String>(json['deviceStatus']);
-	if (deviceStatus != null) {
-		devicesData.deviceStatus = deviceStatus;
-	}
-	final int? status = jsonConvert.convert<int>(json['status']);
+	final String? status = jsonConvert.convert<String>(json['status']);
 	if (status != null) {
 		devicesData.status = status;
+	}
+	final String? addTime = jsonConvert.convert<String>(json['addTime']);
+	if (addTime != null) {
+		devicesData.addTime = addTime;
+	}
+	final String? updateTime = jsonConvert.convert<String>(json['updateTime']);
+	if (updateTime != null) {
+		devicesData.updateTime = updateTime;
 	}
 	return devicesData;
 }
@@ -66,12 +71,13 @@ DevicesData $DevicesDataFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> $DevicesDataToJson(DevicesData entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
 	data['id'] = entity.id;
-	data['deviceId'] = entity.deviceId;
-	data['deviceNo'] = entity.deviceNo;
-	data['deviceIp'] = entity.deviceIp;
-	data['serialNumber'] = entity.serialNumber;
-	data['deviceVersion'] = entity.deviceVersion;
-	data['deviceStatus'] = entity.deviceStatus;
+	data['tag'] = entity.tag;
+	data['number'] = entity.number;
+	data['ip'] = entity.ip;
+	data['sn'] = entity.sn;
+	data['version'] = entity.version;
 	data['status'] = entity.status;
+	data['addTime'] = entity.addTime;
+	data['updateTime'] = entity.updateTime;
 	return data;
 }

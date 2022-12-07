@@ -6,7 +6,7 @@ import 'dart:convert';
 class DevicesEntity {
 
 	int? code;
-	String? message;
+	String? msg;
 	List<DevicesData>? data;
   
   DevicesEntity();
@@ -25,13 +25,14 @@ class DevicesEntity {
 class DevicesData {
 
 	int? id;
-  String? deviceId;
-  String? deviceNo;
-  String? deviceIp;
-	String? serialNumber;
-	String? deviceVersion;
-	String? deviceStatus;
-	int? status;
+	String? tag;
+	String? number;
+	String? ip;
+	String? sn;
+	String? version;
+	String? status;
+	String? addTime;
+	String? updateTime;
   
   DevicesData();
 

@@ -29,7 +29,7 @@ class HttpUtils {
     print("HTTP ：$BASE_URL$path");
     print("HTTP ：$method");
     print("HTTP ：$path");
-    print("HTTP：$data");
+    print("HTTP ：$data");
 
     var dio = getInstance();
     var res;
@@ -42,7 +42,7 @@ class HttpUtils {
       var response = await dio.post(path, data: data);
       res = response.data;
     }
-    print("HTTP：response");
+    print("HTTP ：response");
     print(res);
     return res;
   }

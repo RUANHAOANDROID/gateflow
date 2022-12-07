@@ -16,17 +16,39 @@ class EditDialog extends StatefulWidget {
 }
 
 class _dialog extends State<EditDialog> {
-  void addDevice() async {
+  Future<bool> addDevice() async {
     try {
       var body = DevicesData();
-      body.deviceId = c1.text;
-      body.deviceNo = c2.text;
-      body.deviceIp = c3.text;
-      body.serialNumber = c4.text;
-      body.deviceVersion = c5.text;
+      body.number = c1.text;
+      body.ip = c2.text;
+      body.sn = c3.text;
+      body.version = c4.text;
+      body.tag = c5.text;
       print(body);
       HttpUtils.post("/devices/add", body);
-    } catch (e) {}
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> updateDevice() async {
+    try {
+      var body = DevicesData();
+      body.id =widget.device!.id;
+      body.number = c1.text;
+      body.ip = c2.text;
+      body.sn = c3.text;
+      body.version = c4.text;
+      body.tag = c5.text;
+      print(body);
+      var response = HttpUtils.post("/devices/update", body);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 
   TextEditingController c1 = TextEditingController();
@@ -39,12 +61,11 @@ class _dialog extends State<EditDialog> {
   void initState() {
     super.initState();
     if (widget.device != null) {
-      c1.text = widget.device?.id as String;
-      c2.text = widget.device?.deviceId as String;
-      c3.text = widget.device?.deviceNo as String;
-      c4.text = widget.device?.serialNumber as String;
-      c5.text = widget.device?.deviceVersion as String;
-      c5.text = widget.device?.deviceStatus as String;
+      c1.text = widget.device?.number as String;
+      c2.text = widget.device?.ip as String;
+      c3.text = widget.device?.version as String;
+      c4.text = widget.device?.sn as String;
+      c5.text = widget.device?.tag as String;
     }
   }
 
@@ -118,16 +139,13 @@ class _dialog extends State<EditDialog> {
           Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
             child: TextFormField(
-              onChanged: (value) {
-                c5.text = value.toString();
-              },
               controller: c5,
               decoration: InputDecoration(
                   border: outlineInputBorder,
                   labelStyle: Theme.of(context).textTheme.subtitle2,
                   hintStyle: Theme.of(context).textTheme.subtitle2,
-                  labelText: '设备编号',
-                  hintText: '请输设备编号'),
+                  labelText: '备注',
+                  hintText: '备注'),
             ),
           ),
         ],
@@ -150,7 +168,7 @@ class _dialog extends State<EditDialog> {
           ),
           child: const Text('取消'),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(false);
           },
         ),
         ElevatedButton(
@@ -160,9 +178,15 @@ class _dialog extends State<EditDialog> {
               vertical: defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
             ),
           ),
-          onPressed: () {
-            addDevice();
-            Navigator.of(context).pop();
+          onPressed: () async {
+            print(widget.device?.id);
+            if (widget.device?.id != null) {
+              bool isOK = await updateDevice();
+              Navigator.of(context).pop(isOK);
+            } else {
+              bool isOK = await addDevice();
+              Navigator.of(context).pop(isOK);
+            }
           },
           child: Text("保存"),
         )

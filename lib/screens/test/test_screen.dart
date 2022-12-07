@@ -1,15 +1,38 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:gateflow/models/DeviceInfo.dart';
+import 'package:gateflow/models/devices_entity.dart';
+import 'package:gateflow/net/http.dart';
 
 import '../../../constants.dart';
 import '../../../models/RecentFile.dart';
 import '../../responsive.dart';
 
-class TestScreen extends StatelessWidget {
-  const TestScreen({
-    Key? key,
-  }) : super(key: key);
+class TestScreen extends StatefulWidget {
+  List<DevicesData> devices = List.empty(growable: true);
+
+  TestScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _TestScreen();
+}
+
+class _TestScreen extends State<TestScreen> {
+  void getDevices() async {
+    try {
+      var devices = await HttpManager.devicesList();
+      setState(() {
+        widget.devices = devices;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    getDevices();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +87,8 @@ class TestScreen extends StatelessWidget {
                 ),
               ],
               rows: List.generate(
-                demoDevices.length,
-                (index) => devicesDataRow(demoDevices[index]),
+                widget.devices.length,
+                (index) => devicesDataRow(widget.devices[index]),
               ),
             ),
           ),
@@ -90,7 +113,7 @@ class TestScreen extends StatelessWidget {
   }
 }
 
-DataRow devicesDataRow(DeviceInfo info) {
+DataRow devicesDataRow(DevicesData info) {
   return DataRow(
     cells: [
       DataCell(
@@ -98,15 +121,15 @@ DataRow devicesDataRow(DeviceInfo info) {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(info.flowId!),
+              child: Text("${info.id}"),
             ),
           ],
         ),
       ),
-      DataCell(Text(info.dId!.toString())),
-      DataCell(Text(info.ip!.toString())),
-      DataCell(Text(info.version!.toString())),
-      DataCell(Text(info.status!.toString())),
+      DataCell(Text(info.number!)),
+      DataCell(Text(info.ip!)),
+      DataCell(Text(info.version!)),
+      DataCell(Text(info.status!)),
       DataCell(Row(
         children: [
           ElevatedButton(
