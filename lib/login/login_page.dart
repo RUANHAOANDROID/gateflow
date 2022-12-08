@@ -1,51 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/constants.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
+import 'package:gateflow/wiidget/tip.dart';
 import 'package:http/http.dart' as http;
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String user = '';
   String pwd = '';
+
+  void toMain() {
+    //Navigator.push(context, MaterialPageRoute(builder: (context) => MYMainScreen()));
+    //Navigator.pop(context);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => MainScreen()),
+      (route) => route == null,
+    );
+  }
 
   void goLogin() {
     var currentState = _formKey.currentState;
     if (currentState!.validate()) {
       currentState.save();
     } else {
-      showTip(context,"AAAA");
-      // var title = const Icon(
-      //   Icons.error,
-      //   color: Colors.red,
-      // );
-      // var tip = const Text(
-      //   '表单填写不完整!',
-      //   style: TextStyle(color: Colors.red),
-      // );
-      // var action = SnackBarAction(
-      //   label: '重试',
-      //   textColor: Colors.blue,
-      //   onPressed: () {
-      //     // Some code to undo the change.
-      //   },
-      // );
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //       content: Container(
-      //     height: defaultPadding,
-      //     alignment: Alignment.center,
-      //     child: Row(
-      //       children: [title, tip, action],
-      //     ),
-      //   )),
-      // );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Tip(tip: "AAAA"),
+        ),
+      );
     }
   }
 
@@ -106,9 +96,7 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.blue, borderRadius: BorderRadius.circular(20)),
           child: ElevatedButton(
             onPressed: () {
-              goLogin();
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (_) => MainScreen()));
+              toMain();
             },
             child: const Text(
               '登录',
@@ -121,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         TextButton(
           onPressed: () {
-            //TODO FORGOT PASSWORD SCREEN GOES HERE
+            goLogin();
           },
           child: const Text(
             '修改密码',
@@ -131,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bgColor,
       // appBar: AppBar(
       //   title: const Text("登录"),
       // ),

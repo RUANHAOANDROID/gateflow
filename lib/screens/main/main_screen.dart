@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../controllers/MenuController.dart';
 import '../../responsive.dart';
 import '../bind/bind_screen.dart';
-import '../dashboard/dashboard_screen.dart';
 import '../dashboard/mydashboard_screen.dart';
 import '../setting/setting_screen.dart';
 import '../test/test_screen.dart';

@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gateflow/login/login_page.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -14,7 +18,7 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            child: Image.asset("assets/images/logo.png"),
+            child: Image.asset("assets/images/logo1.png"),
           ),
           DrawerListTile(
             title: "运行概要",
@@ -42,6 +46,15 @@ class SideMenu extends StatelessWidget {
             svgSrc: "assets/icons/menu_doc.svg",
             press: () {
               pageController.jumpToPage(3);
+            },
+          ),
+          DrawerListTile(
+            title: "退出登录",
+            svgSrc: "assets/icons/menu_doc.svg",
+            press: () {
+              Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
+              //SystemNavigator.pop();
+              //exit(0);
             },
           ),
         ],
