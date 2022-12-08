@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/login/login_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
 import '../../controllers/MenuController.dart';
 import '../../responsive.dart';
 import '../bind/bind_screen.dart';
@@ -14,11 +16,16 @@ class MainScreen extends StatelessWidget {
   final PageController _controller = PageController(
     initialPage: 0,
   );
-  var pages = [MyDashboardScreen(), TestScreen(), SettingScreen(), BindScreen()];
+  var pages = [
+    MyDashboardScreen(),
+    TestScreen(),
+    SettingScreen(),
+    BindScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    var scaffold = Scaffold(
       key: context.read<MenuController>().scaffoldKey,
       drawer: SideMenu(
         pageController: _controller,
@@ -49,6 +56,24 @@ class MainScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Admin Panel',
+      theme: ThemeData.light().copyWith(
+        scaffoldBackgroundColor: bgColor,
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+            .apply(bodyColor: Colors.white),
+        canvasColor: secondaryColor,
+      ),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => MenuController(),
+          ),
+        ],
+        child: scaffold,
       ),
     );
   }

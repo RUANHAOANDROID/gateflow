@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/constants.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
+import 'package:gateflow/screens/setting/setting_screen.dart';
 import 'package:gateflow/wiidget/tip.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,13 +18,14 @@ class _LoginPageState extends State<LoginScreen> {
   String pwd = '';
 
   void toMain() {
-    //Navigator.push(context, MaterialPageRoute(builder: (context) => MYMainScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
     //Navigator.pop(context);
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => MainScreen()),
-      (route) => route == null,
-    );
+    // Navigator.pushAndRemoveUntil(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => MainScreen()),
+    //   (route) => route == null,
+    // );
+    Navigator.pushNamed(context, "/home");
   }
 
   void goLogin() {
