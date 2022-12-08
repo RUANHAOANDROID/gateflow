@@ -4,7 +4,8 @@ import '../constants.dart';
 
 class CloudStorageInfo {
   final String? svgSrc, title, totalStorage;
-  final int? numOfFiles, percentage;
+  final int?  percentage;
+  final String? numOfFiles;
   final Color? color;
 
   CloudStorageInfo({
@@ -19,34 +20,34 @@ class CloudStorageInfo {
 
 List demoMyFiles = [
   CloudStorageInfo(
-    title: "Documents",
-    numOfFiles: 1328,
-    svgSrc: "assets/icons/Documents.svg",
-    totalStorage: "1.9GB",
+    title: "磁盘状态",
+    numOfFiles: "160GB",
+    svgSrc: "assets/icons/ssd.svg",
+    totalStorage: "250GB",
     color: primaryColor,
     percentage: 35,
   ),
   CloudStorageInfo(
-    title: "Google Drive",
-    numOfFiles: 1328,
-    svgSrc: "assets/icons/google_drive.svg",
-    totalStorage: "2.9GB",
+    title: "CPU使用率",
+    numOfFiles: "2.1Mhz",
+    svgSrc: "assets/icons/cpu.svg",
+    totalStorage: "2.9Mhz",
     color: Color(0xFFFFA113),
-    percentage: 35,
+    percentage: 60,
   ),
   CloudStorageInfo(
-    title: "One Drive",
-    numOfFiles: 1328,
-    svgSrc: "assets/icons/one_drive.svg",
-    totalStorage: "1GB",
+    title: "内存状态",
+    numOfFiles: "11GB",
+    svgSrc: "assets/icons/mmy.svg",
+    totalStorage: "16GB",
     color: Color(0xFFA4CDFF),
-    percentage: 10,
+    percentage: 70,
   ),
   CloudStorageInfo(
-    title: "Documents",
-    numOfFiles: 5328,
+    title: "日志量",
+    numOfFiles: "0.1GB",
     svgSrc: "assets/icons/drop_box.svg",
-    totalStorage: "7.3GB",
+    totalStorage: "1GB",
     color: Color(0xFF007EE5),
     percentage: 78,
   ),

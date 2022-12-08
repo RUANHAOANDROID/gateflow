@@ -6,6 +6,7 @@ import '../../controllers/MenuController.dart';
 import '../../responsive.dart';
 import '../bind/bind_screen.dart';
 import '../dashboard/dashboard_screen.dart';
+import '../dashboard/mydashboard_screen.dart';
 import '../setting/setting_screen.dart';
 import '../test/test_screen.dart';
 import 'components/side_menu.dart';
@@ -14,7 +15,7 @@ class MainScreen extends StatelessWidget {
   final PageController _controller = PageController(
     initialPage: 0,
   );
-  var pages = [DashboardScreen(), TestScreen(), SettingScreen(), BindScreen()];
+  var pages = [MyDashboardScreen(), TestScreen(), SettingScreen(), BindScreen()];
 
   @override
   Widget build(BuildContext context) {
