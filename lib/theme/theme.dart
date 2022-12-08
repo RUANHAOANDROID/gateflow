@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -18,3 +17,5 @@ ButtonStyle buttonStyle(context) {
     ),
   );
 }
+const labelStyle= TextStyle(color: Colors.white70);
+const hintStyle= TextStyle(color: Colors.white70);
