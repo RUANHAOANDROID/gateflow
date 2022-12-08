@@ -52,7 +52,12 @@ class SideMenu extends StatelessWidget {
             title: "退出登录",
             svgSrc: "assets/icons/menu_doc.svg",
             press: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
+              // Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+                    (route) => route == null,
+              );
               //SystemNavigator.pop();
               //exit(0);
             },

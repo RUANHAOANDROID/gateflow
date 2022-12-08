@@ -18,14 +18,13 @@ class _LoginPageState extends State<LoginScreen> {
   String pwd = '';
 
   void toMain() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+    //Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
     //Navigator.pop(context);
-    // Navigator.pushAndRemoveUntil(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => MainScreen()),
-    //   (route) => route == null,
-    // );
-    Navigator.pushNamed(context, "/home");
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => MainScreen()),
+      (route) => route == null,
+    );
   }
 
   void goLogin() {
