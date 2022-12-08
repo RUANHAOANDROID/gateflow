@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gateflow/constants.dart';
 import 'package:gateflow/models/login_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
+import 'package:gateflow/responsive.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
 import 'package:gateflow/screens/setting/setting_screen.dart';
+import 'package:gateflow/theme/theme.dart';
 import 'package:gateflow/utils/HttpUtils.dart';
 import 'package:gateflow/wiidget/tip.dart';
 import 'package:http/http.dart' as http;
@@ -44,18 +46,13 @@ class _LoginPageState extends State<LoginScreen> {
   void loginRequest(LoginEntity loginEntity) async {
     try {
       var json = await HttpUtils.post("/admin/login", loginEntity);
-
       var response = ResponseEntity.fromJson(json);
-      print(json);
-      print(response);
-      if (response.code != 0) {
+      if (response.code == success) {
         toMain();
-        print("tomain");
       } else {
         errTip(response.msg);
       }
     } catch (e) {
-      print(e);
       errTip(e);
     }
   }
@@ -70,92 +67,113 @@ class _LoginPageState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var logWidget = Padding(
+      padding: const EdgeInsets.only(
+          top: defaultPadding * 2, bottom: defaultPadding * 2),
+      child: Center(child: Image.asset('assets/images/logo1.png')),
+    );
+    var userWidget = Padding(
+      padding: EdgeInsets.only(
+          top: defaultPadding * 4,
+          left: defaultPadding * 8,
+          right: defaultPadding * 8),
+      child: TextFormField(
+        onSaved: (value) {
+          user = value!;
+        },
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '用户名为空';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+            border: OutlineInputBorder(), labelText: '用户名', hintText: '请输入用户名'),
+      ),
+    );
+    var pwdWidget = Padding(
+      padding: EdgeInsets.only(
+          top: defaultPadding * 2,
+          left: defaultPadding * 8,
+          right: defaultPadding * 8),
+      child: TextFormField(
+        onSaved: (value) {
+          pwd = value!;
+        },
+        obscureText: true,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '密码为空';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+            border: OutlineInputBorder(), labelText: '密码', hintText: '请输入密码'),
+      ),
+    );
+    var loginBtnWidget = Padding(
+      padding: EdgeInsets.all(defaultPadding * 2),
+      child: ElevatedButton(
+        style: buttonStyle(context),
+        onPressed: () {
+          login();
+        },
+        child: const Text(
+          '登录',
+          style: TextStyle(color: Colors.white, fontSize: 25),
+        ),
+      ),
+    );
+    var pwdChange = Padding(
+      padding: EdgeInsets.all(defaultPadding * 2),
+      child: TextButton(
+        onPressed: () {},
+        child: const Text(
+          '修改密码',
+          style: TextStyle(color: Colors.blue, fontSize: 15),
+        ),
+      ),
+    );
     var column = Column(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top: 100, bottom: 100),
-          child: Center(
-            child: SizedBox(
-                width: 200,
-                height: 150,
-                child: Image.asset('assets/images/logo1.png')),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 100, vertical: 10),
-          child: TextFormField(
-            onSaved: (value) {
-              user = value!;
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return '用户名为空';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: '用户名',
-                hintText: '请输入用户名'),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 100, vertical: 10),
-          child: TextFormField(
-            onSaved: (value) {
-              pwd = value!;
-            },
-            obscureText: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return '密码为空';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: '密码',
-                hintText: '请输入密码'),
-          ),
-        ),
-        Container(
-          height: 50,
-          width: 250,
-          decoration: BoxDecoration(
-              color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-          child: ElevatedButton(
-            onPressed: () {
-              login();
-            },
-            child: const Text(
-              '登录',
-              style: TextStyle(color: Colors.white, fontSize: 25),
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 130,
-        ),
-        TextButton(
-          onPressed: () {},
-          child: const Text(
-            '修改密码',
-            style: TextStyle(color: Colors.blue, fontSize: 15),
-          ),
-        ),
+        logWidget,
+        userWidget,
+        pwdWidget,
+        loginBtnWidget,
+        pwdChange,
       ],
+    );
+    var form = Form(
+      key: _formKey,
+      child: column,
+    );
+    var container = Container(
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        child: form);
+    double paddingLift = 100;
+    double paddingRight = 100;
+    double paddingTop = 100;
+    double paddingBottom = 100;
+
+    var singleChildScrollView = SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(
+            left: paddingLift,
+            right: paddingRight,
+            top: paddingTop,
+            bottom: paddingBottom),
+        child: container,
+      ),
     );
     return Scaffold(
       backgroundColor: bgColor,
       // appBar: AppBar(
       //   title: const Text("登录"),
       // ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: column,
-        ),
-      ),
+      body: singleChildScrollView,
     );
   }
 }
