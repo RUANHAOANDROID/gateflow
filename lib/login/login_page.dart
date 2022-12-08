@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/constants.dart';
+import 'package:gateflow/models/login_entity.dart';
+import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
 import 'package:gateflow/screens/setting/setting_screen.dart';
+import 'package:gateflow/utils/HttpUtils.dart';
 import 'package:gateflow/wiidget/tip.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,17 +30,42 @@ class _LoginPageState extends State<LoginScreen> {
     );
   }
 
-  void goLogin() {
+  void login() {
     var currentState = _formKey.currentState;
     if (currentState!.validate()) {
       currentState.save();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Tip(tip: "AAAA"),
-        ),
-      );
+      var loginEntity = LoginEntity();
+      loginEntity.userName = user;
+      loginEntity.passWord = pwd;
+      loginRequest(loginEntity);
     }
+  }
+
+  void loginRequest(LoginEntity loginEntity) async {
+    try {
+      var json = await HttpUtils.post("/admin/login", loginEntity);
+
+      var response = ResponseEntity.fromJson(json);
+      print(json);
+      print(response);
+      if (response.code != 0) {
+        toMain();
+        print("tomain");
+      } else {
+        errTip(response.msg);
+      }
+    } catch (e) {
+      print(e);
+      errTip(e);
+    }
+  }
+
+  void errTip(tip) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Tip(tip: tip),
+      ),
+    );
   }
 
   @override
@@ -97,7 +125,7 @@ class _LoginPageState extends State<LoginScreen> {
               color: Colors.blue, borderRadius: BorderRadius.circular(20)),
           child: ElevatedButton(
             onPressed: () {
-              toMain();
+              login();
             },
             child: const Text(
               '登录',
@@ -109,9 +137,7 @@ class _LoginPageState extends State<LoginScreen> {
           height: 130,
         ),
         TextButton(
-          onPressed: () {
-            goLogin();
-          },
+          onPressed: () {},
           child: const Text(
             '修改密码',
             style: TextStyle(color: Colors.blue, fontSize: 15),

@@ -36,7 +36,6 @@ DevicesData $DevicesDataFromJson(Map<String, dynamic> json) {
 	if (tag != null) {
 		devicesData.tag = tag;
 	}
-
 	final String? number = jsonConvert.convert<String>(json['number']);
 	if (number != null) {
 		devicesData.number = number;
