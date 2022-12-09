@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gateflow/theme/theme.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -60,13 +61,7 @@ class MainScreen extends StatelessWidget {
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flow',
-      theme: ThemeData.light().copyWith(
-        scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.white),
-        canvasColor: secondaryColor,
-      ),
+      theme: MyTheme(context),
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(

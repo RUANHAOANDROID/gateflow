@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/login/login_page.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
+import 'package:gateflow/theme/theme.dart';
 
 import 'constants.dart';
 import 'controllers/MenuController.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          theme: MyTheme(context),
           home: LoginScreen(),
         ),
       ),

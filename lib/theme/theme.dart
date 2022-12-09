@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../constants.dart';
 import '../responsive.dart';
@@ -15,6 +16,15 @@ ButtonStyle buttonStyle(context) {
       horizontal: defaultPadding * 1.5,
       vertical: defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
     ),
+  );
+}
+
+ThemeData MyTheme(context) {
+  return ThemeData.light().copyWith(
+    scaffoldBackgroundColor: bgColor,
+    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+        .apply(bodyColor: Colors.white),
+    canvasColor: secondaryColor,
   );
 }
 
