@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gateflow/screens/setting/setting_screen.dart';
 
 import '../../../constants.dart';
 import '../../../responsive.dart';
@@ -6,16 +7,17 @@ import '../../../responsive.dart';
 class ConfigUrl extends StatefulWidget {
   const ConfigUrl({
     Key? key,
-    required this.url,
-    required this.code,
-    required this.saved,
+    required this.formKey,
     required this.get,
+    required this.saved,
+    required this.codeUrlChanged,
+    required this.entity,
   }) : super(key: key);
-
-  final ValueChanged url;
-  final ValueChanged code;
+  final ValueChanged<FormEntity> codeUrlChanged;
+  final FormEntity entity;
   final VoidCallback saved;
   final VoidCallback get;
+  final GlobalKey<FormState> formKey;
 
   @override
   State<StatefulWidget> createState() => _ConfigUrl();
@@ -23,7 +25,12 @@ class ConfigUrl extends StatefulWidget {
 
 class _ConfigUrl extends State<ConfigUrl> {
   @override
+  ConfigUrl get widget => super.widget;
+
+  @override
   Widget build(BuildContext context) {
+    print("config url build");
+    print("config url build");
     var buttonStyleFrom = TextButton.styleFrom(
       padding: EdgeInsets.symmetric(
         horizontal: defaultPadding * 1.5,
@@ -50,7 +57,8 @@ class _ConfigUrl extends State<ConfigUrl> {
           ),
           Container(
             color: secondaryColor,
-            child: rowConfigPull(buttonStyleFrom),
+            child: Form(
+                key: widget.formKey, child: rowConfigPull(buttonStyleFrom)),
           )
         ],
       ),
@@ -64,15 +72,20 @@ class _ConfigUrl extends State<ConfigUrl> {
           flex: 1,
           child: Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
-            child: textFormField("设备编号", "3Y32224500630212", widget.code),
+            child: textFormField("设备编号", widget.entity.code, (value) {
+              widget.entity.code = value;
+              widget.codeUrlChanged(widget.entity);
+            }),
           ),
         ),
         Expanded(
           flex: 2,
           child: Padding(
               padding: EdgeInsets.all(defaultPadding / 2),
-              child: textFormField(
-                  "获取参数地址", "http://101.43.113.148:8194", widget.url)),
+              child: textFormField("获取参数地址", widget.entity.url, (value) {
+                widget.entity.url = value;
+                widget.codeUrlChanged(widget.entity);
+              })),
         ),
         Padding(
           padding: EdgeInsets.all(defaultPadding / 2),
@@ -97,10 +110,19 @@ class _ConfigUrl extends State<ConfigUrl> {
   }
 
   TextFormField textFormField(
-      String hite, String initValue, ValueChanged changed) {
+      String hite, String? initValue, ValueChanged changed) {
     return TextFormField(
       autofocus: true,
       initialValue: initValue,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return '$hite为空';
+        }
+        return null;
+      },
+      onSaved: (value) {
+        changed(value);
+      },
       onChanged: (value) {
         changed(value);
       },

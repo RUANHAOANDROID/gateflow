@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gateflow/login/login_page.dart';
+import 'package:gateflow/screens/login/login_page.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
 import 'package:gateflow/theme/theme.dart';
 
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           theme: MyTheme(context),
-          home: LoginScreen(),
+          home: MainScreen(),
         ),
       ),
     );

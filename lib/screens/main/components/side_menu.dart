@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gateflow/login/login_page.dart';
+
+import '../../login/login_page.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
