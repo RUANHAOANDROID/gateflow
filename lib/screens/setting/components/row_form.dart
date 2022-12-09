@@ -6,19 +6,22 @@ import '../../../theme/theme.dart';
 class RowFormField extends StatefulWidget {
   final String hite1;
   final String hite2;
-  final String? initValue1;
-  final String? initValue2;
 
   const RowFormField({
     Key? key,
     required this.hite1,
     required this.hite2,
-    this.initValue1,
-    this.initValue2, required this.vc1, required this.vc2,
+    required this.vc1,
+    required this.vc2,
+    required this.teController1,
+    required this.teController2,
   }) : super(key: key);
 
   final ValueChanged vc1;
   final ValueChanged vc2;
+
+  final TextEditingController teController1;
+  final TextEditingController teController2;
 
   @override
   State<StatefulWidget> createState() => _RowFormField();
@@ -32,15 +35,15 @@ class _RowFormField extends State<RowFormField> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
-            child: textFormField(
-                widget.hite1, widget.initValue1, widget.vc1),
+            child:
+                textFormField(widget.hite1, widget.vc1, widget.teController1),
           ),
         ),
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
-            child: textFormField(
-                widget.hite2, widget.initValue2, widget.vc2),
+            child:
+                textFormField(widget.hite2, widget.vc2, widget.teController2),
           ),
         ),
         // ),
@@ -48,11 +51,11 @@ class _RowFormField extends State<RowFormField> {
     );
   }
 
-  TextFormField textFormField(
-      String hite, String? initValue, ValueChanged changed) {
+  TextFormField textFormField(String hite, ValueChanged changed, controller) {
     return TextFormField(
+      controller: controller,
       autofocus: true,
-      initialValue: initValue,
+      //initialValue: initValue,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return '$hite为空';

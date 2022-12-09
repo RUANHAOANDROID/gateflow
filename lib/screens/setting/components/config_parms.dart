@@ -31,9 +31,37 @@ class _ConfigParams extends State<ParamsConfig> {
   Widget build(BuildContext context) {
     print("config parms build");
     print(widget.config);
-    setState(() {
 
-    });
+    final TextEditingController f1Controller =
+        TextEditingController(text: widget.config?.manufacturerId1);
+    final TextEditingController f2Controller =
+        TextEditingController(text: widget.config?.manufacturerId2);
+
+    final TextEditingController cUrlController =
+        TextEditingController(text: widget.config?.checkUrl);
+    final TextEditingController vUrlController =
+        TextEditingController(text: widget.config?.writeOffUrl);
+
+    final TextEditingController tipNormalController =
+        TextEditingController(text: widget.config?.deTrueVoice?.normal);
+    final TextEditingController tipOtherController =
+        TextEditingController(text: widget.config?.deTrueVoice?.other);
+
+    final TextEditingController tipYear1Controller =
+        TextEditingController(text: widget.config?.deTrueVoice?.yearCard1);
+    final TextEditingController tipYear2Controller =
+        TextEditingController(text: widget.config?.deTrueVoice?.yearCard2);
+
+    final TextEditingController tipInvalidController =
+        TextEditingController(text: widget.config?.deFalseVoice?.invalid);
+    final TextEditingController tipUsedController =
+        TextEditingController(text: widget.config?.deFalseVoice?.used);
+
+    final TextEditingController tipErrorController =
+        TextEditingController(text: widget.config?.deFalseVoice?.error);
+    final TextEditingController tipOtherErrController =
+        TextEditingController(text: widget.config?.deFalseVoice?.other);
+
     var container = Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
@@ -54,18 +82,18 @@ class _ConfigParams extends State<ParamsConfig> {
                 RowFormField(
                   hite1: "厂商标识1",
                   hite2: "厂商标识2",
-                  initValue1: widget.config?.manufacturerId1,
-                  initValue2: widget.config?.manufacturerId2,
                   vc1: (value) {},
                   vc2: (value) {},
+                  teController1: f1Controller,
+                  teController2: f2Controller,
                 ),
                 RowFormField(
                   hite1: "验票地址",
                   hite2: "核销地址",
-                  initValue1: widget.config?.checkUrl,
-                  initValue2: widget.config?.writeOffUrl,
                   vc1: (value) {},
                   vc2: (value) {},
+                  teController1: cUrlController,
+                  teController2: vUrlController,
                 ),
               ],
             ),
@@ -84,18 +112,18 @@ class _ConfigParams extends State<ParamsConfig> {
                 RowFormField(
                   hite1: "普通卡提示",
                   hite2: "其他卡提示",
-                  initValue1: widget.config?.deTrueVoice?.normal,
-                  initValue2: widget.config?.deTrueVoice?.other,
                   vc1: (value) {},
                   vc2: (value) {},
+                  teController1: tipNormalController,
+                  teController2: tipOtherController,
                 ),
                 RowFormField(
                   hite1: "年卡1提示",
                   hite2: "年卡2提示",
-                  initValue1: widget.config?.deTrueVoice?.yearCard1,
-                  initValue2: widget.config?.deTrueVoice?.yearCard2,
                   vc1: (value) {},
                   vc2: (value) {},
+                  teController1: tipYear1Controller,
+                  teController2: tipYear2Controller,
                 ),
               ],
             ),
@@ -114,18 +142,18 @@ class _ConfigParams extends State<ParamsConfig> {
                 RowFormField(
                   hite1: "无效票提示",
                   hite2: "已验票提示",
-                  initValue1: widget.config?.deFalseVoice?.invalid,
-                  initValue2: widget.config?.deFalseVoice?.used,
                   vc1: (value) {},
                   vc2: (value) {},
+                  teController1: tipInvalidController,
+                  teController2: tipUsedController,
                 ),
                 RowFormField(
                   hite1: "异常提示",
                   hite2: "其他提示",
-                  initValue1: widget.config?.deFalseVoice?.error,
-                  initValue2: widget.config?.deFalseVoice?.other,
                   vc1: (value) {},
                   vc2: (value) {},
+                  teController1: tipErrorController,
+                  teController2: tipOtherErrController,
                 ),
               ],
             ),
