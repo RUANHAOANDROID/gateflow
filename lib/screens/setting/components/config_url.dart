@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+
 import '../../../constants.dart';
 import '../../../responsive.dart';
 
 class ConfigUrl extends StatefulWidget {
   const ConfigUrl({
     Key? key,
-    required this.urlChanged,
-    required this.codeChanged,
+    required this.url,
+    required this.code,
+    required this.saved,
+    required this.get,
   }) : super(key: key);
 
-  final ValueChanged urlChanged;
-  final ValueChanged codeChanged;
+  final ValueChanged url;
+  final ValueChanged code;
+  final VoidCallback saved;
+  final VoidCallback get;
 
   @override
   State<StatefulWidget> createState() => _ConfigUrl();
@@ -38,18 +43,8 @@ class _ConfigUrl extends State<ConfigUrl> {
             padding: EdgeInsets.only(bottom: defaultPadding / 2),
             child: RichText(
               text: TextSpan(
-                children: [
-                  // WidgetSpan(
-                  //   child: Icon(
-                  //     Icons.settings,
-                  //     color: Colors.blue,
-                  //   ),
-                  // ),
-                  TextSpan(
-                    text: " 获取配置 ",
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ],
+                text: " 获取配置 ",
+                style: Theme.of(context).textTheme.subtitle1,
               ),
             ),
           ),
@@ -69,8 +64,7 @@ class _ConfigUrl extends State<ConfigUrl> {
           flex: 1,
           child: Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
-            child:
-                textFormField("设备编号", "3Y32224500630212", widget.codeChanged),
+            child: textFormField("设备编号", "3Y32224500630212", widget.code),
           ),
         ),
         Expanded(
@@ -78,13 +72,13 @@ class _ConfigUrl extends State<ConfigUrl> {
           child: Padding(
               padding: EdgeInsets.all(defaultPadding / 2),
               child: textFormField(
-                  "获取参数地址", "http://101.43.113.148:8194", widget.urlChanged)),
+                  "获取参数地址", "http://101.43.113.148:8194", widget.url)),
         ),
         Padding(
           padding: EdgeInsets.all(defaultPadding / 2),
           child: ElevatedButton.icon(
             style: buttonStyleFrom,
-            onPressed: () {},
+            onPressed: widget.get,
             icon: Icon(Icons.sync),
             label: Text("获取"),
           ),
@@ -93,7 +87,7 @@ class _ConfigUrl extends State<ConfigUrl> {
           padding: EdgeInsets.all(defaultPadding / 2),
           child: ElevatedButton.icon(
             style: buttonStyleFrom,
-            onPressed: () {},
+            onPressed: widget.saved,
             icon: Icon(Icons.save),
             label: Text("保存"),
           ),

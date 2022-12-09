@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/theme/theme.dart';
-
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import '../../constants.dart';
 import '../../controllers/MenuController.dart';
 import '../../responsive.dart';
 import '../bind/bind_screen.dart';

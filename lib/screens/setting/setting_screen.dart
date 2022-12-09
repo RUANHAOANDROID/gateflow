@@ -38,9 +38,22 @@ class _SettingScreen extends State<SettingScreen> {
   var formEntity = FormEntity();
 
   void getConfig() async {
+    var currentState = _formKey1.currentState;
+    if (currentState!.validate()) {
+
+    }
     HttpUtils.post("/config/getConfig", "");
   }
+  void saveConfig(){
+    var currentState = _formKey1.currentState;
+    var currentState2 = _formKey2.currentState;
+    if (currentState!.validate()) {
 
+    }
+    if (currentState2!.validate()) {
+
+    }
+  }
   @override
   Widget build(BuildContext context) {
     var title = Padding(
@@ -53,11 +66,19 @@ class _SettingScreen extends State<SettingScreen> {
 
     var pramContainer = ParamsConfig();
     var codeUrl = ConfigUrl(
-      codeChanged: (value) {
+      code: (value) {
         url = value;
+        print(url);
       },
-      urlChanged: (value) {
+      url: (value) {
         code = value;
+        print(code);
+      },
+      get: () {
+        print(url);
+      },
+      saved: () {
+        print(code);
       },
     );
     return SafeArea(
