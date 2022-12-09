@@ -1,16 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../../constants.dart';
-import '../setting_screen.dart';
+import '../../../responsive.dart';
 
 class ConfigUrl extends StatefulWidget {
   const ConfigUrl({
     Key? key,
-    required this.buttonStyleFrom,
+    required this.urlChanged,
+    required this.codeChanged,
   }) : super(key: key);
 
-  final ButtonStyle buttonStyleFrom;
+  final ValueChanged urlChanged;
+  final ValueChanged codeChanged;
 
   @override
   State<StatefulWidget> createState() => _ConfigUrl();
@@ -19,6 +19,12 @@ class ConfigUrl extends StatefulWidget {
 class _ConfigUrl extends State<ConfigUrl> {
   @override
   Widget build(BuildContext context) {
+    var buttonStyleFrom = TextButton.styleFrom(
+      padding: EdgeInsets.symmetric(
+        horizontal: defaultPadding * 1.5,
+        vertical: defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
+      ),
+    );
     return Container(
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
@@ -49,7 +55,7 @@ class _ConfigUrl extends State<ConfigUrl> {
           ),
           Container(
             color: secondaryColor,
-            child: rowConfigPull(widget.buttonStyleFrom),
+            child: rowConfigPull(buttonStyleFrom),
           )
         ],
       ),
@@ -63,17 +69,19 @@ class _ConfigUrl extends State<ConfigUrl> {
           flex: 1,
           child: Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
-            child: textFormField("设备编号", "3Y32224500630212"),
+            child:
+                textFormField("设备编号", "3Y32224500630212", widget.codeChanged),
           ),
         ),
         Expanded(
           flex: 2,
           child: Padding(
               padding: EdgeInsets.all(defaultPadding / 2),
-              child: textFormField("获取参数地址", "http://101.43.113.148:8194")),
+              child: textFormField(
+                  "获取参数地址", "http://101.43.113.148:8194", widget.urlChanged)),
         ),
         Padding(
-          padding: EdgeInsets.all(defaultPadding/2),
+          padding: EdgeInsets.all(defaultPadding / 2),
           child: ElevatedButton.icon(
             style: buttonStyleFrom,
             onPressed: () {},
@@ -82,7 +90,7 @@ class _ConfigUrl extends State<ConfigUrl> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(defaultPadding/2),
+          padding: EdgeInsets.all(defaultPadding / 2),
           child: ElevatedButton.icon(
             style: buttonStyleFrom,
             onPressed: () {},
@@ -94,10 +102,14 @@ class _ConfigUrl extends State<ConfigUrl> {
     );
   }
 
-  TextFormField textFormField(String hite, String initValue) {
+  TextFormField textFormField(
+      String hite, String initValue, ValueChanged changed) {
     return TextFormField(
       autofocus: true,
       initialValue: initValue,
+      onChanged: (value) {
+        changed(value);
+      },
       decoration: InputDecoration(
         hoverColor: Colors.blueGrey,
         border: OutlineInputBorder(),

@@ -12,3 +12,7 @@ const defaultPadding = 16.0;
 const MyUrl = 'http://localhost:8888';
 const ICBC_URL = 'http://localhost:9090';
 const EMCS_URL = 'http://localhost:9090';
+
+const BASE_URL = "http://127.0.0.1:8888";
+const CONNECT_TIMEOUT = 5000;
+const RECEIVE_TIMEOUT = 3000;

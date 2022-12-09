@@ -17,5 +17,12 @@ ButtonStyle buttonStyle(context) {
     ),
   );
 }
-const labelStyle= TextStyle(color: Colors.white70);
-const hintStyle= TextStyle(color: Colors.white70);
+
+const outlineInputBorder = OutlineInputBorder(
+  borderSide: BorderSide(width: 1, color: Colors.blueGrey),
+  borderRadius: const BorderRadius.all(Radius.circular(defaultPadding / 2)),
+);
+
+TextStyle? formTextStyle(context) {
+  return Theme.of(context).primaryTextTheme.subtitle2;
+}

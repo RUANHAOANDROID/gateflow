@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 
+import '../constants.dart';
+
 class HttpUtils {
-  static const BASE_URL = "http://127.0.0.1:8888";
-  static const CONNECT_TIMEOUT = 5000;
-  static const RECEIVE_TIMEOUT = 3000;
+
   static Dio? dio;
 
   /// 生成Dio实例

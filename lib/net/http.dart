@@ -1,5 +1,5 @@
 import '../models/devices_entity.dart';
-import '../utils/HttpUtils.dart';
+import '../utils/http.dart';
 
 class HttpManager {
   static Future<List<DevicesData>> devicesList() async {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gateflow/models/devices_entity.dart';
 
 import '../../../constants.dart';
 import '../../../responsive.dart';
-import '../../../utils/HttpUtils.dart';
+import '../../../theme/theme.dart';
+import '../../../utils/http.dart';
 
 class EditDialog extends StatefulWidget {
   final DevicesData? device;
@@ -36,7 +36,7 @@ class _dialog extends State<EditDialog> {
   Future<bool> updateDevice() async {
     try {
       var body = DevicesData();
-      body.id =widget.device!.id;
+      body.id = widget.device!.id;
       body.number = c1.text;
       body.ip = c2.text;
       body.sn = c3.text;
@@ -81,10 +81,6 @@ class _dialog extends State<EditDialog> {
 
   @override
   Widget build(BuildContext context) {
-    const outlineInputBorder = OutlineInputBorder(
-      borderSide: BorderSide(width: 1, color: Colors.blueGrey),
-      borderRadius: const BorderRadius.all(Radius.circular(defaultPadding / 2)),
-    );
     var singleChildScrollView = SingleChildScrollView(
       child: ListBody(
         children: <Widget>[
@@ -94,8 +90,8 @@ class _dialog extends State<EditDialog> {
               controller: c5,
               decoration: InputDecoration(
                   border: outlineInputBorder,
-                  labelStyle: Theme.of(context).textTheme.subtitle2,
-                  hintStyle: Theme.of(context).textTheme.subtitle2,
+                  labelStyle: formTextStyle(context),
+                  hintStyle: formTextStyle(context),
                   labelText: '设备点位',
                   hintText: '设备点位'),
             ),
@@ -107,8 +103,8 @@ class _dialog extends State<EditDialog> {
               decoration: InputDecoration(
                   border: outlineInputBorder,
                   labelText: '设备编号',
-                  labelStyle: Theme.of(context).textTheme.subtitle2,
-                  hintStyle: Theme.of(context).textTheme.subtitle2,
+                  labelStyle: formTextStyle(context),
+                  hintStyle: formTextStyle(context),
                   hintText: '请输设备编号'),
             ),
           ),
@@ -118,9 +114,9 @@ class _dialog extends State<EditDialog> {
               controller: c2,
               decoration: InputDecoration(
                   border: outlineInputBorder,
-                  hintStyle: Theme.of(context).textTheme.subtitle2,
+                  hintStyle: formTextStyle(context),
                   labelText: '设备IP',
-                  labelStyle: Theme.of(context).textTheme.subtitle2,
+                  labelStyle: formTextStyle(context),
                   hintText: '请输设备IP'),
             ),
           ),
@@ -131,8 +127,8 @@ class _dialog extends State<EditDialog> {
               decoration: InputDecoration(
                   border: outlineInputBorder,
                   labelText: '设备版本',
-                  labelStyle: Theme.of(context).textTheme.subtitle2,
-                  hintStyle: Theme.of(context).textTheme.subtitle2,
+                  labelStyle: formTextStyle(context),
+                  hintStyle: formTextStyle(context),
                   hintText: '请输设备编号'),
             ),
           ),
@@ -143,12 +139,11 @@ class _dialog extends State<EditDialog> {
               decoration: InputDecoration(
                   border: outlineInputBorder,
                   labelText: '设备序列号',
-                  labelStyle: Theme.of(context).textTheme.subtitle2,
-                  hintStyle: Theme.of(context).textTheme.subtitle2,
+                  labelStyle: formTextStyle(context),
+                  hintStyle: formTextStyle(context),
                   hintText: '请输设备序列号'),
             ),
           ),
-
         ],
       ),
     );

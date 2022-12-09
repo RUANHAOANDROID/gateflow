@@ -6,7 +6,7 @@ import 'package:gateflow/responsive.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
 import 'package:gateflow/screens/setting/setting_screen.dart';
 import 'package:gateflow/theme/theme.dart';
-import 'package:gateflow/utils/HttpUtils.dart';
+import 'package:gateflow/utils/http.dart';
 import 'package:gateflow/wiidget/tip.dart';
 import 'package:http/http.dart' as http;
 
@@ -88,9 +88,10 @@ class _LoginPageState extends State<LoginScreen> {
           return null;
         },
         decoration: InputDecoration(
-            hintStyle: hintStyle,
-            labelStyle: labelStyle,
-            border: OutlineInputBorder(),
+            hoverColor: Colors.blueGrey,
+            labelStyle: formTextStyle(context),
+            hintStyle: formTextStyle(context),
+            border: outlineInputBorder,
             labelText: '用户名',
             hintText: '请输入用户名'),
       ),
@@ -112,9 +113,10 @@ class _LoginPageState extends State<LoginScreen> {
           return null;
         },
         decoration: InputDecoration(
-            hintStyle: hintStyle,
-            labelStyle: labelStyle,
-            border: OutlineInputBorder(),
+            hoverColor: Colors.blueGrey,
+            labelStyle: formTextStyle(context),
+            hintStyle: formTextStyle(context),
+            border: outlineInputBorder,
             labelText: '密码',
             hintText: '请输入密码'),
       ),
@@ -132,56 +134,44 @@ class _LoginPageState extends State<LoginScreen> {
         ),
       ),
     );
-    var pwdChange = Padding(
-      padding: EdgeInsets.all(defaultPadding * 2),
-      // child: TextButton(
-      //   onPressed: () {},
-      //   child: const Text(
-      //     '修改密码',
-      //     style: TextStyle(color: Colors.blue, fontSize: 15),
-      //   ),
-      // ),
-    );
-    var column = Column(
-      children: <Widget>[
-        logWidget,
-        userWidget,
-        pwdWidget,
-        loginBtnWidget,
-        pwdChange,
-      ],
-    );
-    var form = Form(
-      key: _formKey,
-      child: column,
-    );
-    var container = Card(
-        elevation: 15.0, //设置阴影
-        color: secondaryColor,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(14.0))), //设置圆角
-        child: form);
     double paddingLift = 200;
     double paddingRight = 200;
     double paddingTop = 100;
     double paddingBottom = 100;
 
-    var singleChildScrollView = SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: bgColor,
+      // appBar: AppBar(
+      //   title: const Text("登录"),
+      // ),
+      body: SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.only(
             left: paddingLift,
             right: paddingRight,
             top: paddingTop,
             bottom: paddingBottom),
-        child: container,
+        child: Card(
+        elevation: 15.0, //设置阴影
+        color: secondaryColor,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(14.0))), //设置圆角
+        child: Form(
+      key: _formKey,
+      child: Column(
+      children: <Widget>[
+        logWidget,
+        userWidget,
+        pwdWidget,
+        loginBtnWidget,
+        Padding(
+      padding: EdgeInsets.all(defaultPadding * 2),
+    ),
+      ],
+    ),
+    )),
       ),
-    );
-    return Scaffold(
-      backgroundColor: bgColor,
-      // appBar: AppBar(
-      //   title: const Text("登录"),
-      // ),
-      body: singleChildScrollView,
+    ),
     );
   }
 }

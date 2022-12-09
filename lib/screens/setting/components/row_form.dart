@@ -18,17 +18,6 @@ class RowFormField extends StatefulWidget {
 class _RowFormField extends State<RowFormField> {
   @override
   Widget build(BuildContext context) {
-    var textFormField1 = TextFormField(
-      autofocus: true,
-      decoration: InputDecoration(
-        hoverColor: Colors.blueGrey,
-        border: OutlineInputBorder(),
-        labelText: widget.hite1,
-        labelStyle: TextStyle(color: Colors.white70),
-        hintText: widget.hite1,
-        hintStyle: TextStyle(color: Colors.white70),
-      ),
-    );
     return Row(
       children: <Widget>[
         Expanded(
