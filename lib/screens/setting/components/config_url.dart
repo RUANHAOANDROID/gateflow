@@ -75,6 +75,7 @@ class _ConfigUrl extends State<ConfigUrl> {
             child: textFormField("设备编号", widget.entity.code, (value) {
               widget.entity.code = value;
               widget.codeUrlChanged(widget.entity);
+              print(value);
             }),
           ),
         ),
@@ -83,6 +84,7 @@ class _ConfigUrl extends State<ConfigUrl> {
           child: Padding(
               padding: EdgeInsets.all(defaultPadding / 2),
               child: textFormField("获取参数地址", widget.entity.url, (value) {
+                print(value);
                 widget.entity.url = value;
                 widget.codeUrlChanged(widget.entity);
               })),

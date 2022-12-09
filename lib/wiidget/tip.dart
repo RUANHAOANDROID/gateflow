@@ -5,11 +5,18 @@ import '../responsive.dart';
 
 class Tip extends StatelessWidget {
   final String tip;
+  final bool ok = false;
 
-  const Tip({Key? key, required this.tip}) : super(key: key);
+  const Tip({Key? key, required this.tip, ok}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Color color;
+    if (ok) {
+      color = Colors.green;
+    } else {
+      color = Colors.red;
+    }
     double myHeight = 40;
     if (Responsive.isDesktop(context)) {
       myHeight = 30;
@@ -18,8 +25,8 @@ class Tip extends StatelessWidget {
       height: myHeight,
       alignment: Alignment.center,
       child: Text(
-        "$tip",
-        style: TextStyle(color: Colors.red),
+        '$tip',
+        style: TextStyle(color: color),
       ),
     );
   }

@@ -7,9 +7,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gateflow/login/login_page.dart';
 
 import 'package:gateflow/main.dart';
+import 'package:gateflow/screens/login/login_page.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

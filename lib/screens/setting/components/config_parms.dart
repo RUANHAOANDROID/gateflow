@@ -112,16 +112,24 @@ class _ConfigParams extends State<ParamsConfig> {
                 RowFormField(
                   hite1: "普通卡提示",
                   hite2: "其他卡提示",
-                  vc1: (value) {},
-                  vc2: (value) {},
+                  vc1: (value) {
+                    widget.config?.deTrueVoice?.normal = value;
+                  },
+                  vc2: (value) {
+                    widget.config?.deTrueVoice?.other = value;
+                  },
                   teController1: tipNormalController,
                   teController2: tipOtherController,
                 ),
                 RowFormField(
                   hite1: "年卡1提示",
                   hite2: "年卡2提示",
-                  vc1: (value) {},
-                  vc2: (value) {},
+                  vc1: (value) {
+                    widget.config?.deTrueVoice?.yearCard1 = value;
+                  },
+                  vc2: (value) {
+                    widget.config?.deTrueVoice?.yearCard2 = value;
+                  },
                   teController1: tipYear1Controller,
                   teController2: tipYear2Controller,
                 ),
@@ -142,16 +150,24 @@ class _ConfigParams extends State<ParamsConfig> {
                 RowFormField(
                   hite1: "无效票提示",
                   hite2: "已验票提示",
-                  vc1: (value) {},
-                  vc2: (value) {},
+                  vc1: (value) {
+                    widget.config?.deFalseVoice?.invalid = value;
+                  },
+                  vc2: (value) {
+                    widget.config?.deFalseVoice?.used = value;
+                  },
                   teController1: tipInvalidController,
                   teController2: tipUsedController,
                 ),
                 RowFormField(
                   hite1: "异常提示",
                   hite2: "其他提示",
-                  vc1: (value) {},
-                  vc2: (value) {},
+                  vc1: (value) {
+                    widget.config?.deFalseVoice?.error = value;
+                  },
+                  vc2: (value) {
+                    widget.config?.deFalseVoice?.other = value;
+                  },
                   teController1: tipErrorController,
                   teController2: tipOtherErrController,
                 ),
