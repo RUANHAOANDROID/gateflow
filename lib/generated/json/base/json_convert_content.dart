@@ -10,25 +10,25 @@ import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/login_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
+import 'package:gateflow/models/ws_hds_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
 
 class JsonConvert {
-  static final Map<String, JsonConvertFunction> _convertFuncMap = {
-    (ConfigGetEntity).toString(): ConfigGetEntity.fromJson,
-    (ConfigResponsEntity).toString(): ConfigResponsEntity.fromJson,
-    (ConfigResponsData).toString(): ConfigResponsData.fromJson,
-    (ConfigResponsDataDeFalseVoice).toString():
-        ConfigResponsDataDeFalseVoice.fromJson,
-    (ConfigResponsDataDeTrueVoice).toString():
-        ConfigResponsDataDeTrueVoice.fromJson,
-    (DevicesEntity).toString(): DevicesEntity.fromJson,
-    (DevicesData).toString(): DevicesData.fromJson,
-    (HardwareEntity).toString(): HardwareEntity.fromJson,
-    (LoginEntity).toString(): LoginEntity.fromJson,
-    (ResponseEntity).toString(): ResponseEntity.fromJson,
-  };
+	static final Map<String, JsonConvertFunction> _convertFuncMap = {
+		(ConfigGetEntity).toString(): ConfigGetEntity.fromJson,
+		(ConfigResponsEntity).toString(): ConfigResponsEntity.fromJson,
+		(ConfigResponsData).toString(): ConfigResponsData.fromJson,
+		(ConfigResponsDataDeFalseVoice).toString(): ConfigResponsDataDeFalseVoice.fromJson,
+		(ConfigResponsDataDeTrueVoice).toString(): ConfigResponsDataDeTrueVoice.fromJson,
+		(DevicesEntity).toString(): DevicesEntity.fromJson,
+		(DevicesData).toString(): DevicesData.fromJson,
+		(HardwareEntity).toString(): HardwareEntity.fromJson,
+		(LoginEntity).toString(): LoginEntity.fromJson,
+		(ResponseEntity).toString(): ResponseEntity.fromJson,
+		(WsHdsEntity).toString(): WsHdsEntity.fromJson,
+	};
 
   T? convert<T>(dynamic value) {
     if (value == null) {
@@ -62,7 +62,7 @@ class JsonConvert {
   }
 
   T? asT<T extends Object?>(dynamic value) {
-    if (value == null) {
+    if(value == null){
       return null;
     }
     if (value is T) {
@@ -104,78 +104,52 @@ class JsonConvert {
     }
   }
 
-  //list is returned by type
-  static M? _getListChildType<M>(List<Map<String, dynamic>> data) {
-    if (<ConfigGetEntity>[] is M) {
-      return data
-          .map<ConfigGetEntity>(
-              (Map<String, dynamic> e) => ConfigGetEntity.fromJson(e))
-          .toList() as M;
-    }
-    if (<ConfigResponsEntity>[] is M) {
-      return data
-          .map<ConfigResponsEntity>(
-              (Map<String, dynamic> e) => ConfigResponsEntity.fromJson(e))
-          .toList() as M;
-    }
-    if (<ConfigResponsData>[] is M) {
-      return data
-          .map<ConfigResponsData>(
-              (Map<String, dynamic> e) => ConfigResponsData.fromJson(e))
-          .toList() as M;
-    }
-    if (<ConfigResponsDataDeFalseVoice>[] is M) {
-      return data
-          .map<ConfigResponsDataDeFalseVoice>((Map<String, dynamic> e) =>
-              ConfigResponsDataDeFalseVoice.fromJson(e))
-          .toList() as M;
-    }
-    if (<ConfigResponsDataDeTrueVoice>[] is M) {
-      return data
-          .map<ConfigResponsDataDeTrueVoice>((Map<String, dynamic> e) =>
-              ConfigResponsDataDeTrueVoice.fromJson(e))
-          .toList() as M;
-    }
-    if (<DevicesEntity>[] is M) {
-      return data
-          .map<DevicesEntity>(
-              (Map<String, dynamic> e) => DevicesEntity.fromJson(e))
-          .toList() as M;
-    }
-    if (<DevicesData>[] is M) {
-      return data
-          .map<DevicesData>((Map<String, dynamic> e) => DevicesData.fromJson(e))
-          .toList() as M;
-    }
-    if (<HardwareEntity>[] is M) {
-      return data
-          .map<HardwareEntity>(
-              (Map<String, dynamic> e) => HardwareEntity.fromJson(e))
-          .toList() as M;
-    }
-    if (<LoginEntity>[] is M) {
-      return data
-          .map<LoginEntity>((Map<String, dynamic> e) => LoginEntity.fromJson(e))
-          .toList() as M;
-    }
-    if (<ResponseEntity>[] is M) {
-      return data
-          .map<ResponseEntity>(
-              (Map<String, dynamic> e) => ResponseEntity.fromJson(e))
-          .toList() as M;
-    }
+	//list is returned by type
+	static M? _getListChildType<M>(List<Map<String, dynamic>> data) {
+		if(<ConfigGetEntity>[] is M){
+			return data.map<ConfigGetEntity>((Map<String, dynamic> e) => ConfigGetEntity.fromJson(e)).toList() as M;
+		}
+		if(<ConfigResponsEntity>[] is M){
+			return data.map<ConfigResponsEntity>((Map<String, dynamic> e) => ConfigResponsEntity.fromJson(e)).toList() as M;
+		}
+		if(<ConfigResponsData>[] is M){
+			return data.map<ConfigResponsData>((Map<String, dynamic> e) => ConfigResponsData.fromJson(e)).toList() as M;
+		}
+		if(<ConfigResponsDataDeFalseVoice>[] is M){
+			return data.map<ConfigResponsDataDeFalseVoice>((Map<String, dynamic> e) => ConfigResponsDataDeFalseVoice.fromJson(e)).toList() as M;
+		}
+		if(<ConfigResponsDataDeTrueVoice>[] is M){
+			return data.map<ConfigResponsDataDeTrueVoice>((Map<String, dynamic> e) => ConfigResponsDataDeTrueVoice.fromJson(e)).toList() as M;
+		}
+		if(<DevicesEntity>[] is M){
+			return data.map<DevicesEntity>((Map<String, dynamic> e) => DevicesEntity.fromJson(e)).toList() as M;
+		}
+		if(<DevicesData>[] is M){
+			return data.map<DevicesData>((Map<String, dynamic> e) => DevicesData.fromJson(e)).toList() as M;
+		}
+		if(<HardwareEntity>[] is M){
+			return data.map<HardwareEntity>((Map<String, dynamic> e) => HardwareEntity.fromJson(e)).toList() as M;
+		}
+		if(<LoginEntity>[] is M){
+			return data.map<LoginEntity>((Map<String, dynamic> e) => LoginEntity.fromJson(e)).toList() as M;
+		}
+		if(<ResponseEntity>[] is M){
+			return data.map<ResponseEntity>((Map<String, dynamic> e) => ResponseEntity.fromJson(e)).toList() as M;
+		}
+		if(<WsHdsEntity>[] is M){
+			return data.map<WsHdsEntity>((Map<String, dynamic> e) => WsHdsEntity.fromJson(e)).toList() as M;
+		}
 
-    debugPrint("${M.toString()} not found");
+		debugPrint("${M.toString()} not found");
+	
+		return null;
+}
 
-    return null;
-  }
-
-  static M? fromJsonAsT<M>(dynamic json) {
-    if (json is List) {
-      return _getListChildType<M>(
-          json.map((e) => e as Map<String, dynamic>).toList());
-    } else {
-      return jsonConvert.asT<M>(json);
-    }
-  }
+	static M? fromJsonAsT<M>(dynamic json) {
+		if (json is List) {
+			return _getListChildType<M>(json.map((e) => e as Map<String, dynamic>).toList());
+		} else {
+			return jsonConvert.asT<M>(json);
+		}
+	}
 }

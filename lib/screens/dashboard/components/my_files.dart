@@ -4,7 +4,7 @@ import '../../../constants.dart';
 import '../../../models/MyFiles.dart';
 import '../../../responsive.dart';
 import 'file_info_card.dart';
-
+//设备运行状态
 class MyFiles extends StatelessWidget {
   const MyFiles({
     Key? key,

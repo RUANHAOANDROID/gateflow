@@ -1,28 +1,28 @@
 import 'package:gateflow/generated/json/base/json_convert_content.dart';
-import 'package:gateflow/models/hardware_entity.dart';
+import 'package:gateflow/models/ws_hds_entity.dart';
 
-HardwareEntity $HardwareEntityFromJson(Map<String, dynamic> json) {
-	final HardwareEntity hardwareEntity = HardwareEntity();
+WsHdsEntity $WsHdsEntityFromJson(Map<String, dynamic> json) {
+	final WsHdsEntity wsHdsEntity = WsHdsEntity();
 	final String? name = jsonConvert.convert<String>(json['name']);
 	if (name != null) {
-		hardwareEntity.name = name;
+		wsHdsEntity.name = name;
 	}
 	final String? total = jsonConvert.convert<String>(json['total']);
 	if (total != null) {
-		hardwareEntity.total = total;
+		wsHdsEntity.total = total;
 	}
 	final String? used = jsonConvert.convert<String>(json['used']);
 	if (used != null) {
-		hardwareEntity.used = used;
+		wsHdsEntity.used = used;
 	}
 	final String? proportion = jsonConvert.convert<String>(json['proportion']);
 	if (proportion != null) {
-		hardwareEntity.proportion = proportion;
+		wsHdsEntity.proportion = proportion;
 	}
-	return hardwareEntity;
+	return wsHdsEntity;
 }
 
-Map<String, dynamic> $HardwareEntityToJson(HardwareEntity entity) {
+Map<String, dynamic> $WsHdsEntityToJson(WsHdsEntity entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
 	data['name'] = entity.name;
 	data['total'] = entity.total;

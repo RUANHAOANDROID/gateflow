@@ -7,18 +7,20 @@ import '../../../constants.dart';
 import '../../responsive.dart';
 
 class BindScreen extends StatefulWidget {
+  final List<DevicesData> devices = List.empty(growable: true);
+
   @override
   State<BindScreen> createState() => _BindScreen();
 }
 
 class _BindScreen extends State<BindScreen> {
-  List<DevicesData> devices = List.empty(growable: true);
-
   void getDevices() async {
     try {
       var response = await HttpUtils.post("/devices/list", "");
       setState(() {
-        devices = DevicesEntity.fromJson(response).data!;
+        var newData = DevicesEntity.fromJson(response).data!;
+        widget.devices.clear();
+        widget.devices.addAll(newData);
       });
     } catch (e) {
       print(e);
@@ -26,9 +28,7 @@ class _BindScreen extends State<BindScreen> {
   }
 
   void onRefresh() {
-    print("onRefresh");
-    getDevices();
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(milliseconds: 200), () {
       getDevices();
     });
   }
@@ -55,23 +55,6 @@ class _BindScreen extends State<BindScreen> {
     print("deactivate");
   }
 
-  /**
-
-      child: SingleChildScrollView(
-      primary: false,
-      padding: EdgeInsets.all(defaultPadding),
-      child:
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-      padding: EdgeInsets.only(bottom: defaultPadding),
-      child: Text(
-      "设备调试",
-      style: Theme.of(context).textTheme.headline6,
-      ),
-      ),
-      content
-      ])));
-   */
   @override
   Widget build(BuildContext context) {
     print("getDevices");
@@ -132,8 +115,8 @@ class _BindScreen extends State<BindScreen> {
                 ),
               ],
               rows: List.generate(
-                devices.length,
-                (index) => devicesDataRow(devices[index]),
+                widget.devices.length,
+                (index) => devicesDataRow( widget.devices[index]),
               ),
             ),
           ),

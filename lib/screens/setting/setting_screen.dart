@@ -13,7 +13,7 @@ import 'components/config_url.dart';
 
 class SettingScreen extends StatefulWidget {
   var formEntity = FormEntity();
-  final url = "http://101.43.113.148:8194";
+  final url = "http://emcs-api.youchiyun.com";
   final code = "3Y32225000630212";
 
   @override

@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
+import '../../../models/HardwareInfo.dart';
 import '../../../models/MyFiles.dart';
 import '../../../responsive.dart';
 import 'file_info_card.dart';
 
-class MyFiles extends StatelessWidget {
+class MyFiles extends StatefulWidget {
+  final List<HardwareInfo> hardwares;
+
   const MyFiles({
     Key? key,
+    required this.hardwares,
   }) : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() => _MyFiles();
+}
+
+class _MyFiles extends State<MyFiles> {
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
@@ -20,10 +29,14 @@ class MyFiles extends StatelessWidget {
           mobile: FileInfoCardGridView(
             crossAxisCount: _size.width < 650 ? 2 : 4,
             childAspectRatio: _size.width < 650 && _size.width > 350 ? 1.3 : 1,
+            hardwares: widget.hardwares,
           ),
-          tablet: FileInfoCardGridView(),
+          tablet: FileInfoCardGridView(
+            hardwares: widget.hardwares,
+          ),
           desktop: FileInfoCardGridView(
             childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
+            hardwares: widget.hardwares,
           ),
         ),
       ],
@@ -31,16 +44,24 @@ class MyFiles extends StatelessWidget {
   }
 }
 
-class FileInfoCardGridView extends StatelessWidget {
-  const FileInfoCardGridView({
+class FileInfoCardGridView extends StatefulWidget {
+  final List<HardwareInfo> hardwares;
+
+  FileInfoCardGridView({
     Key? key,
     this.crossAxisCount = 4,
     this.childAspectRatio = 1,
+    required this.hardwares,
   }) : super(key: key);
 
   final int crossAxisCount;
   final double childAspectRatio;
 
+  @override
+  State<StatefulWidget> createState() => _FileInfoCardGridView();
+}
+
+class _FileInfoCardGridView extends State<FileInfoCardGridView> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -48,12 +69,13 @@ class FileInfoCardGridView extends StatelessWidget {
       shrinkWrap: true,
       itemCount: demoMyFiles.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
+        crossAxisCount: widget.crossAxisCount,
         crossAxisSpacing: defaultPadding,
         mainAxisSpacing: defaultPadding,
-        childAspectRatio: childAspectRatio,
+        childAspectRatio: widget.childAspectRatio,
       ),
-      itemBuilder: (context, index) => FileInfoCard(info: demoMyFiles[index]),
+      itemBuilder: (context, index) =>
+          FileInfoCard(info: widget.hardwares[index]),
     );
   }
 }

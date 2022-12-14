@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gateflow/models/HardwareInfo.dart';
 
 import '../../../constants.dart';
 import '../../../models/MyFiles.dart';
-
+//设备状态小卡片
 class FileInfoCard extends StatelessWidget {
   const FileInfoCard({
     Key? key,
     required this.info,
   }) : super(key: key);
 
-  final CloudStorageInfo info;
+  final HardwareInfo info;
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +57,14 @@ class FileInfoCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "${info.numOfFiles}",
+                "${info.used}",
                 style: Theme.of(context)
                     .textTheme
                     .caption!
                     .copyWith(color: Colors.white70),
               ),
               Text(
-                info.totalStorage!,
+                info.total!,
                 style: Theme.of(context)
                     .textTheme
                     .caption!

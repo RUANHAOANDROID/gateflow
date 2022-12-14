@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 import 'chart.dart';
 import 'storage_info_card.dart';
-
+//右侧统计
 class StarageDetails extends StatelessWidget {
   const StarageDetails({
     Key? key,

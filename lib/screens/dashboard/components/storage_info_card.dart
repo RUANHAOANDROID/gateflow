@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants.dart';
-
+//右侧统计单项详情
 class StorageInfoCard extends StatelessWidget {
   const StorageInfoCard({
     Key? key,

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gateflow/screens/dashboard/dashboard_screen.dart';
 import 'package:gateflow/theme/theme.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/MenuController.dart';
 import '../../responsive.dart';
 import '../bind/bind_screen.dart';
-import '../dashboard/mydashboard_screen.dart';
+import '../dashboard/dashboard_screen.dart';
 import '../setting/setting_screen.dart';
 import '../test/test_screen.dart';
 import 'components/side_menu.dart';

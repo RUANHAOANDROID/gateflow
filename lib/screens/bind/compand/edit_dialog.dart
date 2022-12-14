@@ -8,8 +8,9 @@ import '../../../utils/http.dart';
 
 class EditDialog extends StatefulWidget {
   final DevicesData? device;
+  final _formKey = GlobalKey<FormState>();
 
-  const EditDialog({Key? key, this.device}) : super(key: key);
+  EditDialog({Key? key, this.device}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _dialog();
@@ -18,14 +19,20 @@ class EditDialog extends StatefulWidget {
 class _dialog extends State<EditDialog> {
   Future<bool> addDevice() async {
     try {
-      var body = DevicesData();
-      body.number = c1.text;
-      body.ip = c2.text;
-      body.sn = c3.text;
-      body.version = c4.text;
-      body.tag = c5.text;
-      print(body);
-      HttpUtils.post("/devices/add", body);
+      var state = widget._formKey.currentState;
+      if (state!.validate()) {
+        var body = DevicesData();
+        body.number = numberC.text;
+        body.ip = ipC.text;
+        body.sn = snC.text;
+        body.version = versionC.text;
+        body.tag = pointC.text;
+        print(body);
+        HttpUtils.post("/devices/add", body);
+        setState(() {
+          Navigator.of(context).pop(true);
+        });
+      }
       return true;
     } catch (e) {
       print(e);
@@ -35,15 +42,21 @@ class _dialog extends State<EditDialog> {
 
   Future<bool> updateDevice() async {
     try {
-      var body = DevicesData();
-      body.id = widget.device!.id;
-      body.number = c1.text;
-      body.ip = c2.text;
-      body.sn = c3.text;
-      body.version = c4.text;
-      body.tag = c5.text;
-      print(body);
-      var response = HttpUtils.post("/devices/update", body);
+      var state = widget._formKey.currentState;
+      if (state!.validate()) {
+        var body = DevicesData();
+        body.id = widget.device!.id;
+        body.number = numberC.text;
+        body.ip = ipC.text;
+        body.sn = snC.text;
+        body.version = versionC.text;
+        body.tag = pointC.text;
+        print(body);
+        var response = HttpUtils.post("/devices/update", body);
+        setState(() {
+          Navigator.of(context).pop(true);
+        });
+      }
       return true;
     } catch (e) {
       print(e);
@@ -51,31 +64,37 @@ class _dialog extends State<EditDialog> {
     }
   }
 
-  TextEditingController c1 = TextEditingController();
-  TextEditingController c2 = TextEditingController();
-  TextEditingController c3 = TextEditingController();
-  TextEditingController c4 = TextEditingController();
-  TextEditingController c5 = TextEditingController();
+  TextEditingController snC = TextEditingController();
+  TextEditingController versionC = TextEditingController();
+  TextEditingController ipC = TextEditingController();
+  TextEditingController numberC = TextEditingController();
+  TextEditingController pointC = TextEditingController();
+
+  void checkParameter() {
+    var state = widget._formKey.currentState;
+    if (state!.validate()) {
+    } else {}
+  }
 
   @override
   void initState() {
     super.initState();
     if (widget.device != null) {
-      c1.text = widget.device?.number as String;
-      c2.text = widget.device?.ip as String;
-      c3.text = widget.device?.version as String;
-      c4.text = widget.device?.sn as String;
-      c5.text = widget.device?.tag as String;
+      numberC.text = widget.device?.number as String;
+      ipC.text = widget.device?.ip as String;
+      versionC.text = widget.device?.version as String;
+      snC.text = widget.device?.sn as String;
+      pointC.text = widget.device?.tag as String;
     }
   }
 
   @override
   void dispose() {
-    c1.dispose();
-    c2.dispose();
-    c3.dispose();
-    c4.dispose();
-    c5.dispose();
+    numberC.dispose();
+    ipC.dispose();
+    versionC.dispose();
+    snC.dispose();
+    pointC.dispose();
     super.dispose();
   }
 
@@ -87,7 +106,10 @@ class _dialog extends State<EditDialog> {
           Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
             child: TextFormField(
-              controller: c5,
+              controller: pointC,
+              validator: (value) {
+                return value!.trim().isNotEmpty ? null : "点位名称不能为空";
+              },
               decoration: InputDecoration(
                   border: outlineInputBorder,
                   labelStyle: formTextStyle(context),
@@ -99,7 +121,13 @@ class _dialog extends State<EditDialog> {
           Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
             child: TextFormField(
-              controller: c1,
+              controller: numberC,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '编号为空';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                   border: outlineInputBorder,
                   labelText: '设备编号',
@@ -111,7 +139,13 @@ class _dialog extends State<EditDialog> {
           Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
             child: TextFormField(
-              controller: c2,
+              controller: ipC,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'IP为空';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                   border: outlineInputBorder,
                   hintStyle: formTextStyle(context),
@@ -123,7 +157,7 @@ class _dialog extends State<EditDialog> {
           Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
             child: TextFormField(
-              controller: c3,
+              controller: versionC,
               decoration: InputDecoration(
                   border: outlineInputBorder,
                   labelText: '设备版本',
@@ -135,7 +169,13 @@ class _dialog extends State<EditDialog> {
           Padding(
             padding: EdgeInsets.all(defaultPadding / 2),
             child: TextFormField(
-              controller: c4,
+              controller: snC,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '序列号为空';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                   border: outlineInputBorder,
                   labelText: '设备序列号',
@@ -152,7 +192,10 @@ class _dialog extends State<EditDialog> {
       title: Text('添加设备'),
       content: Container(
         width: 450,
-        child: singleChildScrollView,
+        child: Form(
+          key: widget._formKey,
+          child: singleChildScrollView,
+        ),
       ),
       actions: <Widget>[
         TextButton(
@@ -178,10 +221,10 @@ class _dialog extends State<EditDialog> {
             print(widget.device?.id);
             if (widget.device?.id != null) {
               bool isOK = await updateDevice();
-              Navigator.of(context).pop(isOK);
+              print(isOK);
             } else {
               bool isOK = await addDevice();
-              Navigator.of(context).pop(isOK);
+              print(isOK);
             }
           },
           child: Text("保存"),
