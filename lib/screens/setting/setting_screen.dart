@@ -29,6 +29,16 @@ class FormEntity {
 class _SettingScreen extends State<SettingScreen> {
   final _formKey1 = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
+  void showTip(String? msg, bool ok) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Tip(
+          tip: '${msg}',
+          ok: true,
+        ),
+      ),
+    );
+  }
 
   // 云端配置
   void getConfig() async {
@@ -47,6 +57,7 @@ class _SettingScreen extends State<SettingScreen> {
       }
     } catch (e) {
       print(e);
+      showTip(e.toString(), false);
     }
   }
 
@@ -72,6 +83,7 @@ class _SettingScreen extends State<SettingScreen> {
       });
     } catch (e) {
       print(e);
+      showTip(e.toString(), false);
     }
   }
 
@@ -87,14 +99,8 @@ class _SettingScreen extends State<SettingScreen> {
 
       setState(() {
         if (response == fail) {}
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Tip(
-              tip: '${response.msg}',
-              ok: true,
-            ),
-          ),
-        );
+        var msg = response.msg;
+        showTip(msg, true);
       });
     } else {
       print("code or url is null");
