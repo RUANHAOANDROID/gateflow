@@ -33,7 +33,7 @@ List<HardwareInfo> hardwareInfoList = [
     svgSrc: "assets/icons/cpu.svg",
     total: "2.9Mhz",
     color: Color(0xFFFFA113),
-    percentage: 60,
+    percentage: 24,
   ),
   HardwareInfo(
     title: "内存状态",

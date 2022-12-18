@@ -31,7 +31,7 @@ class _DashboardScreen extends State<MyDashboardScreen> {
   void initState() {
     //widget.channel.stream.listen((message) {})
     super.initState();
-    _sendMsg("ECTH A A  A  A a A");
+    //_sendMsg("ECTH A A  A  A a A");
     print("Send MSG");
     // channel.stream.listen((event) {
     //   print(event);
@@ -106,7 +106,7 @@ class _DashboardScreen extends State<MyDashboardScreen> {
     );
   }
 
-  void handleWsMsg(String body) async {
+  void handleWsMsg(String body)  {
     print(body);
     var jsonMap = json.decode(body);
     var type = jsonMap['type'];
@@ -120,12 +120,12 @@ class _DashboardScreen extends State<MyDashboardScreen> {
     for (dynamic data in data) {
       HardwareEntity hd = HardwareEntity.fromJson(data);
       var percentage = double.parse(hd.proportion!) * 100;
-      if (hd.name == "CPU") {
+      if (hd.name == "Disk") {
         widget.hardwares[0].used = hd.used;
         widget.hardwares[0].total = hd.total;
         widget.hardwares[0].percentage = percentage.toInt();
       }
-      if (hd.name == "Disk") {
+      if (hd.name == "CPU") {
         widget.hardwares[1].used = hd.used;
         widget.hardwares[1].total = hd.total;
         widget.hardwares[1].percentage = percentage.toInt();
@@ -140,7 +140,6 @@ class _DashboardScreen extends State<MyDashboardScreen> {
         widget.hardwares.last.total = hd.total;
         widget.hardwares.last.percentage = percentage.toInt();
       }
-      setState(() {});
     }
   }
 }
