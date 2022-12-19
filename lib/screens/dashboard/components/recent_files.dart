@@ -1,15 +1,26 @@
+import 'dart:collection';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:gateflow/models/events_entity.dart';
 
 import '../../../constants.dart';
-import '../../../models/RecentFile.dart';
+import '../../../models/linked_events.dart';
+
 //事件日志
-class RecentFiles extends StatelessWidget {
-  const RecentFiles({
+class RecentFiles extends StatefulWidget {
+  //final LinkedList<LinkedListEntryImpl> eventLogs;
+  final LinkedList<LinkedListEntryImpl> eventLogs;
+  RecentFiles({
     Key? key,
+    required this.eventLogs,
   }) : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() => _RecentFiles();
+}
+
+class _RecentFiles extends State<RecentFiles> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,8 +53,9 @@ class RecentFiles extends StatelessWidget {
                 ),
               ],
               rows: List.generate(
-                demoRecentFiles.length,
-                (index) => recentFileDataRow(demoRecentFiles[index]),
+                widget.eventLogs.length,
+                (index) =>
+                    recentFileDataRow(widget.eventLogs.elementAt(index).value),
               ),
             ),
           ),
@@ -53,26 +65,26 @@ class RecentFiles extends StatelessWidget {
   }
 }
 
-DataRow recentFileDataRow(RecentFile fileInfo) {
+DataRow recentFileDataRow(EventsEntity info) {
   return DataRow(
     cells: [
       DataCell(
         Row(
           children: [
-            SvgPicture.asset(
-              fileInfo.icon!,
-              height: 30,
-              width: 30,
-            ),
+            // SvgPicture.asset(
+            //   fileInfo.icon!,
+            //   height: 30,
+            //   width: 30,
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(fileInfo.title!),
+              child: Text(info.tag!),
             ),
           ],
         ),
       ),
-      DataCell(Text(fileInfo.date!)),
-      DataCell(Text(fileInfo.size!)),
+      DataCell(Text(info.time!)),
+      DataCell(Text(info.content!)),
     ],
   );
 }

@@ -1,8 +1,12 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/HardwareInfo.dart';
+import 'package:gateflow/models/devices_entity.dart';
+import 'package:gateflow/models/events_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
+import 'package:gateflow/models/linked_events.dart';
 import 'package:gateflow/models/ws_hds_entity.dart';
 
 //import 'package:web_socket_channel/html.dart';
@@ -18,9 +22,13 @@ import 'package:web_socket_channel/io.dart';
 //import 'package:web_socket_channel/status.dart' as status;
 
 class MyDashboardScreen extends StatefulWidget {
+  final List<HardwareInfo> hardwares = hardwareInfoList;
+  //final List<EventsEntity> eventLogs = List.empty(growable: true);
+  final  LinkedList<LinkedListEntryImpl<EventsEntity>> eventLogs = LinkedList<LinkedListEntryImpl<EventsEntity>>();
+  final List<DevicesData> devices = List.empty(growable: true);
+
   @override
   State<StatefulWidget> createState() => _DashboardScreen();
-  final List<HardwareInfo> hardwares = hardwareInfoList;
 }
 
 class _DashboardScreen extends State<MyDashboardScreen> {
@@ -50,49 +58,13 @@ class _DashboardScreen extends State<MyDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var singleChildScrollView = SingleChildScrollView(
-      primary: false,
-      padding: EdgeInsets.all(defaultPadding),
-      child: Column(
-        children: [
-          Header(),
-          SizedBox(height: defaultPadding),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 5,
-                child: Column(
-                  children: [
-                    MyFiles(
-                      hardwares: widget.hardwares,
-                    ),
-                    SizedBox(height: defaultPadding),
-                    RecentFiles(),
-                    if (Responsive.isMobile(context))
-                      SizedBox(height: defaultPadding),
-                    if (Responsive.isMobile(context)) StarageDetails(),
-                  ],
-                ),
-              ),
-              if (!Responsive.isMobile(context))
-                SizedBox(width: defaultPadding),
-              // On Mobile means if the screen is less than 850 we dont want to show it
-              if (!Responsive.isMobile(context))
-                Expanded(
-                  flex: 2,
-                  child: StarageDetails(),
-                ),
-            ],
-          )
-        ],
-      ),
-    );
-    HardwareEntity hd;
+    print("build");
+
     return SafeArea(
       child: StreamBuilder(
         stream: channel.stream,
         builder: (context, snapshot) {
+          print(snapshot.data);
           //网络不通会走到这
           if (snapshot.hasError) {
             print(snapshot);
@@ -100,19 +72,57 @@ class _DashboardScreen extends State<MyDashboardScreen> {
             var body = snapshot.data.toString();
             handleWsMsg(body);
           }
-          return singleChildScrollView;
+          return SingleChildScrollView(
+            primary: false,
+            padding: EdgeInsets.all(defaultPadding),
+            child: Column(
+              children: [
+                Header(),
+                SizedBox(height: defaultPadding),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: Column(
+                        children: [
+                          MyFiles(
+                            hardwares: widget.hardwares,
+                          ),
+                          SizedBox(height: defaultPadding),
+                          RecentFiles(eventLogs: widget.eventLogs),
+                          if (Responsive.isMobile(context))
+                            SizedBox(height: defaultPadding),
+                          if (Responsive.isMobile(context)) StarageDetails(),
+                        ],
+                      ),
+                    ),
+                    if (!Responsive.isMobile(context))
+                      SizedBox(width: defaultPadding),
+                    // On Mobile means if the screen is less than 850 we dont want to show it
+                    if (!Responsive.isMobile(context))
+                      Expanded(
+                        flex: 2,
+                        child: StarageDetails(),
+                      ),
+                  ],
+                )
+              ],
+            ),
+          );
         },
       ),
     );
   }
 
-  void handleWsMsg(String body)  {
-    print(body);
+  void handleWsMsg(String body) {
     var jsonMap = json.decode(body);
     var type = jsonMap['type'];
     var data = jsonMap['data'];
     if (type == 4) {
       handleHardware(type, data);
+    } else if (type == 3) {
+      handleEventLog(data);
     }
   }
 
@@ -140,6 +150,17 @@ class _DashboardScreen extends State<MyDashboardScreen> {
         widget.hardwares.last.total = hd.total;
         widget.hardwares.last.percentage = percentage.toInt();
       }
+    }
+  }
+
+  void handleEventLog(data) {
+    print(data);
+    for (dynamic item in data) {
+      EventsEntity event = EventsEntity.fromJson(item);
+      if(widget.eventLogs.length>5){
+        widget.eventLogs.remove(widget.eventLogs.last);
+      }
+      widget.eventLogs.addFirst(LinkedListEntryImpl(event));
     }
   }
 }
