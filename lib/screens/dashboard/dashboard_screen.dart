@@ -23,8 +23,10 @@ import 'package:web_socket_channel/io.dart';
 
 class MyDashboardScreen extends StatefulWidget {
   final List<HardwareInfo> hardwares = hardwareInfoList;
+
   //final List<EventsEntity> eventLogs = List.empty(growable: true);
-  final  LinkedList<LinkedListEntryImpl<EventsEntity>> eventLogs = LinkedList<LinkedListEntryImpl<EventsEntity>>();
+  final LinkedList<LinkedListEntryImpl<EventsEntity>> eventLogs =
+      LinkedList<LinkedListEntryImpl<EventsEntity>>();
   final List<DevicesData> devices = List.empty(growable: true);
 
   @override
@@ -123,9 +125,12 @@ class _DashboardScreen extends State<MyDashboardScreen> {
       handleHardware(type, data);
     } else if (type == 3) {
       handleEventLog(data);
+    } else if (type == 6) {
+      handleDevicesTotal(data);
     }
   }
 
+  //硬件
   void handleHardware(int type, data) {
     for (dynamic data in data) {
       HardwareEntity hd = HardwareEntity.fromJson(data);
@@ -153,14 +158,19 @@ class _DashboardScreen extends State<MyDashboardScreen> {
     }
   }
 
+  //事件
   void handleEventLog(data) {
     print(data);
     for (dynamic item in data) {
       EventsEntity event = EventsEntity.fromJson(item);
-      if(widget.eventLogs.length>5){
+      if (widget.eventLogs.length > 5) {
         widget.eventLogs.remove(widget.eventLogs.last);
       }
       widget.eventLogs.addFirst(LinkedListEntryImpl(event));
     }
+  }
+
+  void handleDevicesTotal(data) {
+
   }
 }
