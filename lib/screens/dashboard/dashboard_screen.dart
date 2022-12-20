@@ -8,6 +8,7 @@ import 'package:gateflow/models/events_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/linked_events.dart';
 import 'package:gateflow/models/ws_hds_entity.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 //import 'package:web_socket_channel/html.dart';
 import '../../../constants.dart';
@@ -35,27 +36,25 @@ class MyDashboardScreen extends StatefulWidget {
 
 class _DashboardScreen extends State<MyDashboardScreen> {
   //final channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
-  final channel = IOWebSocketChannel.connect('ws://localhost:8888/ws/flow');
+  final _channel =
+      WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws'));
 
   @override
   void initState() {
-    //widget.channel.stream.listen((message) {})
     super.initState();
-    //_sendMsg("ECTH A A  A  A a A");
-    print("Send MSG");
-    // channel.stream.listen((event) {
-    //   print(event);
-    // });
+    _channel.stream.listen((message) {
+      handleWsMsg(message);
+    });
   }
 
   @override
   void dispose() {
-    channel.sink.close();
+    _channel.sink.close();
     super.dispose();
   }
 
   void _sendMsg(String msg) {
-    channel.sink.add(msg);
+    _channel.sink.add(msg);
   }
 
   @override
@@ -64,14 +63,15 @@ class _DashboardScreen extends State<MyDashboardScreen> {
 
     return SafeArea(
       child: StreamBuilder(
-        stream: channel.stream,
+        //stream: _channel.stream,
         builder: (context, snapshot) {
-          print(snapshot.data);
           //网络不通会走到这
           if (snapshot.hasError) {
+            print("hasError");
             print(snapshot);
           } else if (snapshot.hasData) {
             var body = snapshot.data.toString();
+            print(body);
             handleWsMsg(body);
           }
           return SingleChildScrollView(
@@ -118,6 +118,7 @@ class _DashboardScreen extends State<MyDashboardScreen> {
   }
 
   void handleWsMsg(String body) {
+    print("handleWsMsg" + body);
     var jsonMap = json.decode(body);
     var type = jsonMap['type'];
     var data = jsonMap['data'];
@@ -132,6 +133,7 @@ class _DashboardScreen extends State<MyDashboardScreen> {
 
   //硬件
   void handleHardware(int type, data) {
+    print("处理当前硬件消息");
     for (dynamic data in data) {
       HardwareEntity hd = HardwareEntity.fromJson(data);
       var percentage = double.parse(hd.proportion!) * 100;
@@ -160,7 +162,7 @@ class _DashboardScreen extends State<MyDashboardScreen> {
 
   //事件
   void handleEventLog(data) {
-    print(data);
+    print("处理事件消息" + data.toString());
     for (dynamic item in data) {
       EventsEntity event = EventsEntity.fromJson(item);
       if (widget.eventLogs.length > 5) {
@@ -168,9 +170,10 @@ class _DashboardScreen extends State<MyDashboardScreen> {
       }
       widget.eventLogs.addFirst(LinkedListEntryImpl(event));
     }
+    setState(() {
+
+    });
   }
 
-  void handleDevicesTotal(data) {
-
-  }
+  void handleDevicesTotal(data) {}
 }
