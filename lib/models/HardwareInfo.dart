@@ -41,7 +41,7 @@ List<HardwareInfo> hardwareInfoList = [
     svgSrc: "assets/icons/mmy.svg",
     total: "16GB",
     color: Color(0xFFA4CDFF),
-    percentage: 70,
+    percentage: 50,
   ),
   HardwareInfo(
     title: "日志量",
@@ -49,6 +49,6 @@ List<HardwareInfo> hardwareInfoList = [
     svgSrc: "assets/icons/drop_box.svg",
     total: "1GB",
     color: Color(0xFF007EE5),
-    percentage: 78,
+    percentage: 50,
   ),
 ];

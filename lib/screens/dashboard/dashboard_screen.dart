@@ -7,6 +7,7 @@ import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/models/events_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/linked_events.dart';
+import 'package:gateflow/models/passed_total_entity.dart';
 import 'package:gateflow/models/ws_hds_entity.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -16,7 +17,7 @@ import '../../../responsive.dart';
 import 'components/header.dart';
 import 'components/my_fields.dart';
 import 'components/recent_files.dart';
-import 'components/storage_details.dart';
+import 'components/total_details.dart';
 
 //import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/io.dart';
@@ -24,11 +25,15 @@ import 'package:web_socket_channel/io.dart';
 
 class MyDashboardScreen extends StatefulWidget {
   final List<HardwareInfo> hardwares = hardwareInfoList;
+  final int logMaxCount = 10;
 
   //final List<EventsEntity> eventLogs = List.empty(growable: true);
   final LinkedList<LinkedListEntryImpl<EventsEntity>> eventLogs =
       LinkedList<LinkedListEntryImpl<EventsEntity>>();
+
   final List<DevicesData> devices = List.empty(growable: true);
+
+  PassedTotalEntity passedTotalEntity = PassedTotalEntity();
 
   @override
   State<StatefulWidget> createState() => _DashboardScreen();
@@ -39,11 +44,25 @@ class _DashboardScreen extends State<MyDashboardScreen> {
   final _channel =
       WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws'));
 
+  //获取面板信息
+  void getInfo() {
+    _sendMsg("ComeOn");
+  }
+
   @override
   void initState() {
     super.initState();
-    _channel.stream.listen((message) {
-      handleWsMsg(message);
+    widget.passedTotalEntity.sum = 0;
+    widget.passedTotalEntity.deviceTotals = List.empty(growable: true);
+
+    _channel.stream.listen((event) {
+      print("ws channel listen =$event");
+      handleWsMsg(event);
+      setState(() {});
+    },onDone: (){
+      print("ws channel listen onDone");
+    },onError:(err) {
+      print("ws channel listen onError $err");
     });
   }
 
@@ -55,12 +74,11 @@ class _DashboardScreen extends State<MyDashboardScreen> {
 
   void _sendMsg(String msg) {
     _channel.sink.add(msg);
+    print("_sendMsg = $msg");
   }
 
   @override
   Widget build(BuildContext context) {
-    print("build");
-
     return SafeArea(
       child: StreamBuilder(
         //stream: _channel.stream,
@@ -95,7 +113,8 @@ class _DashboardScreen extends State<MyDashboardScreen> {
                           RecentFiles(eventLogs: widget.eventLogs),
                           if (Responsive.isMobile(context))
                             SizedBox(height: defaultPadding),
-                          if (Responsive.isMobile(context)) StarageDetails(),
+                          if (Responsive.isMobile(context))
+                            TotalDetails(entity: widget.passedTotalEntity),
                         ],
                       ),
                     ),
@@ -105,7 +124,7 @@ class _DashboardScreen extends State<MyDashboardScreen> {
                     if (!Responsive.isMobile(context))
                       Expanded(
                         flex: 2,
-                        child: StarageDetails(),
+                        child: TotalDetails(entity: widget.passedTotalEntity),
                       ),
                   ],
                 )
@@ -118,62 +137,79 @@ class _DashboardScreen extends State<MyDashboardScreen> {
   }
 
   void handleWsMsg(String body) {
-    print("handleWsMsg" + body);
+    const TYPE_DEVICES = 1; //设备
+    const TYPE_LOG = 2; //日志
+    const TYPE_EVENT = 3; //事件
+    const TYPE_HARDWARES = 4; // 硬件信息
+    const TYPE_TOTAL = 6; // 共计人数
     var jsonMap = json.decode(body);
     var type = jsonMap['type'];
     var data = jsonMap['data'];
-    if (type == 4) {
-      handleHardware(type, data);
-    } else if (type == 3) {
+    print("handleWsMsg type= ${type} data = ${data}");
+    if (type == TYPE_HARDWARES) {
+      handleHardware(data);
+    } else if (type == TYPE_EVENT) {
       handleEventLog(data);
-    } else if (type == 6) {
+    } else if (type == TYPE_DEVICES) {
+    } else if (type == TYPE_TOTAL) {
       handleDevicesTotal(data);
     }
   }
 
   //硬件
-  void handleHardware(int type, data) {
-    print("处理当前硬件消息");
+  void handleHardware(data) {
+    print("handleHardware 处理当前硬件消息");
     for (dynamic data in data) {
       HardwareEntity hd = HardwareEntity.fromJson(data);
-      var percentage = double.parse(hd.proportion!) * 100;
+
       if (hd.name == "Disk") {
-        widget.hardwares[0].used = hd.used;
-        widget.hardwares[0].total = hd.total;
+        var used = double.parse(hd.used!) / 1024 / 1024 / 1024;
+        var total = double.parse(hd.total!) / 1024 / 1024 / 1024;
+        var percentage = double.parse(hd.proportion!);
+        widget.hardwares[0].used = "${used.toStringAsFixed(2)}GB";
+        widget.hardwares[0].total = "${total.toStringAsFixed(2)}GB";
         widget.hardwares[0].percentage = percentage.toInt();
       }
       if (hd.name == "CPU") {
-        widget.hardwares[1].used = hd.used;
-        widget.hardwares[1].total = hd.total;
+        var total = double.parse(hd.total!) / 1000;
+        var percentage = double.parse(hd.proportion!);
+        widget.hardwares[1].used = "${hd.used}核心";
+        widget.hardwares[1].total = "${total.toStringAsFixed(2)}Mhz";
         widget.hardwares[1].percentage = percentage.toInt();
       }
       if (hd.name == "Memory") {
-        widget.hardwares[2].used = hd.used;
-        widget.hardwares[2].total = hd.total;
+        var used = double.parse(hd.used!) / 1000 / 1000 / 1000;
+        var total = double.parse(hd.total!) / 1000 / 1000 / 1000;
+        var percentage = double.parse(hd.proportion!);
+        widget.hardwares[2].used = "${used.toStringAsFixed(2)}GB";
+        widget.hardwares[2].total = "${total.toStringAsFixed(2)}GB";
         widget.hardwares[2].percentage = percentage.toInt();
       }
       if (hd.name == "LOGS") {
-        widget.hardwares.last.used = hd.used;
-        widget.hardwares.last.total = hd.total;
-        widget.hardwares.last.percentage = percentage.toInt();
+        var used = double.parse(hd.used!) / 1024 / 1024 / 1024;
+        var total = double.parse(hd.total!) / 1024 / 1024 / 1024;
+        var percentage = double.parse(hd.proportion!) * 100;
+        widget.hardwares[3].used = "${used.toStringAsFixed(2)}GB";
+        widget.hardwares[3].total = "${total.toStringAsFixed(2)}GB";
+        widget.hardwares[3].percentage = percentage.toInt();
       }
     }
   }
 
   //事件
   void handleEventLog(data) {
-    print("处理事件消息" + data.toString());
+    print("handleEventLog 处理事件消息");
     for (dynamic item in data) {
       EventsEntity event = EventsEntity.fromJson(item);
-      if (widget.eventLogs.length > 5) {
+      if (widget.eventLogs.length > widget.logMaxCount) {
         widget.eventLogs.remove(widget.eventLogs.last);
       }
       widget.eventLogs.addFirst(LinkedListEntryImpl(event));
     }
-    setState(() {
-
-    });
   }
 
-  void handleDevicesTotal(data) {}
+  void handleDevicesTotal(data) {
+    print("handleDevicesTotal 处理统计消息");
+    widget.passedTotalEntity = PassedTotalEntity.fromJson(data);
+  }
 }

@@ -1,15 +1,17 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:gateflow/models/passed_total_entity.dart';
 
 import '../../../constants.dart';
 
 class Chart extends StatelessWidget {
-  const Chart({
-    Key? key,
-  }) : super(key: key);
+  final PassedTotalEntity entity;
+
+  const Chart({Key? key, required this.entity}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var sum =0;
     return SizedBox(
       height: 200,
       child: Stack(
@@ -28,7 +30,7 @@ class Chart extends StatelessWidget {
               children: [
                 SizedBox(height: defaultPadding),
                 Text(
-                  "1234",
+                  "${entity.sum}",
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

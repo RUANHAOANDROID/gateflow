@@ -7,8 +7,10 @@ import 'package:flutter/material.dart' show debugPrint;
 import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_respons_entity.dart';
 import 'package:gateflow/models/devices_entity.dart';
+import 'package:gateflow/models/events_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/login_entity.dart';
+import 'package:gateflow/models/passed_total_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/models/ws_hds_entity.dart';
 
@@ -24,8 +26,11 @@ class JsonConvert {
 		(ConfigResponsDataDeTrueVoice).toString(): ConfigResponsDataDeTrueVoice.fromJson,
 		(DevicesEntity).toString(): DevicesEntity.fromJson,
 		(DevicesData).toString(): DevicesData.fromJson,
+		(EventsEntity).toString(): EventsEntity.fromJson,
 		(HardwareEntity).toString(): HardwareEntity.fromJson,
 		(LoginEntity).toString(): LoginEntity.fromJson,
+		(PassedTotalEntity).toString(): PassedTotalEntity.fromJson,
+		(PassedTotalDeviceTotals).toString(): PassedTotalDeviceTotals.fromJson,
 		(ResponseEntity).toString(): ResponseEntity.fromJson,
 		(WsHdsEntity).toString(): WsHdsEntity.fromJson,
 	};
@@ -127,11 +132,20 @@ class JsonConvert {
 		if(<DevicesData>[] is M){
 			return data.map<DevicesData>((Map<String, dynamic> e) => DevicesData.fromJson(e)).toList() as M;
 		}
+		if(<EventsEntity>[] is M){
+			return data.map<EventsEntity>((Map<String, dynamic> e) => EventsEntity.fromJson(e)).toList() as M;
+		}
 		if(<HardwareEntity>[] is M){
 			return data.map<HardwareEntity>((Map<String, dynamic> e) => HardwareEntity.fromJson(e)).toList() as M;
 		}
 		if(<LoginEntity>[] is M){
 			return data.map<LoginEntity>((Map<String, dynamic> e) => LoginEntity.fromJson(e)).toList() as M;
+		}
+		if(<PassedTotalEntity>[] is M){
+			return data.map<PassedTotalEntity>((Map<String, dynamic> e) => PassedTotalEntity.fromJson(e)).toList() as M;
+		}
+		if(<PassedTotalDeviceTotals>[] is M){
+			return data.map<PassedTotalDeviceTotals>((Map<String, dynamic> e) => PassedTotalDeviceTotals.fromJson(e)).toList() as M;
 		}
 		if(<ResponseEntity>[] is M){
 			return data.map<ResponseEntity>((Map<String, dynamic> e) => ResponseEntity.fromJson(e)).toList() as M;

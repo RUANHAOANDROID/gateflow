@@ -3,16 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants.dart';
 //右侧统计单项详情
-class StorageInfoCard extends StatelessWidget {
-  const StorageInfoCard({
+class TotalInfoCard extends StatelessWidget {
+  const TotalInfoCard({
     Key? key,
     required this.title,
     required this.svgSrc,
-    required this.amountOfFiles,
+    required this.passedCount,
     required this.numOfFiles,
   }) : super(key: key);
 
-  final String title, svgSrc, amountOfFiles;
+  final String title, svgSrc, passedCount;
   final String numOfFiles;
 
   @override
@@ -55,7 +55,7 @@ class StorageInfoCard extends StatelessWidget {
               ),
             ),
           ),
-          Text(amountOfFiles)
+          Text(passedCount)
         ],
       ),
     );

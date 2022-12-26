@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:gateflow/generated/json/base/json_field.dart';
 import 'package:gateflow/generated/json/events_entity.g.dart';
 import 'dart:convert';
