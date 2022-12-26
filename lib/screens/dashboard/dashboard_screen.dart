@@ -11,7 +11,7 @@ import 'package:gateflow/models/passed_total_entity.dart';
 import 'package:gateflow/models/ws_hds_entity.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-//import 'package:web_socket_channel/html.dart';
+import 'package:web_socket_channel/html.dart';
 import '../../../constants.dart';
 import '../../../responsive.dart';
 import 'components/header.dart';
@@ -40,9 +40,9 @@ class MyDashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreen extends State<MyDashboardScreen> {
-  //final channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
-  final _channel =
-      WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws'));
+  final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
+
+  //final _channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
 
   //获取面板信息
   void getInfo() {
@@ -56,12 +56,12 @@ class _DashboardScreen extends State<MyDashboardScreen> {
     widget.passedTotalEntity.deviceTotals = List.empty(growable: true);
 
     _channel.stream.listen((event) {
-      print("ws channel listen =$event");
+      print("ws channel listen = $event");
       handleWsMsg(event);
       setState(() {});
-    },onDone: (){
+    }, onDone: () {
       print("ws channel listen onDone");
-    },onError:(err) {
+    }, onError: (err) {
       print("ws channel listen onError $err");
     });
   }
