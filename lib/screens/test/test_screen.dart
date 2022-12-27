@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/net/http.dart';
+import 'package:gateflow/utils/http.dart';
 
 import '../../../constants.dart';
 import '../../../models/RecentFile.dart';
@@ -118,6 +119,11 @@ class _TestScreen extends State<TestScreen> {
 }
 
 DataRow devicesDataRow(DevicesData info) {
+  void _openGateTest(DevicesData info) async {
+    var map = {'number': info.number, 'ip': info.ip};
+    HttpUtils.post("/devices/openGateTest", map);
+  }
+
   return DataRow(
     cells: [
       DataCell(
@@ -137,9 +143,11 @@ DataRow devicesDataRow(DevicesData info) {
       DataCell(Row(
         children: [
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              _openGateTest(info);
+            },
             child: Text(
-              '调试',
+              '开闸调试',
               style: TextStyle(color: Colors.white),
             ),
           ),
