@@ -5,6 +5,8 @@ import 'package:gateflow/theme/styles.dart';
 
 import '../../../constants.dart';
 
+//https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/pie_chart/samples/pie_chart_sample2.dart
+//https://raw.githubusercontent.com/imaNNeoFighT/fl_chart/master/repo_files/images/pie_chart/pie_chart_sample_2.gif
 class Chart extends StatefulWidget {
   final PassedTotalEntity entity;
 
