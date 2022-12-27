@@ -8,10 +8,9 @@ import 'package:gateflow/models/events_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/linked_events.dart';
 import 'package:gateflow/models/passed_total_entity.dart';
-import 'package:gateflow/models/ws_hds_entity.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import 'package:web_socket_channel/html.dart';
+// import 'package:web_socket_channel/html.dart';
 import '../../../constants.dart';
 import '../../../responsive.dart';
 import 'components/header.dart';
@@ -40,9 +39,9 @@ class MyDashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreen extends State<MyDashboardScreen> {
-  final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
+  //final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
 
-  //final _channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
+  final _channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
 
   //获取面板信息
   void getInfo() {
@@ -178,8 +177,8 @@ class _DashboardScreen extends State<MyDashboardScreen> {
         widget.hardwares[1].percentage = percentage.toInt();
       }
       if (hd.name == "Memory") {
-        var used = double.parse(hd.used!) / 1000 / 1000 / 1000;
-        var total = double.parse(hd.total!) / 1000 / 1000 / 1000;
+        var used = double.parse(hd.used!) / 1024 / 1024 / 1024;
+        var total = double.parse(hd.total!) / 1024 / 1024 / 1024;
         var percentage = double.parse(hd.proportion!);
         widget.hardwares[2].used = "${used.toStringAsFixed(2)}GB";
         widget.hardwares[2].total = "${total.toStringAsFixed(2)}GB";

@@ -1,15 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:gateflow/generated/json/base/json_field.dart';
 import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_respons_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/utils/http.dart';
+import 'package:gateflow/wiidget/toast.dart';
 import '../../constants.dart';
-import '../../responsive.dart';
 import '../../wiidget/tip.dart';
 import 'components/config_parms.dart';
 import 'components/config_url.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SettingScreen extends StatefulWidget {
   var formEntity = FormEntity();
@@ -26,21 +28,30 @@ class FormEntity {
   ConfigResponsData? config;
 }
 
+class SaveMyConfigEntity {
+  String? url;
+  String? code;
+  String? config;
+}
+
 class _SettingScreen extends State<SettingScreen> {
   final _formKey1 = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
+
   void showTip(String? msg, bool ok) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Tip(
-          tip: '${msg}',
-          ok: true,
-        ),
-      ),
-    );
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(
+    //     content: Tip(
+    //       tip: '${msg}',
+    //       ok: true,
+    //     ),
+    //   ),
+    // );
+    FToast().init(context).showToast(child: MyToast(tip: "$msg", ok: ok));
   }
 
-  // 云端配置
+
+// 云端配置
   void getConfig() async {
     try {
       var currentState1 = _formKey1.currentState;
@@ -61,7 +72,7 @@ class _SettingScreen extends State<SettingScreen> {
     }
   }
 
-  //个人配置
+//个人配置
   void getMyConfig() async {
     try {
       print("init get my config");
@@ -92,9 +103,14 @@ class _SettingScreen extends State<SettingScreen> {
     var currentState1 = _formKey1.currentState;
     var currentState2 = _formKey2.currentState;
     if (currentState1!.validate() && currentState2!.validate()) {
-      var requestBody = widget.formEntity.config;
+      var config = widget.formEntity;
+      var requestMap = {
+        'url': config.url,
+        'code': config.code,
+        'content': config.config.toString()
+      };
       var json =
-          await HttpUtils.post("/config/saveMyConfig", requestBody.toString());
+          await HttpUtils.post("/config/saveMyConfig", jsonEncode(requestMap));
       var response = ResponseEntity.fromJson(json);
 
       setState(() {
@@ -133,7 +149,7 @@ class _SettingScreen extends State<SettingScreen> {
       config: config,
       saved: (ConfigResponsData? value) {
         saveConfig();
-        print("save");
+        print("pram url save");
       },
       formKey: _formKey2,
     );
