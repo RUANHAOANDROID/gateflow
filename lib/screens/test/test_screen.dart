@@ -5,7 +5,7 @@ import 'package:gateflow/net/http.dart';
 import 'package:gateflow/utils/http.dart';
 
 import '../../../constants.dart';
-import '../../../models/RecentFile.dart';
+import '../../../models/EventLog.dart';
 import '../../responsive.dart';
 
 class TestScreen extends StatefulWidget {

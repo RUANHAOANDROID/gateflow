@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
 import '../../../models/HardwareInfo.dart';
-import '../../../models/MyFiles.dart';
 import '../../../responsive.dart';
-import 'file_info_card.dart';
+import 'hardware_info_card.dart';
 
-class MyFiles extends StatefulWidget {
+class HardwareList extends StatefulWidget {
   final List<HardwareInfo> hardwares;
 
-  const MyFiles({
+  const HardwareList({
     Key? key,
     required this.hardwares,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MyFiles();
+  State<StatefulWidget> createState() => _HardwareList();
 }
 
-class _MyFiles extends State<MyFiles> {
+class _HardwareList extends State<HardwareList> {
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
@@ -26,15 +25,15 @@ class _MyFiles extends State<MyFiles> {
       children: [
         SizedBox(height: defaultPadding),
         Responsive(
-          mobile: FileInfoCardGridView(
+          mobile: HardwareInfoCardGridView(
             crossAxisCount: _size.width < 650 ? 2 : 4,
             childAspectRatio: _size.width < 650 && _size.width > 350 ? 1.3 : 1,
             hardwares: widget.hardwares,
           ),
-          tablet: FileInfoCardGridView(
+          tablet: HardwareInfoCardGridView(
             hardwares: widget.hardwares,
           ),
-          desktop: FileInfoCardGridView(
+          desktop: HardwareInfoCardGridView(
             childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
             hardwares: widget.hardwares,
           ),
@@ -44,10 +43,10 @@ class _MyFiles extends State<MyFiles> {
   }
 }
 
-class FileInfoCardGridView extends StatefulWidget {
+class HardwareInfoCardGridView extends StatefulWidget {
   final List<HardwareInfo> hardwares;
 
-  FileInfoCardGridView({
+  HardwareInfoCardGridView({
     Key? key,
     this.crossAxisCount = 4,
     this.childAspectRatio = 1,
@@ -58,16 +57,16 @@ class FileInfoCardGridView extends StatefulWidget {
   final double childAspectRatio;
 
   @override
-  State<StatefulWidget> createState() => _FileInfoCardGridView();
+  State<StatefulWidget> createState() => _HardwareInfoCardGridView();
 }
 
-class _FileInfoCardGridView extends State<FileInfoCardGridView> {
+class _HardwareInfoCardGridView extends State<HardwareInfoCardGridView> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: demoMyFiles.length,
+      itemCount: hardwareInfoList.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: widget.crossAxisCount,
         crossAxisSpacing: defaultPadding,
@@ -75,7 +74,7 @@ class _FileInfoCardGridView extends State<FileInfoCardGridView> {
         childAspectRatio: widget.childAspectRatio,
       ),
       itemBuilder: (context, index) =>
-          FileInfoCard(info: widget.hardwares[index]),
+          HardwareInfoCard(info: widget.hardwares[index]),
     );
   }
 }

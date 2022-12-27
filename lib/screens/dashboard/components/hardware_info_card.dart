@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gateflow/models/HardwareInfo.dart';
 
 import '../../../constants.dart';
-import '../../../models/MyFiles.dart';
+import '../../../models/HardwareInfo.dart';
+
 //设备状态小卡片
-class FileInfoCard extends StatelessWidget {
-  const FileInfoCard({
+class HardwareInfoCard extends StatelessWidget {
+  const HardwareInfoCard({
     Key? key,
     required this.info,
   }) : super(key: key);

@@ -11,7 +11,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var sum =0;
+    var sum = 0;
     return SizedBox(
       height: 200,
       child: Stack(

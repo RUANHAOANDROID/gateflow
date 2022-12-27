@@ -8,19 +8,19 @@ import '../../../constants.dart';
 import '../../../models/linked_events.dart';
 
 //事件日志
-class RecentFiles extends StatefulWidget {
+class EventLogs extends StatefulWidget {
   //final LinkedList<LinkedListEntryImpl> eventLogs;
   final LinkedList<LinkedListEntryImpl> eventLogs;
-  RecentFiles({
+  EventLogs({
     Key? key,
     required this.eventLogs,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _RecentFiles();
+  State<StatefulWidget> createState() => _EventLogs();
 }
 
-class _RecentFiles extends State<RecentFiles> {
+class _EventLogs extends State<EventLogs> {
   @override
   Widget build(BuildContext context) {
     return Container(

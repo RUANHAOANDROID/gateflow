@@ -10,16 +10,15 @@ import 'package:gateflow/models/linked_events.dart';
 import 'package:gateflow/models/passed_total_entity.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-// import 'package:web_socket_channel/html.dart';
+import 'package:web_socket_channel/html.dart';
 import '../../../constants.dart';
 import '../../../responsive.dart';
 import 'components/header.dart';
-import 'components/my_fields.dart';
-import 'components/recent_files.dart';
+import 'components/hardware_list.dart';
+import 'components/event_log.dart';
 import 'components/total_details.dart';
 
-//import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:web_socket_channel/io.dart';
+//import 'package:web_socket_channel/io.dart';
 //import 'package:web_socket_channel/status.dart' as status;
 
 class MyDashboardScreen extends StatefulWidget {
@@ -39,9 +38,9 @@ class MyDashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreen extends State<MyDashboardScreen> {
-  //final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
+  final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
 
-  final _channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
+  //final _channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
 
   //获取面板信息
   void getInfo() {
@@ -105,11 +104,11 @@ class _DashboardScreen extends State<MyDashboardScreen> {
                       flex: 5,
                       child: Column(
                         children: [
-                          MyFiles(
+                          HardwareList(
                             hardwares: widget.hardwares,
                           ),
                           SizedBox(height: defaultPadding),
-                          RecentFiles(eventLogs: widget.eventLogs),
+                          EventLogs(eventLogs: widget.eventLogs),
                           if (Responsive.isMobile(context))
                             SizedBox(height: defaultPadding),
                           if (Responsive.isMobile(context))
