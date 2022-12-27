@@ -1,13 +1,44 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/passed_total_entity.dart';
+import 'package:gateflow/theme/styles.dart';
 
 import '../../../constants.dart';
 
-class Chart extends StatelessWidget {
+class Chart extends StatefulWidget {
   final PassedTotalEntity entity;
 
-  const Chart({Key? key, required this.entity}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => _Chart();
+
+  Chart({Key? key, required this.entity}) : super(key: key);
+}
+
+class _Chart extends State<Chart> {
+  int touchedIndex = -1;
+
+  List<PieChartSectionData> _pieChartData(
+      List<PassedTotalDeviceTotals> deviceTotals) {
+    List<PieChartSectionData> data = List.empty(growable: true);
+    deviceTotals.asMap().forEach((index, value) {
+      final isTouched = index == touchedIndex;
+      final fontSize = isTouched ? 16.0 : 14.0;
+      final radius = isTouched ? 55.0 : 50.0;
+      var pieChart = PieChartSectionData(
+        color: Styles.colors[index],
+        value: deviceTotals[index].proportion,
+        title: "${deviceTotals[index].proportion!.toStringAsFixed(2)}%",
+        radius: radius,
+        titleStyle: TextStyle(
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
+          color: const Color(0xffffffff),
+        ),
+      );
+      data.add(pieChart);
+    });
+    return data;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +49,23 @@ class Chart extends StatelessWidget {
         children: [
           PieChart(
             PieChartData(
+              pieTouchData: PieTouchData(
+                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                setState(() {
+                  if (!event.isInterestedForInteractions ||
+                      pieTouchResponse == null ||
+                      pieTouchResponse.touchedSection == null) {
+                    touchedIndex = -1;
+                    return;
+                  }
+                  touchedIndex =
+                      pieTouchResponse.touchedSection!.touchedSectionIndex;
+                });
+              }),
               sectionsSpace: 0,
-              centerSpaceRadius: 70,
-              startDegreeOffset: -90,
-              sections: paiChartSelectionDatas,
+              centerSpaceRadius: 50,
+              //startDegreeOffset: -90,
+              sections: _pieChartData(widget.entity.deviceTotals!),
             ),
           ),
           Positioned.fill(
@@ -30,7 +74,7 @@ class Chart extends StatelessWidget {
               children: [
                 SizedBox(height: defaultPadding),
                 Text(
-                  "${entity.sum}",
+                  "${widget.entity.sum}",
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -46,36 +90,3 @@ class Chart extends StatelessWidget {
     );
   }
 }
-
-List<PieChartSectionData> paiChartSelectionDatas = [
-  PieChartSectionData(
-    color: primaryColor,
-    value: 25,
-    showTitle: false,
-    radius: 25,
-  ),
-  PieChartSectionData(
-    color: Color(0xFF26E5FF),
-    value: 20,
-    showTitle: false,
-    radius: 22,
-  ),
-  PieChartSectionData(
-    color: Color(0xFFFFCF26),
-    value: 10,
-    showTitle: false,
-    radius: 19,
-  ),
-  PieChartSectionData(
-    color: Color(0xFFEE2727),
-    value: 15,
-    showTitle: false,
-    radius: 16,
-  ),
-  PieChartSectionData(
-    color: primaryColor.withOpacity(0.1),
-    value: 25,
-    showTitle: false,
-    radius: 13,
-  ),
-];

@@ -36,4 +36,3 @@ const outlineInputBorder = OutlineInputBorder(
 TextStyle? formTextStyle(context) {
   return Theme.of(context).primaryTextTheme.subtitle2;
 }
-
