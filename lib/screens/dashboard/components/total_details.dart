@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gateflow/theme/styles.dart';
 
 import '../../../constants.dart';
 import '../../../models/passed_total_entity.dart';
-import 'chart.dart';
+import 'total_chart.dart';
 import 'total_info_card.dart';
 
 //右侧统计
@@ -43,16 +44,18 @@ class _TotalDetails extends State<TotalDetails> {
       ));
 
       if (deviceTotals.isNotEmpty) {
-        for (PassedTotalDeviceTotals item in deviceTotals!) {
+        deviceTotals.asMap().forEach((index, value) {
+          PassedTotalDeviceTotals item = deviceTotals[index];
           var totalInfoCard = TotalInfoCard(
             svgSrc: "assets/icons/passed.svg",
+            svgColor: Styles.colors[index],
             title: item.deviceTag!,
             passedCount: item.deviceSum.toString(),
             numOfFiles: "在线",
           );
           //totalInfoCards.add(totalInfoCard);
           widgets.add(totalInfoCard);
-        }
+        });
       }
       return widgets; // all widget added now retrun the list here
     }

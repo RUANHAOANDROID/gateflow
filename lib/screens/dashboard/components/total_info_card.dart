@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants.dart';
+
 //右侧统计单项详情
 class TotalInfoCard extends StatelessWidget {
   const TotalInfoCard({
@@ -10,10 +11,12 @@ class TotalInfoCard extends StatelessWidget {
     required this.svgSrc,
     required this.passedCount,
     required this.numOfFiles,
+    required this.svgColor,
   }) : super(key: key);
 
   final String title, svgSrc, passedCount;
   final String numOfFiles;
+  final Color svgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,10 @@ class TotalInfoCard extends StatelessWidget {
           SizedBox(
             height: 20,
             width: 20,
-            child: SvgPicture.asset(svgSrc),
+            child: SvgPicture.asset(
+              svgSrc,
+              color: svgColor,
+            ),
           ),
           Expanded(
             child: Padding(
