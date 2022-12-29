@@ -8,20 +8,21 @@ import '../../../constants.dart';
 //https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/pie_chart/samples/pie_chart_sample2.dart
 //https://raw.githubusercontent.com/imaNNeoFighT/fl_chart/master/repo_files/images/pie_chart/pie_chart_sample_2.gif
 class Chart extends StatefulWidget {
-  final PassedTotalEntity entity;
+  final PassedTotalEntity? entity;
 
   @override
   State<StatefulWidget> createState() => _Chart();
 
-  Chart({Key? key, required this.entity}) : super(key: key);
+  Chart({Key? key, this.entity}) : super(key: key);
 }
 
 class _Chart extends State<Chart> {
   int touchedIndex = -1;
 
   List<PieChartSectionData> _pieChartData(
-      List<PassedTotalDeviceTotals> deviceTotals) {
+      List<PassedTotalDeviceTotals>? deviceTotals) {
     List<PieChartSectionData> data = List.empty(growable: true);
+    if (null == deviceTotals) return data;
     deviceTotals.asMap().forEach((index, value) {
       final isTouched = index == touchedIndex;
       final fontSize = isTouched ? 16.0 : 14.0;
@@ -44,7 +45,6 @@ class _Chart extends State<Chart> {
 
   @override
   Widget build(BuildContext context) {
-    var sum = 0;
     return SizedBox(
       height: 200,
       child: Stack(
@@ -67,7 +67,7 @@ class _Chart extends State<Chart> {
               sectionsSpace: 0,
               centerSpaceRadius: 50,
               //startDegreeOffset: -90,
-              sections: _pieChartData(widget.entity.deviceTotals!),
+              sections: _pieChartData(widget.entity?.deviceTotals),
             ),
           ),
           Positioned.fill(
@@ -76,7 +76,7 @@ class _Chart extends State<Chart> {
               children: [
                 SizedBox(height: defaultPadding),
                 Text(
-                  "${widget.entity.sum}",
+                  "${(widget.entity?.sum == null) ? 0 : widget.entity?.sum}",
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

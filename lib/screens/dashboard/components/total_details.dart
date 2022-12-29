@@ -19,11 +19,6 @@ class TotalDetails extends StatefulWidget {
 class _TotalDetails extends State<TotalDetails> {
   @override
   Widget build(BuildContext context) {
-    var sum = 0;
-    if (null != widget.entity.sum) {
-      sum = widget.entity.sum!;
-    }
-
     var deviceTotals = List.empty(growable: true);
     if (null != widget.entity.deviceTotals) {
       deviceTotals = widget.entity.deviceTotals!;
@@ -39,10 +34,9 @@ class _TotalDetails extends State<TotalDetails> {
       ));
 
       widgets.add(SizedBox(height: defaultPadding));
-      widgets.add(Chart(
-        entity: widget.entity,
-      ));
-
+        widgets.add(Chart(
+          entity: widget.entity,
+        ));
       if (deviceTotals.isNotEmpty) {
         deviceTotals.asMap().forEach((index, value) {
           PassedTotalDeviceTotals item = deviceTotals[index];
