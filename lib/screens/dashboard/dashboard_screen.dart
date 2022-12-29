@@ -8,9 +8,10 @@ import 'package:gateflow/models/events_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/linked_events.dart';
 import 'package:gateflow/models/passed_total_entity.dart';
+import 'package:gateflow/wiidget/custom_status.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import 'package:web_socket_channel/html.dart';
+//import 'package:web_socket_channel/html.dart';
 import '../../../constants.dart';
 import '../../../responsive.dart';
 import 'components/header.dart';
@@ -19,7 +20,7 @@ import 'components/event_log.dart';
 import 'components/total_details.dart';
 
 //import 'package:web_socket_channel/io.dart';
-//import 'package:web_socket_channel/status.dart' as status;
+//import 'package:web_socket_channel/custom_status.dart' as status;
 
 class MyDashboardScreen extends StatefulWidget {
   final List<HardwareInfo> hardwares = hardwareInfoList;
@@ -38,9 +39,10 @@ class MyDashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreen extends State<MyDashboardScreen> {
-  final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
+  //final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
 
-  //final _channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
+  final _channel =
+      WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
 
   //获取面板信息
   void getInfo() {

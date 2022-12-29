@@ -6,7 +6,7 @@ import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_respons_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/utils/http.dart';
-import 'package:gateflow/wiidget/toast.dart';
+import 'package:gateflow/wiidget/mytoast.dart';
 import '../../constants.dart';
 import '../../wiidget/tip.dart';
 import 'components/config_parms.dart';

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuController.dart';
 import '../../../responsive.dart';
+import '../../../wiidget/custom_status.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -53,17 +54,14 @@ class ProfileCard extends StatelessWidget {
         border: Border.all(color: Colors.white10),
       ),
       child: Row(
+        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.settings_ethernet,
-            color: Colors.lightGreen,
+          Padding(
+            padding: EdgeInsets.only(right:defaultPadding / 4),
+            child: CustomStatus(color: Colors.green),
           ),
-          if (!Responsive.isMobile(context))
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("通讯正常"),
-            ),
+          Text("通讯正常")
         ],
       ),
     );
