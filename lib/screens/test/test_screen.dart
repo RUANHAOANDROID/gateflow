@@ -69,7 +69,7 @@ class _TestScreen extends State<TestScreen> {
               minWidth: 600,
               columns: [
                 DataColumn(
-                  label: Text("ID"),
+                  label: Text("点位"),
                 ),
                 DataColumn(
                   label: Text("设备编号"),
@@ -131,7 +131,7 @@ DataRow devicesDataRow(DevicesData info) {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text("${info.id}"),
+              child: Text("${info.tag}"),
             ),
           ],
         ),
