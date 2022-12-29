@@ -25,15 +25,11 @@ import 'components/total_details.dart';
 class MyDashboardScreen extends StatefulWidget {
   final List<HardwareInfo> hardwares = hardwareInfoList;
   final int logMaxCount = 10;
-
   //final List<EventsEntity> eventLogs = List.empty(growable: true);
   final LinkedList<LinkedListEntryImpl<EventsEntity>> eventLogs =
       LinkedList<LinkedListEntryImpl<EventsEntity>>();
-
   final List<DevicesData> devices = List.empty(growable: true);
-
-  PassedTotalEntity passedTotalEntity = PassedTotalEntity();
-
+  PassedTotalEntity passedTotalEntity = PassedTotalEntity.create(0, List.empty(growable: true));
   @override
   State<StatefulWidget> createState() => _DashboardScreen();
 }
@@ -52,8 +48,6 @@ class _DashboardScreen extends State<MyDashboardScreen> {
   @override
   void initState() {
     super.initState();
-    widget.passedTotalEntity.sum = 0;
-    widget.passedTotalEntity.deviceTotals = List.empty(growable: true);
 
     _channel.stream.listen((event) {
       print("ws channel listen = $event");

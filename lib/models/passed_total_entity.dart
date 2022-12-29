@@ -9,7 +9,10 @@ class PassedTotalEntity {
 	List<PassedTotalDeviceTotals>? deviceTotals;
   
   PassedTotalEntity();
-
+  PassedTotalEntity.create(sum,deviceTotals){
+    this.sum;
+    this.deviceTotals;
+  }
   factory PassedTotalEntity.fromJson(Map<String, dynamic> json) => $PassedTotalEntityFromJson(json);
 
   Map<String, dynamic> toJson() => $PassedTotalEntityToJson(this);
