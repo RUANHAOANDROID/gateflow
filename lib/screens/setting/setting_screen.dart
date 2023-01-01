@@ -50,7 +50,6 @@ class _SettingScreen extends State<SettingScreen> {
     FToast().init(context).showToast(child: MyToast(tip: "$msg", ok: ok));
   }
 
-
 // 云端配置
   void getConfig() async {
     try {
@@ -63,6 +62,7 @@ class _SettingScreen extends State<SettingScreen> {
             await HttpUtils.post("/config/getConfig", requestBody);
         var stateData = ConfigResponsEntity.fromJson(responseBody).data;
         setState(() {
+          showTip("获取成功", true);
           widget.formEntity.config = stateData;
         });
       }
