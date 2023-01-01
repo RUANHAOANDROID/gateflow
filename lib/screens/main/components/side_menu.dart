@@ -17,6 +17,8 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
         children: [
           DrawerHeader(
             child: Image.asset("assets/images/logo1.png"),
@@ -57,7 +59,7 @@ class SideMenu extends StatelessWidget {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => LoginScreen()),
-                    (route) => route == null,
+                (route) => route == null,
               );
               //SystemNavigator.pop();
               //exit(0);
