@@ -127,8 +127,8 @@ class _SettingScreen extends State<SettingScreen> {
     print("initState");
     widget.formEntity.url = widget.url;
     widget.formEntity.code = widget.code;
-    super.initState();
     getMyConfig();
+    super.initState();
   }
 
   @override
@@ -137,7 +137,7 @@ class _SettingScreen extends State<SettingScreen> {
     widget.formEntity.code = widget.code;
     var config = widget.formEntity.config;
     var title = Padding(
-      padding: EdgeInsets.only(bottom: defaultPadding),
+      padding: const EdgeInsets.only(bottom: defaultPadding),
       child: Text(
         "参数设置",
         style: Theme.of(context).textTheme.headline6,
@@ -172,13 +172,13 @@ class _SettingScreen extends State<SettingScreen> {
     return SafeArea(
       child: SingleChildScrollView(
         primary: false,
-        padding: EdgeInsets.all(defaultPadding),
+        padding: const EdgeInsets.all(defaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             title,
             codeUrl,
-            Padding(padding: EdgeInsets.all(defaultPadding / 2)),
+            const Padding(padding: EdgeInsets.all(defaultPadding / 2)),
             pramContainer,
           ],
         ),
