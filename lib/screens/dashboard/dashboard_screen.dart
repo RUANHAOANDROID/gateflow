@@ -9,9 +9,9 @@ import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/linked_events.dart';
 import 'package:gateflow/models/passed_total_entity.dart';
 import 'package:gateflow/wiidget/custom_status.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+//import 'package:web_socket_channel/web_socket_channel.dart';
 
-//import 'package:web_socket_channel/html.dart';
+import 'package:web_socket_channel/html.dart';
 import '../../../constants.dart';
 import '../../../responsive.dart';
 import 'components/header.dart';
@@ -29,16 +29,16 @@ class MyDashboardScreen extends StatefulWidget {
   final LinkedList<LinkedListEntryImpl<EventsEntity>> eventLogs =
       LinkedList<LinkedListEntryImpl<EventsEntity>>();
   final List<DevicesData> devices = List.empty(growable: true);
-  PassedTotalEntity passedTotalEntity = PassedTotalEntity.create(0, List.empty(growable: true));
+  PassedTotalEntity passedTotalEntity =
+      PassedTotalEntity.create(0, List.empty(growable: true));
   @override
   State<StatefulWidget> createState() => _DashboardScreen();
 }
 
 class _DashboardScreen extends State<MyDashboardScreen> {
-  //final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
+  final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
 
-  final _channel =
-      WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
+  //final _channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
 
   //获取面板信息
   void getInfo() {
@@ -195,10 +195,14 @@ class _DashboardScreen extends State<MyDashboardScreen> {
     print("handleEventLog 处理事件消息");
     for (dynamic item in data) {
       EventsEntity event = EventsEntity.fromJson(item);
+      var entry = LinkedListEntryImpl(event);
+      if (widget.eventLogs.contains(entry)) {
+        return;
+      }
       if (widget.eventLogs.length > widget.logMaxCount) {
         widget.eventLogs.remove(widget.eventLogs.last);
       }
-      widget.eventLogs.addFirst(LinkedListEntryImpl(event));
+      widget.eventLogs.addFirst(entry);
     }
   }
 

@@ -41,7 +41,7 @@ class HardwareInfoCard extends StatelessWidget {
                   color: info.color,
                 ),
               ),
-              Icon(Icons.more_vert, color: Colors.white54)
+              //Icon(Icons.more_vert, color: Colors.white54)
             ],
           ),
           Text(
