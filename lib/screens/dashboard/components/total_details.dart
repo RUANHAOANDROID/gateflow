@@ -25,7 +25,7 @@ class _TotalDetails extends State<TotalDetails> {
     }
     List<Widget> widgets() {
       List<Widget> widgets = List.empty(growable: true);
-      widgets.add(Text(
+      widgets.add(const Text(
         "人次总览",
         style: TextStyle(
           fontSize: 18,
@@ -33,10 +33,10 @@ class _TotalDetails extends State<TotalDetails> {
         ),
       ));
 
-      widgets.add(SizedBox(height: defaultPadding));
-        widgets.add(Chart(
-          entity: widget.entity,
-        ));
+      widgets.add(const SizedBox(height: defaultPadding));
+      widgets.add(Chart(
+        entity: widget.entity,
+      ));
       if (deviceTotals.isNotEmpty) {
         deviceTotals.asMap().forEach((index, value) {
           PassedTotalDeviceTotals item = deviceTotals[index];
@@ -55,10 +55,10 @@ class _TotalDetails extends State<TotalDetails> {
     }
 
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

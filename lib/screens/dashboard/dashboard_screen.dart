@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/HardwareInfo.dart';
 import 'package:gateflow/models/devices_entity.dart';
@@ -8,7 +7,6 @@ import 'package:gateflow/models/events_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/linked_events.dart';
 import 'package:gateflow/models/passed_total_entity.dart';
-import 'package:gateflow/wiidget/custom_status.dart';
 //import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'package:web_socket_channel/html.dart';
@@ -25,12 +23,14 @@ import 'components/total_details.dart';
 class MyDashboardScreen extends StatefulWidget {
   final List<HardwareInfo> hardwares = hardwareInfoList;
   final int logMaxCount = 10;
+
   //final List<EventsEntity> eventLogs = List.empty(growable: true);
   final LinkedList<LinkedListEntryImpl<EventsEntity>> eventLogs =
       LinkedList<LinkedListEntryImpl<EventsEntity>>();
   final List<DevicesData> devices = List.empty(growable: true);
   PassedTotalEntity passedTotalEntity =
       PassedTotalEntity.create(0, List.empty(growable: true));
+
   @override
   State<StatefulWidget> createState() => _DashboardScreen();
 }
@@ -48,11 +48,9 @@ class _DashboardScreen extends State<MyDashboardScreen> {
   @override
   void initState() {
     super.initState();
-
     _channel.stream.listen((event) {
       print("ws channel listen = $event");
       handleWsMsg(event);
-      setState(() {});
     }, onDone: () {
       print("ws channel listen onDone");
     }, onError: (err) {
@@ -88,11 +86,11 @@ class _DashboardScreen extends State<MyDashboardScreen> {
           }
           return SingleChildScrollView(
             primary: false,
-            padding: EdgeInsets.all(defaultPadding),
+            padding: const EdgeInsets.all(defaultPadding),
             child: Column(
               children: [
-                Header(),
-                SizedBox(height: defaultPadding),
+                const Header(),
+                const SizedBox(height: defaultPadding),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -103,17 +101,17 @@ class _DashboardScreen extends State<MyDashboardScreen> {
                           HardwareList(
                             hardwares: widget.hardwares,
                           ),
-                          SizedBox(height: defaultPadding),
+                          const SizedBox(height: defaultPadding),
                           EventLogs(eventLogs: widget.eventLogs),
                           if (Responsive.isMobile(context))
-                            SizedBox(height: defaultPadding),
+                            const SizedBox(height: defaultPadding),
                           if (Responsive.isMobile(context))
                             TotalDetails(entity: widget.passedTotalEntity),
                         ],
                       ),
                     ),
                     if (!Responsive.isMobile(context))
-                      SizedBox(width: defaultPadding),
+                      const SizedBox(width: defaultPadding),
                     // On Mobile means if the screen is less than 850 we dont want to show it
                     if (!Responsive.isMobile(context))
                       Expanded(
@@ -130,7 +128,7 @@ class _DashboardScreen extends State<MyDashboardScreen> {
     );
   }
 
-  void handleWsMsg(String body) {
+  void handleWsMsg(String body) async {
     const TYPE_DEVICES = 1; //设备
     const TYPE_LOG = 2; //日志
     const TYPE_EVENT = 3; //事件
@@ -148,6 +146,7 @@ class _DashboardScreen extends State<MyDashboardScreen> {
     } else if (type == TYPE_TOTAL) {
       handleDevicesTotal(data);
     }
+    setState(() {});
   }
 
   //硬件
@@ -196,14 +195,25 @@ class _DashboardScreen extends State<MyDashboardScreen> {
     for (dynamic item in data) {
       EventsEntity event = EventsEntity.fromJson(item);
       var entry = LinkedListEntryImpl(event);
-      if (widget.eventLogs.contains(entry)) {
-        return;
+      var exist = _exist(entry);
+      if (exist) {
+        continue;
       }
       if (widget.eventLogs.length > widget.logMaxCount) {
         widget.eventLogs.remove(widget.eventLogs.last);
       }
       widget.eventLogs.addFirst(entry);
     }
+  }
+
+  bool _exist(LinkedListEntryImpl<EventsEntity> entry) {
+    bool _exist = false;
+    for (LinkedListEntryImpl oldItem in widget.eventLogs) {
+      if (entry.value.id == oldItem.value.id) {
+        _exist = true;
+      }
+    }
+    return _exist;
   }
 
   void handleDevicesTotal(data) {

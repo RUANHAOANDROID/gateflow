@@ -100,11 +100,12 @@ class _dialog extends State<EditDialog> {
 
   @override
   Widget build(BuildContext context) {
+    const paddingAll = EdgeInsets.all(defaultPadding / 2);
     var singleChildScrollView = SingleChildScrollView(
       child: ListBody(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: paddingAll,
             child: TextFormField(
               controller: pointC,
               validator: (value) {
@@ -119,7 +120,7 @@ class _dialog extends State<EditDialog> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: paddingAll,
             child: TextFormField(
               controller: numberC,
               validator: (value) {
@@ -137,7 +138,7 @@ class _dialog extends State<EditDialog> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: paddingAll,
             child: TextFormField(
               controller: ipC,
               validator: (value) {
@@ -155,7 +156,7 @@ class _dialog extends State<EditDialog> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: paddingAll,
             child: TextFormField(
               controller: versionC,
               decoration: InputDecoration(
@@ -167,7 +168,7 @@ class _dialog extends State<EditDialog> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: paddingAll,
             child: TextFormField(
               controller: snC,
               validator: (value) {
@@ -189,7 +190,7 @@ class _dialog extends State<EditDialog> {
     );
     return AlertDialog(
       backgroundColor: secondaryColor,
-      title: Text('添加设备'),
+      title: const Text('添加设备'),
       content: Container(
         width: 450,
         child: Form(
@@ -227,7 +228,7 @@ class _dialog extends State<EditDialog> {
               print(isOK);
             }
           },
-          child: Text("保存"),
+          child: const Text("保存"),
         )
       ],
     );

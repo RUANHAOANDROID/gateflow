@@ -23,7 +23,7 @@ class _HardwareList extends State<HardwareList> {
     final Size _size = MediaQuery.of(context).size;
     return Column(
       children: [
-        SizedBox(height: defaultPadding),
+        const SizedBox(height: defaultPadding),
         Responsive(
           mobile: HardwareInfoCardGridView(
             crossAxisCount: _size.width < 650 ? 2 : 4,
@@ -64,7 +64,7 @@ class _HardwareInfoCardGridView extends State<HardwareInfoCardGridView> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: hardwareInfoList.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

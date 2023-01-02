@@ -30,18 +30,19 @@ class RowFormField extends StatefulWidget {
 class _RowFormField extends State<RowFormField> {
   @override
   Widget build(BuildContext context) {
+    var padding = const EdgeInsets.all(defaultPadding / 2);
     return Row(
       children: <Widget>[
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: padding,
             child:
                 textFormField(widget.hite1, widget.vc1, widget.teController1),
           ),
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: padding,
             child:
                 textFormField(widget.hite2, widget.vc2, widget.teController2),
           ),
@@ -72,9 +73,9 @@ class _RowFormField extends State<RowFormField> {
         hoverColor: Colors.blueGrey,
         border: outlineInputBorder,
         labelText: hite,
-        labelStyle: TextStyle(color: Colors.white70),
+        labelStyle: const TextStyle(color: Colors.white70),
         hintText: hite,
-        hintStyle: TextStyle(color: Colors.white70),
+        hintStyle: const TextStyle(color: Colors.white70),
       ),
     );
   }

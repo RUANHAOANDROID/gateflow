@@ -5,9 +5,10 @@ import '../responsive.dart';
 
 class MyToast extends StatelessWidget {
   final String tip;
-  final bool ok ;
+  final bool ok;
 
-  const MyToast({Key? key, required this.tip, required this.ok}) : super(key: key);
+  const MyToast({Key? key, required this.tip, required this.ok})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +30,11 @@ class MyToast extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(iconData,color: Colors.white,),
-          SizedBox(
+          Icon(
+            iconData,
+            color: Colors.white,
+          ),
+          const SizedBox(
             width: 12.0,
           ),
           Text(tip),

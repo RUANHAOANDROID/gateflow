@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import '../constants.dart';
 
 class HttpUtils {
-
   static Dio? dio;
 
   /// 生成Dio实例
@@ -14,7 +13,7 @@ class HttpUtils {
           baseUrl: BASE_URL,
           connectTimeout: CONNECT_TIMEOUT,
           receiveTimeout: RECEIVE_TIMEOUT);
-      dio = new Dio(options);
+      dio = Dio(options);
     }
     return dio!;
   }

@@ -18,7 +18,7 @@ class Header extends StatelessWidget {
       children: [
         if (!Responsive.isDesktop(context))
           IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: context.read<MenuController>().controlMenu,
           ),
         if (!Responsive.isMobile(context))
@@ -29,7 +29,7 @@ class Header extends StatelessWidget {
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
         //Expanded(child: SearchField()),
-        ProfileCard()
+        const ProfileCard()
       ],
     );
   }
@@ -43,8 +43,8 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: defaultPadding),
-      padding: EdgeInsets.symmetric(
+      margin: const EdgeInsets.only(left: defaultPadding),
+      padding: const EdgeInsets.symmetric(
         horizontal: defaultPadding,
         vertical: defaultPadding / 2,
       ),
@@ -58,10 +58,10 @@ class ProfileCard extends StatelessWidget {
         //mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.only(right:defaultPadding / 4),
+            padding: const EdgeInsets.only(right: defaultPadding / 4),
             child: CustomStatus(color: Colors.green),
           ),
-          Text("通讯正常")
+          const Text("通讯正常")
         ],
       ),
     );

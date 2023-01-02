@@ -74,7 +74,7 @@ class _Chart extends State<Chart> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: defaultPadding),
+                const SizedBox(height: defaultPadding),
                 Text(
                   "${(widget.entity?.sum == null) ? 0 : widget.entity?.sum}",
                   style: Theme.of(context).textTheme.headline4!.copyWith(
@@ -83,7 +83,7 @@ class _Chart extends State<Chart> {
                         height: 0.5,
                       ),
                 ),
-                Text("共")
+                const Text("共")
               ],
             ),
           ),

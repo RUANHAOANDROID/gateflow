@@ -4,7 +4,6 @@ import 'package:gateflow/screens/setting/components/row_form.dart';
 
 import '../../../constants.dart';
 import '../../../responsive.dart';
-import '../setting_screen.dart';
 
 class ParamsConfig extends StatefulWidget {
   const ParamsConfig({
@@ -22,16 +21,10 @@ class ParamsConfig extends StatefulWidget {
 }
 
 class _ConfigParams extends State<ParamsConfig> {
-  var itemPadding =
-      Padding(padding: EdgeInsets.only(bottom: defaultPadding / 2));
-  var containerPadding =
-      Padding(padding: EdgeInsets.only(bottom: defaultPadding / 2));
-
   @override
   Widget build(BuildContext context) {
     print("config parms build");
     print(widget.config);
-
     final TextEditingController f1Controller =
         TextEditingController(text: widget.config?.manufacturerId1);
     final TextEditingController f2Controller =
@@ -63,10 +56,10 @@ class _ConfigParams extends State<ParamsConfig> {
         TextEditingController(text: widget.config?.deFalseVoice?.other);
 
     var container = Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +69,7 @@ class _ConfigParams extends State<ParamsConfig> {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: const EdgeInsets.all(defaultPadding / 2),
             child: Column(
               children: [
                 RowFormField(
@@ -99,14 +92,14 @@ class _ConfigParams extends State<ParamsConfig> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: defaultPadding),
+            padding: const EdgeInsets.only(top: defaultPadding),
             child: Text(
               "  验票通过提示配置 ",
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: const EdgeInsets.all(defaultPadding / 2),
             child: Column(
               children: [
                 RowFormField(
@@ -137,14 +130,14 @@ class _ConfigParams extends State<ParamsConfig> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: defaultPadding / 2),
+            padding: const EdgeInsets.only(top: defaultPadding / 2),
             child: Text(
               "  验票失败提示配置 ",
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: const EdgeInsets.all(defaultPadding / 2),
             child: Column(
               children: [
                 RowFormField(
@@ -186,14 +179,13 @@ class _ConfigParams extends State<ParamsConfig> {
               onPressed: () {
                 widget.saved(widget.config);
               },
-              icon: Icon(Icons.save),
-              label: Text("保存配置"),
+              icon: const Icon(Icons.save),
+              label: const Text("保存配置"),
             ),
           ),
         ],
       ),
     );
-
     return Form(key: widget.formKey, child: container);
   }
 }

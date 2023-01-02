@@ -38,10 +38,10 @@ class _TestScreen extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
     var container = Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +49,7 @@ class _TestScreen extends State<TestScreen> {
           RichText(
             text: TextSpan(
               children: [
-                WidgetSpan(
+                const WidgetSpan(
                   child: Icon(
                     Icons.devices,
                     color: Colors.blue,
@@ -67,7 +67,7 @@ class _TestScreen extends State<TestScreen> {
             child: DataTable2(
               columnSpacing: defaultPadding,
               minWidth: 600,
-              columns: [
+              columns: const [
                 DataColumn(
                   label: Text("点位"),
                 ),
@@ -99,12 +99,12 @@ class _TestScreen extends State<TestScreen> {
     return SafeArea(
       child: SingleChildScrollView(
         primary: false,
-        padding: EdgeInsets.all(defaultPadding),
+        padding: const EdgeInsets.all(defaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: defaultPadding),
+              padding: const EdgeInsets.only(bottom: defaultPadding),
               child: Text(
                 "设备调试",
                 style: Theme.of(context).textTheme.headline6,
@@ -146,7 +146,7 @@ DataRow devicesDataRow(DevicesData info) {
             onPressed: () {
               _openGateTest(info);
             },
-            child: Text(
+            child: const Text(
               '开闸调试',
               style: TextStyle(color: Colors.white),
             ),

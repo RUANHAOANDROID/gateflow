@@ -26,7 +26,7 @@ class ConfigUrl extends StatefulWidget {
 class _ConfigUrl extends State<ConfigUrl> {
   @override
   ConfigUrl get widget => super.widget;
-
+  var padding = const EdgeInsets.only(bottom: defaultPadding / 2);
   @override
   Widget build(BuildContext context) {
     print("config url build");
@@ -38,16 +38,16 @@ class _ConfigUrl extends State<ConfigUrl> {
       ),
     );
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: defaultPadding / 2),
+            padding: padding,
             child: RichText(
               text: TextSpan(
                 text: " 获取配置 ",
@@ -66,12 +66,13 @@ class _ConfigUrl extends State<ConfigUrl> {
   }
 
   Row rowConfigPull(ButtonStyle buttonStyleFrom) {
+    var paddingAll = const EdgeInsets.all(defaultPadding / 2);
     return Row(
       children: <Widget>[
         Expanded(
           flex: 1,
           child: Padding(
-            padding: EdgeInsets.all(defaultPadding / 2),
+            padding: paddingAll,
             child: textFormField("设备编号", widget.entity.code, (value) {
               widget.entity.code = value;
               widget.codeUrlChanged(widget.entity);
@@ -82,7 +83,7 @@ class _ConfigUrl extends State<ConfigUrl> {
         Expanded(
           flex: 2,
           child: Padding(
-              padding: EdgeInsets.all(defaultPadding / 2),
+              padding: paddingAll,
               child: textFormField("获取参数地址", widget.entity.url, (value) {
                 print(value);
                 widget.entity.url = value;
@@ -90,21 +91,21 @@ class _ConfigUrl extends State<ConfigUrl> {
               })),
         ),
         Padding(
-          padding: EdgeInsets.all(defaultPadding / 2),
+          padding: paddingAll,
           child: ElevatedButton.icon(
             style: buttonStyleFrom,
             onPressed: widget.get,
-            icon: Icon(Icons.sync),
-            label: Text("获取"),
+            icon: const Icon(Icons.sync),
+            label: const Text("获取"),
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(defaultPadding / 2),
+          padding: paddingAll,
           child: ElevatedButton.icon(
             style: buttonStyleFrom,
             onPressed: widget.saved,
-            icon: Icon(Icons.save),
-            label: Text("保存"),
+            icon: const Icon(Icons.save),
+            label: const Text("保存"),
           ),
         ),
       ],
@@ -130,11 +131,11 @@ class _ConfigUrl extends State<ConfigUrl> {
       },
       decoration: InputDecoration(
         hoverColor: Colors.blueGrey,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         labelText: hite,
-        labelStyle: TextStyle(color: Colors.white70),
+        labelStyle: const TextStyle(color: Colors.white70),
         hintText: hite,
-        hintStyle: TextStyle(color: Colors.white70),
+        hintStyle: const TextStyle(color: Colors.white70),
       ),
     );
   }

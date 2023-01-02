@@ -1,7 +1,7 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/devices_entity.dart';
-import 'package:gateflow/screens/bind/compand/edit_dialog.dart';
+import 'package:gateflow/screens/bind/components/edit_dialog.dart';
 import 'package:gateflow/utils/http.dart';
 import '../../../constants.dart';
 import '../../responsive.dart';
@@ -116,7 +116,7 @@ class _BindScreen extends State<BindScreen> {
               ],
               rows: List.generate(
                 widget.devices.length,
-                (index) => devicesDataRow( widget.devices[index]),
+                (index) => devicesDataRow(widget.devices[index]),
               ),
             ),
           ),

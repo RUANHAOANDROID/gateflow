@@ -112,10 +112,9 @@ class _SettingScreen extends State<SettingScreen> {
       var json =
           await HttpUtils.post("/config/saveMyConfig", jsonEncode(requestMap));
       var response = ResponseEntity.fromJson(json);
-
+      if (response == fail) {}
+      var msg = response.msg;
       setState(() {
-        if (response == fail) {}
-        var msg = response.msg;
         showTip(msg, true);
       });
     } else {
