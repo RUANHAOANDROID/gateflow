@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gateflow/models/devices_entity.dart';
 
 import '../../../constants.dart';
 import '../../../responsive.dart';
 import '../../../theme/theme.dart';
+import '../../../utils/IpInputFormatter.dart';
 import '../../../utils/http.dart';
 
 class EditDialog extends StatefulWidget {
@@ -13,10 +15,10 @@ class EditDialog extends StatefulWidget {
   EditDialog({Key? key, this.device}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _dialog();
+  State<StatefulWidget> createState() => _EditDialog();
 }
 
-class _dialog extends State<EditDialog> {
+class _EditDialog extends State<EditDialog> {
   Future<bool> addDevice() async {
     try {
       var state = widget._formKey.currentState;
@@ -140,6 +142,11 @@ class _dialog extends State<EditDialog> {
           Padding(
             padding: paddingAll,
             child: TextFormField(
+              inputFormatters: [
+                MyInputFormatters.ipAddressInputFilter(),
+                LengthLimitingTextInputFormatter(15),
+                IpAddressInputFormatter()
+              ],
               controller: ipC,
               validator: (value) {
                 if (value == null || value.isEmpty) {

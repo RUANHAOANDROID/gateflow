@@ -14,7 +14,7 @@ class MainScreen extends StatelessWidget {
     initialPage: 0,
   );
   var pages = [
-    MyDashboardScreen(),
+    DashboardScreen(),
     TestScreen(),
     SettingScreen(),
     BindScreen()

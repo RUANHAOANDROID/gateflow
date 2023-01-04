@@ -14,7 +14,7 @@ class BindScreen extends StatefulWidget {
 }
 
 class _BindScreen extends State<BindScreen> {
-  void getDevices() async {
+  void _getDevices() async {
     try {
       var response = await HttpUtils.post("/devices/list", "");
       setState(() {
@@ -28,9 +28,36 @@ class _BindScreen extends State<BindScreen> {
   }
 
   void onRefresh() {
-    Future.delayed(Duration(milliseconds: 200), () {
-      getDevices();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _getDevices();
     });
+  }
+
+  // 弹出对话框
+  Future<bool?> _showDeleteConfirmDialog() {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: secondaryColor,
+          title: const Text("提示"),
+          content: const Text("您确定要删除当前设备吗?"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("取消"),
+              onPressed: () => Navigator.of(context).pop(), // 关闭对话框
+            ),
+            TextButton(
+              child: const Text("删除"),
+              onPressed: () {
+                //关闭对话框并返回true
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _deleteDevices(int? dId) async {
@@ -40,13 +67,13 @@ class _BindScreen extends State<BindScreen> {
     } catch (e) {
       print(e);
     }
-    getDevices();
+    _getDevices();
   }
 
   @override
   void initState() {
     super.initState();
-    getDevices();
+    _getDevices();
   }
 
   @override
@@ -59,10 +86,10 @@ class _BindScreen extends State<BindScreen> {
   Widget build(BuildContext context) {
     print("getDevices");
     var container = Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,15 +113,15 @@ class _BindScreen extends State<BindScreen> {
                 },
               ).then((value) => onRefresh());
             },
-            icon: Icon(Icons.add),
-            label: Text("添加设备"),
+            icon: const Icon(Icons.add),
+            label: const Text("添加设备"),
           ),
           SizedBox(
             width: double.infinity,
             child: DataTable2(
               columnSpacing: defaultPadding,
               minWidth: 600,
-              columns: [
+              columns: const [
                 DataColumn(
                   label: Text("点位"),
                 ),
@@ -126,12 +153,12 @@ class _BindScreen extends State<BindScreen> {
     return SafeArea(
       child: SingleChildScrollView(
         primary: false,
-        padding: EdgeInsets.all(defaultPadding),
+        padding: const EdgeInsets.all(defaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: defaultPadding),
+              padding: const EdgeInsets.only(bottom: defaultPadding),
               child: Text(
                 "设备绑定",
                 style: Theme.of(context).textTheme.headline6,
@@ -165,7 +192,7 @@ class _BindScreen extends State<BindScreen> {
         DataCell(Row(
           children: [
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.edit,
                 color: primaryColor,
               ),
@@ -182,29 +209,22 @@ class _BindScreen extends State<BindScreen> {
               },
             ),
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.delete,
                 color: Colors.red,
               ),
-              onPressed: () {
-                _deleteDevices(info.id);
+              onPressed: () async {
+                bool? delete = await _showDeleteConfirmDialog();
+                if (delete == null) {
+                  print("取消删除");
+                } else {
+                  _deleteDevices(info.id);
+                }
               },
             ),
           ],
         )),
       ],
-    );
-  }
-
-  Future<Future<bool?>> showEditDialog(DevicesData? data) async {
-    return showDialog<bool>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return EditDialog(
-          device: data,
-        );
-      },
     );
   }
 }
