@@ -9,6 +9,7 @@ class EventsEntity {
 	int? id;
 	String? tag;
 	String? content;
+	String? deviceName;
 	String? time;
   
   EventsEntity();

@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../responsive.dart';
-
+enum ToastTip {
+  ok,
+  err,
+  warn,
+}
 class MyToast extends StatelessWidget {
   final String tip;
   final bool ok;
