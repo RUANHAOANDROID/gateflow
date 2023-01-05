@@ -8,7 +8,7 @@ import '../dashboard/dashboard_screen.dart';
 import '../setting/setting_screen.dart';
 import '../test/test_screen.dart';
 import 'components/side_menu.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 class MainScreen extends StatelessWidget {
   final PageController _controller = PageController(
     initialPage: 0,
@@ -57,7 +57,16 @@ class MainScreen extends StatelessWidget {
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: MyTheme(context),
+      theme: ThemeDark(context),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('zh', 'CH'),
+        Locale('en', 'US'),
+      ],
+      locale: const Locale('zh'),
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(

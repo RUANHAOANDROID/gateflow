@@ -4,6 +4,8 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gateflow/models/events_entity.dart';
+import 'package:gateflow/screens/dashboard/components/paginated_log.dart';
+import 'package:gateflow/theme/theme.dart';
 import 'package:gateflow/wiidget/mytoast.dart';
 
 import '../../../constants.dart';
@@ -45,7 +47,32 @@ class _EventLogs extends State<EventLogs> {
         TextButton.icon(
           icon: Icon(Icons.read_more),
           label: Text("更多事件"),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              barrierDismissible:false,
+              context: context,
+              //barrierDismissible: false, // user must tap button!
+              builder: (BuildContext context) {
+                return Dialog(
+                  elevation:double.infinity,
+                  backgroundColor: bgColor,
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    //padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                    //color: bgColor,
+                    child: Theme(
+                        // data: Theme.of(context).copyWith(
+                        //   cardColor: bgColor ,
+                        //   dividerColor: secondaryColor,
+                        // ),
+                        data:ThemeDark(context),
+                        child: PaginatedDataTablePage()),
+                  ),
+                );
+              },
+            );
+          },
         )
       ],
     );
@@ -93,51 +120,41 @@ class _EventLogs extends State<EventLogs> {
   DataRow recentFileDataRow(EventsEntity info) {
     return DataRow(
       cells: [
-        // DataCell(
-        //   Row(
-        //     children: [
-        //       // SvgPicture.asset(
-        //       //   fileInfo.icon!,
-        //       //   height: 30,
-        //       //   width: 30,
-        //       // ),
-        //       Padding(
-        //         padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-        //         child: Text(info.tag!),
-        //       ),
-        //     ],
-        //   ),
-        // ),
         DataCell(Text(info.time!.split(" ")[1]), placeholder: true),
         DataCell(Text(info.deviceName!), placeholder: true),
         DataCell(Text(info.tag!), placeholder: true),
         DataCell(
-            Text(
-              info.content!,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            placeholder: true, onTap: () {
-          showDialog(
-            context: context,
-            //barrierDismissible: false, // user must tap button!
-            builder: (BuildContext context) {
-              return Dialog(
-                backgroundColor: secondaryColor,
-                child: Container(
-                  width: 600,
-                  height: 300,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 12.0),
-                  color: bgColor,
-                  child: SelectableText (info.content!),
-                ),
-              );
-            },
-          );
-          //FToast().init(context).showToast(child: Text(info.content!),toastDuration:Duration(seconds: 5) );
-        }),
+          Text(
+            info.content!,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          placeholder: true,
+          onTap: () {
+            _showLogContextInfo(info);
+          },
+        ),
       ],
+    );
+  }
+
+  void _showLogContextInfo(EventsEntity info) {
+    showDialog(
+      context: context,
+      //barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: secondaryColor,
+          child: Container(
+            width: 600,
+            height: 300,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            color: bgColor,
+            child: SelectableText(info.content!),
+          ),
+        );
+      },
     );
   }
 }
