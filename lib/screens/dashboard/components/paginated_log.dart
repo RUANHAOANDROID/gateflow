@@ -81,11 +81,13 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
         ),
         TextButton.icon(
           icon: Icon(Icons.refresh),
-          label: Text("重置"),
+          label: Text("重置过滤条件"),
           onPressed: () {
             setState(() {
               widget._selectedDate = DateTime.now().toLocal();
-              FToast().init(context).showToast(child: MyToast(tip: "已重置过滤条件", ok: true));
+              FToast()
+                  .init(context)
+                  .showToast(child: MyToast(tip: "已重置过滤条件", ok: true));
             });
           },
         ),
@@ -121,15 +123,13 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
         DataColumn2(label: Text('事件')),
         DataColumn2(label: Text('内容')),
       ],
-      empty: Center(
-          child: Text('暂无数据')),
-      showFirstLastButtons: true,
-      initialFirstRowIndex: 0,
+      empty: const Center(child: Text('暂无数据')),
+      // showFirstLastButtons: true,
+      // initialFirstRowIndex: 0,
+      // columnSpacing: 0,
+      // horizontalMargin: 5,
     );
     return paginatedDataTable;
-    return Center(
-      child:paginatedDataTable,
-    );
   }
 }
 
@@ -161,10 +161,12 @@ class SourceData extends DataTableSource {
           //   notifyListeners();
           // },
           cells: [
-            DataCell(Text("2021-01-05 11:19:02:33"),placeholder: true),
-            DataCell(Text(_sourceData[index]['id'].toString()),placeholder: true),
-            DataCell(Text(_sourceData[index]['name']),placeholder: true),
-            DataCell(Text(_sourceData[index]['address'].toString()),placeholder: true)
+            DataCell(Text("2021-01-05 11:19:02:33"), placeholder: true),
+            DataCell(Text(_sourceData[index]['id'].toString()),
+                placeholder: true),
+            DataCell(Text(_sourceData[index]['name']), placeholder: true),
+            DataCell(Text(_sourceData[index]['address'].toString()),
+                placeholder: true)
           ]);
 
   //数据排序

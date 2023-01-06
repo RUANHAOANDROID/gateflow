@@ -51,16 +51,9 @@ class _EventLogs extends State<EventLogs> {
             showDialog(
               barrierDismissible: false,
               context: context,
-              //barrierDismissible: false, // user must tap button!
               builder: (BuildContext context) {
                 return Dialog(
-                  elevation: double.infinity,
-                  //backgroundColor: bgColor,
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: PaginatedDataTablePage(),
-                  ),
+                  child: PaginatedDataTablePage(),
                 );
               },
             );
@@ -99,8 +92,8 @@ class _EventLogs extends State<EventLogs> {
               ],
               rows: List.generate(
                 widget.eventLogs.length,
-                (index) =>
-                    recentFileDataRow(widget.eventLogs.elementAt(index).value,index),
+                (index) => recentFileDataRow(
+                    widget.eventLogs.elementAt(index).value, index),
               ),
             ),
           )
@@ -109,7 +102,7 @@ class _EventLogs extends State<EventLogs> {
     );
   }
 
-  DataRow recentFileDataRow(EventsEntity info,index) {
+  DataRow recentFileDataRow(EventsEntity info, index) {
     return DataRow(
       cells: [
         DataCell(Text(info.time!.split(" ")[1]), placeholder: true),
