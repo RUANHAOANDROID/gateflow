@@ -1,11 +1,20 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gateflow/models/events_page_entity.dart';
+import 'package:gateflow/utils/http.dart';
 import '../../../wiidget/mytoast.dart';
+
+EventsPageEntity pageEntity = EventsPageEntity();
 
 class PaginatedDataTablePage extends StatefulWidget {
   List<String> devices = <String>['全部设备', '青云山西门', '青云山东门', '青云山北门'];
-  DateTime _selectedDate = DateTime.now().toLocal(); //选择的时间
+
+  //EventsPageEntity pageEntity = EventsPageEntity();
+  DateTime selectedDate = DateTime.now().toLocal(); //选择的时间
   PaginatedDataTablePage({super.key});
 
   @override
@@ -13,15 +22,69 @@ class PaginatedDataTablePage extends StatefulWidget {
 }
 
 class _PaginatedPageState extends State<PaginatedDataTablePage> {
-  SourceData _sourceData = SourceData();
   var _rowsPerPage = 10;
   bool _sortAscending = true;
-  String dropdownValue = "";
+  String deviceName = "全部设备";
+  SourceData _sourceData = SourceData(pageEntity);
+
+  String _selectDay() {
+    return widget.selectedDate.toString().split(" ")[0];
+  }
+
+  //获取设备名称
+  _getDevices() async {}
+
+  //下一页
+  _getEvents(String day, int pageNo, int pageSize) async {
+    // var lastIndex = pageSize * pageNo;
+    // var dataIndex = pageSize;
+    // if (pageEntity.count < lastIndex) {
+    //   dataIndex = pageEntity.count;
+    // }
+    var requestMap = {
+      'date': day,
+      'pageNo': pageNo + 1,
+      'pageSize': pageSize,
+      'deviceName': deviceName,
+    };
+    var json =
+        await HttpUtils.post("/devices/getEvents", jsonEncode(requestMap));
+    var entity = EventsPageEntity.fromJson(json);
+    setState(() {
+      if (entity.count > 0) {
+        if (entity.data != null) {
+          //_rowsPerPage = entity.data!.length;
+          pageEntity = entity;
+          _sourceData = SourceData(pageEntity);
+        }
+      }
+    });
+  }
+
+  _pageChanged(pageNo) {
+    print(pageNo);
+    _getEvents(_selectDay(), pageNo, _rowsPerPage);
+  }
+
+  _dateChanged() {
+    _getEvents(_selectDay(), 1, _rowsPerPage);
+  }
+
+  _resetFilter() {
+    deviceName = widget.devices.first;
+    widget.selectedDate = DateTime.now().toLocal();
+    pageEntity.count = 0;
+    pageEntity.data?.clear();
+    _getEvents(_selectDay(), 1, _rowsPerPage);
+  }
 
   @override
   void initState() {
+    if (deviceName == "") {
+      deviceName = widget.devices.first;
+    }
+    _getEvents(_selectDay(), 1, _rowsPerPage);
     super.initState();
-    dropdownValue = widget.devices.first;
   }
 
   @override
@@ -36,7 +99,7 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
           .then((value) {
         if (value != null) {
           setState(() {
-            widget._selectedDate = value;
+            widget.selectedDate = value;
           });
         }
       });
@@ -48,13 +111,13 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
       actions: [
         TextButton.icon(
           icon: Icon(Icons.access_time),
-          label: Text("时间(${widget._selectedDate.toString().split(" ")[0]})"),
+          label: Text("时间(${_selectDay()})"),
           onPressed: () async {
             _showDatePicker();
           },
         ),
         DropdownButton<String>(
-          value: dropdownValue,
+          value: deviceName,
           icon: const Icon(
             Icons.arrow_drop_down,
             color: Colors.blue,
@@ -67,9 +130,9 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
           ),
           onChanged: (String? value) {
             // This is called when the user selects an item.
-            dropdownValue = value!;
+            deviceName = value!;
             setState(() {
-              dropdownValue = value!;
+              deviceName = value!;
             });
           },
           items: widget.devices.map<DropdownMenuItem<String>>((String value) {
@@ -84,7 +147,7 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
           label: Text("重置过滤条件"),
           onPressed: () {
             setState(() {
-              widget._selectedDate = DateTime.now().toLocal();
+              widget.selectedDate = DateTime.now().toLocal();
               FToast()
                   .init(context)
                   .showToast(child: MyToast(tip: "已重置过滤条件", ok: true));
@@ -102,13 +165,13 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
       headingRowHeight: 50.0,
       dataRowHeight: 60.0,
       rowsPerPage: _rowsPerPage,
-      onPageChanged: (i) => print('onPageChanged -> $i'),
+      onPageChanged: (i) => _pageChanged(i),
       availableRowsPerPage: [10, 20, 50, 100],
       onRowsPerPageChanged: (value) => setState(() => _rowsPerPage = value!),
       sortAscending: _sortAscending,
       //sortColumnIndex: 1,
       //showCheckboxColumn: true,
-      onSelectAll: (state) => setState(() => _sourceData.selectAll(state!)),
+      //onSelectAll: (state) => setState(() => _sourceData.selectAll(state!)),
       columns: [
         DataColumn2(label: Text('时间')),
         DataColumn2(
@@ -134,60 +197,66 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
 }
 
 class SourceData extends DataTableSource {
+  final EventsPageEntity pageEntity;
+
+  SourceData(this.pageEntity);
+
   int _selectCount = 0; //当前选中的行数
-  final List<Map<String, dynamic>> _sourceData = List.generate(
-      1000,
-      (index) => {
-            "id": "青云山西门${(index + 1)}",
-            "name": "验票 ${(index + 1)}",
-            "address": (index % 3 == 1)
-                ? '\$F384605470533333459544638111/@10932800515276<MjAwMDAwMTkyNDIwMjMtMDEtMDQyMDIzLTAxLTA0>\@\$E\n\$F384605470533333459544638111/@10932800515276<MjAwMDAwMTkyNDIwMjMtMDEtMDQyMDIzLTAxLTA0>\@\$E'
-                : (index % 3 == 2)
-                    ? 'New York'
-                    : 'Los Angeles',
-            "selected": false
-          });
 
   bool get isRowCountApproximate => false;
 
-  int get rowCount => _sourceData.length; //总行数
+  int get rowCount => pageEntity.count; //总行数
 
   int get selectedRowCount => _selectCount; //选中的行数
 
-  DataRow getRow(int index) => DataRow.byIndex(index: index,
-          //selected: _sourceData[index]["selected"],
-          // onSelectChanged: (selected) {
-          //   _sourceData[index]["selected"] = selected;
-          //   notifyListeners();
-          // },
-          cells: [
-            DataCell(Text("2021-01-05 11:19:02:33"), placeholder: true),
-            DataCell(Text(_sourceData[index]['id'].toString()),
-                placeholder: true),
-            DataCell(Text(_sourceData[index]['name']), placeholder: true),
-            DataCell(Text(_sourceData[index]['address'].toString()),
-                placeholder: true)
-          ]);
-
   //数据排序
   void sortData<T>(Comparable<T> getField(Map<String, dynamic> map), bool b) {
-    _sourceData.sort((Map<String, dynamic> map1, Map<String, dynamic> map2) {
-      if (!b) {
-        //两个项进行交换
-        final Map<String, dynamic> temp = map1;
-        map1 = map2;
-        map2 = temp;
-      }
-      final Comparable<T> s1Value = getField(map1);
-      final Comparable<T> s2Value = getField(map2);
-      return Comparable.compare(s1Value, s2Value);
-    });
-    notifyListeners();
+    // _sourceData.sort((Map<String, dynamic> map1, Map<String, dynamic> map2) {
+    //   if (!b) {
+    //     //两个项进行交换
+    //     final Map<String, dynamic> temp = map1;
+    //     map1 = map2;
+    //     map2 = temp;
+    //   }
+    //   final Comparable<T> s1Value = getField(map1);
+    //   final Comparable<T> s2Value = getField(map2);
+    //   return Comparable.compare(s1Value, s2Value);
+    // });
+    // notifyListeners();
   }
 
   void selectAll(bool checked) {
-    _sourceData.forEach((data) => data["selected"] = checked);
-    _selectCount = checked ? _sourceData.length : 0;
-    notifyListeners(); //通知监听器去刷新
+    // _sourceData.forEach((data) => data["selected"] = checked);
+    // _selectCount = checked ? _sourceData.length : 0;
+    // notifyListeners(); //通知监听器去刷新
   }
+
+  @override
+  DataRow? getRow(int index) {
+    EventsPageData? item;
+    try {
+      item = pageEntity.data?[index%10];
+    } catch (e) {
+      print(e);
+    }
+    if(item ==null) return null;
+    return DataRow(cells: [
+      DataCell(Text("${item?.time}"), placeholder: true),
+      DataCell(Text("${item?.deviceName}"), placeholder: true),
+      DataCell(Text("${item?.tag}"), placeholder: true),
+      DataCell(Text("${item?.content}"), placeholder: true)
+    ]);
+  }
+// DataRow getRow(int index) => DataRow.byIndex(index: index,
+//     //selected: _sourceData[index]["selected"],
+//     // onSelectChanged: (selected) {
+//     //   _sourceData[index]["selected"] = selected;
+//     //   notifyListeners();
+//     // },
+//     cells: [
+//       DataCell(Text("${pageEntity.data?[index].time}"), placeholder: true),
+//       DataCell(Text("${pageEntity.data?[index].deviceName}"), placeholder: true),
+//       DataCell(Text("${pageEntity.data?[index].tag}"), placeholder: true),
+//       DataCell(Text("${pageEntity.data?[index].content}"), placeholder: true)
+//     ]);
 }

@@ -16,7 +16,7 @@ EventsEntity $EventsEntityFromJson(Map<String, dynamic> json) {
 		eventsEntity.content = content;
 	}
 	final String? deviceName = jsonConvert.convert<String>(json['deviceName']);
-	if (content != null) {
+	if (deviceName != null) {
 		eventsEntity.deviceName = deviceName;
 	}
 	final String? time = jsonConvert.convert<String>(json['time']);

@@ -8,6 +8,7 @@ import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_respons_entity.dart';
 import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/models/events_entity.dart';
+import 'package:gateflow/models/events_page_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/login_entity.dart';
 import 'package:gateflow/models/passed_total_entity.dart';
@@ -27,6 +28,8 @@ class JsonConvert {
 		(DevicesEntity).toString(): DevicesEntity.fromJson,
 		(DevicesData).toString(): DevicesData.fromJson,
 		(EventsEntity).toString(): EventsEntity.fromJson,
+		(EventsPageEntity).toString(): EventsPageEntity.fromJson,
+		(EventsPageData).toString(): EventsPageData.fromJson,
 		(HardwareEntity).toString(): HardwareEntity.fromJson,
 		(LoginEntity).toString(): LoginEntity.fromJson,
 		(PassedTotalEntity).toString(): PassedTotalEntity.fromJson,
@@ -134,6 +137,12 @@ class JsonConvert {
 		}
 		if(<EventsEntity>[] is M){
 			return data.map<EventsEntity>((Map<String, dynamic> e) => EventsEntity.fromJson(e)).toList() as M;
+		}
+		if(<EventsPageEntity>[] is M){
+			return data.map<EventsPageEntity>((Map<String, dynamic> e) => EventsPageEntity.fromJson(e)).toList() as M;
+		}
+		if(<EventsPageData>[] is M){
+			return data.map<EventsPageData>((Map<String, dynamic> e) => EventsPageData.fromJson(e)).toList() as M;
 		}
 		if(<HardwareEntity>[] is M){
 			return data.map<HardwareEntity>((Map<String, dynamic> e) => HardwareEntity.fromJson(e)).toList() as M;

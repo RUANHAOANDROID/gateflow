@@ -28,12 +28,12 @@ class EventLogs extends StatefulWidget {
 class _EventLogs extends State<EventLogs> {
   @override
   Widget build(BuildContext context) {
-    _today() {
-      DateTime now = DateTime.now();
-      return now.toString().split(" ")[0];
-    }
-
-    var titleString2 = "事件面板[${_today()}]";
+    // _today() {
+    //   DateTime now = DateTime.now();
+    //   return now.toString().split(" ")[0];
+    // }
+    //var titleString2 = "事件面板[${_today()}]";
+    var titleString2 = "事件面板";
     var title = Text(
       titleString2,
       style: Theme.of(context).textTheme.subtitle1,
