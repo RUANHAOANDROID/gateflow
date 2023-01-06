@@ -30,9 +30,10 @@ ThemeData MyTheme(context) {
 
 ThemeData ThemeDark(context) {
   return ThemeData.dark().copyWith(
+    dialogTheme: DialogTheme(backgroundColor: bgColor),
     scaffoldBackgroundColor: bgColor,
     textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-        .apply(bodyColor: Colors.white,displayColor: Colors.white70),
+        .apply(bodyColor: Colors.white, displayColor: Colors.white70),
     canvasColor: secondaryColor,
     cardColor: bgColor,
     dividerColor: secondaryColor,

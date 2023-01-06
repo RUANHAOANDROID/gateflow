@@ -49,25 +49,17 @@ class _EventLogs extends State<EventLogs> {
           label: Text("更多事件"),
           onPressed: () {
             showDialog(
-              barrierDismissible:false,
+              barrierDismissible: false,
               context: context,
               //barrierDismissible: false, // user must tap button!
               builder: (BuildContext context) {
                 return Dialog(
-                  elevation:double.infinity,
-                  backgroundColor: bgColor,
+                  elevation: double.infinity,
+                  //backgroundColor: bgColor,
                   child: Container(
                     width: double.infinity,
                     height: double.infinity,
-                    //padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-                    //color: bgColor,
-                    child: Theme(
-                        // data: Theme.of(context).copyWith(
-                        //   cardColor: bgColor ,
-                        //   dividerColor: secondaryColor,
-                        // ),
-                        data:ThemeDark(context),
-                        child: PaginatedDataTablePage()),
+                    child: PaginatedDataTablePage(),
                   ),
                 );
               },

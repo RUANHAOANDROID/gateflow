@@ -85,6 +85,7 @@ class _DashboardScreen extends State<DashboardScreen> {
             handleWsMsg(body);
           }
           return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
             primary: false,
             padding: const EdgeInsets.all(defaultPadding),
             child: Column(

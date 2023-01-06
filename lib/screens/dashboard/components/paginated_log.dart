@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../../wiidget/mytoast.dart';
 
 class PaginatedDataTablePage extends StatefulWidget {
   List<String> devices = <String>['全部设备', '青云山西门', '青云山东门', '青云山北门'];
-
+  DateTime _selectedDate = DateTime.now().toLocal(); //选择的时间
   PaginatedDataTablePage({super.key});
 
-  DateTime _selectedDate = DateTime.now(); //选择的时间
   @override
   State<StatefulWidget> createState() => _PaginatedPageState();
 }
@@ -47,7 +48,7 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
         TextButton.icon(
           icon: Icon(Icons.access_time),
           label: Text("时间(${widget._selectedDate.toString().split(" ")[0]})"),
-          onPressed: () async{
+          onPressed: () async {
             _showDatePicker();
           },
         ),
@@ -80,7 +81,12 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
         TextButton.icon(
           icon: Icon(Icons.refresh),
           label: Text("重置"),
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              widget._selectedDate = DateTime.now().toLocal();
+              FToast().init(context).showToast(child: MyToast(tip: "已重置过滤条件", ok: true));
+            });
+          },
         ),
         TextButton.icon(
           icon: Icon(Icons.clear),
@@ -152,10 +158,10 @@ class SourceData extends DataTableSource {
           //   notifyListeners();
           // },
           cells: [
-            DataCell(Text("2021-01-05")),
-            DataCell(Text(_sourceData[index]['id'].toString())),
-            DataCell(Text(_sourceData[index]['name'])),
-            DataCell(Text(_sourceData[index]['address'].toString()))
+            DataCell(Text("2021-01-05 11:19:02:33"),placeholder: true),
+            DataCell(Text(_sourceData[index]['id'].toString()),placeholder: true),
+            DataCell(Text(_sourceData[index]['name']),placeholder: true),
+            DataCell(Text(_sourceData[index]['address'].toString()),placeholder: true)
           ]);
 
   //数据排序
