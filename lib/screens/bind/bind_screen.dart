@@ -176,54 +176,57 @@ class _BindScreen extends State<BindScreen> {
     return DataRow(
       cells: [
         DataCell(
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Text("${info.tag}"),
-              ),
-            ],
-          ),
-        ),
-        DataCell(Text("${info.number}")),
-        DataCell(Text("${info.ip}")),
-        DataCell(Text("${info.version}")),
-        DataCell(Text("${info.status}")),
-        DataCell(Row(
-          children: [
-            IconButton(
-              icon: const Icon(
-                Icons.edit,
-                color: primaryColor,
-              ),
-              onPressed: () {
-                showDialog<bool>(
-                  context: context,
-                  //barrierDismissible: false, // user must tap button!
-                  builder: (BuildContext context) {
-                    return EditDialog(
-                      device: info,
-                    );
+            Row(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: defaultPadding),
+                  child: Text("${info.tag}"),
+                ),
+              ],
+            ),
+            placeholder: true),
+        DataCell(Text("${info.number}"), placeholder: true),
+        DataCell(Text("${info.ip}"), placeholder: true),
+        DataCell(Text("${info.version}"), placeholder: true),
+        DataCell(Text("${info.status}"), placeholder: true),
+        DataCell(
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.edit,
+                    color: primaryColor,
+                  ),
+                  onPressed: () {
+                    showDialog<bool>(
+                      context: context,
+                      //barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        return EditDialog(
+                          device: info,
+                        );
+                      },
+                    ).then((value) => onRefresh());
                   },
-                ).then((value) => onRefresh());
-              },
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  onPressed: () async {
+                    bool? delete = await _showDeleteConfirmDialog();
+                    if (delete == null) {
+                      print("取消删除");
+                    } else {
+                      _deleteDevices(info.id);
+                    }
+                  },
+                ),
+              ],
             ),
-            IconButton(
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-              ),
-              onPressed: () async {
-                bool? delete = await _showDeleteConfirmDialog();
-                if (delete == null) {
-                  print("取消删除");
-                } else {
-                  _deleteDevices(info.id);
-                }
-              },
-            ),
-          ],
-        )),
+            placeholder: true),
       ],
     );
   }

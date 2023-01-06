@@ -38,7 +38,8 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreen extends State<DashboardScreen> {
   //final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
 
-  final _channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
+  final _channel =
+      WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
 
   //获取面板信息
   void getInfo() {
@@ -147,7 +148,11 @@ class _DashboardScreen extends State<DashboardScreen> {
     } else if (type == TYPE_TOTAL) {
       handleDevicesTotal(data);
     }
-    setState(() {});
+    if(mounted){
+      setState(() {
+        debugPrint("state handle ws msg");
+      });
+    }
   }
 
   //硬件

@@ -127,32 +127,34 @@ DataRow devicesDataRow(DevicesData info) {
   return DataRow(
     cells: [
       DataCell(
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text("${info.tag}"),
-            ),
-          ],
-        ),
-      ),
-      DataCell(Text(info.number!)),
-      DataCell(Text(info.ip!)),
-      DataCell(Text(info.version!)),
-      DataCell(Text(info.status!)),
-      DataCell(Row(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              _openGateTest(info);
-            },
-            child: const Text(
-              '开闸调试',
-              style: TextStyle(color: Colors.white),
-            ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                child: Text("${info.tag}"),
+              ),
+            ],
           ),
-        ],
-      )),
+          placeholder: true),
+      DataCell(Text(info.number!), placeholder: true),
+      DataCell(Text(info.ip!), placeholder: true),
+      DataCell(Text(info.version!), placeholder: true),
+      DataCell(Text(info.status!), placeholder: true),
+      DataCell(
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  _openGateTest(info);
+                },
+                child: const Text(
+                  '开闸调试',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          placeholder: true),
     ],
   );
 }
