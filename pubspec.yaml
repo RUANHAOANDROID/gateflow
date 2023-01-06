@@ -46,6 +46,7 @@ dependencies:
   json_serializable: ^3.3.0
   fluttertoast: ^8.1.1
   web_socket_channel: ^2.2.0
+  flutter_staggered_animations: ^1.1.1
 
 dev_dependencies:
   flutter_test:

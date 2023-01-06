@@ -22,7 +22,7 @@ import 'components/total_details.dart';
 
 class DashboardScreen extends StatefulWidget {
   final List<HardwareInfo> hardwares = hardwareInfoList;
-  final int logMaxCount = 10;
+  final int logMaxCount = 20;
 
   //final List<EventsEntity> eventLogs = List.empty(growable: true);
   final LinkedList<LinkedListEntryImpl<EventsEntity>> eventLogs =

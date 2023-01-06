@@ -1,3 +1,4 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../wiidget/mytoast.dart';
@@ -41,7 +42,7 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
       });
     }
 
-    var paginatedDataTable = PaginatedDataTable(
+    var paginatedDataTable = PaginatedDataTable2(
       source: _sourceData,
       header: Text('事件'),
       actions: [
@@ -103,12 +104,12 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
       availableRowsPerPage: [10, 20, 50, 100],
       onRowsPerPageChanged: (value) => setState(() => _rowsPerPage = value!),
       sortAscending: _sortAscending,
-      sortColumnIndex: 1,
-      showCheckboxColumn: true,
+      //sortColumnIndex: 1,
+      //showCheckboxColumn: true,
       onSelectAll: (state) => setState(() => _sourceData.selectAll(state!)),
       columns: [
-        DataColumn(label: Text('时间')),
-        DataColumn(
+        DataColumn2(label: Text('时间')),
+        DataColumn2(
           label: Text('点位'),
           // onSort: (index, sortAscending) {
           //   setState(() {
@@ -117,15 +118,17 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
           //   });
           // },
         ),
-        DataColumn(label: Text('事件')),
-        DataColumn(label: Text('内容')),
+        DataColumn2(label: Text('事件')),
+        DataColumn2(label: Text('内容')),
       ],
+      empty: Center(
+          child: Text('暂无数据')),
+      showFirstLastButtons: true,
+      initialFirstRowIndex: 0,
     );
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [paginatedDataTable],
-      ),
+    return paginatedDataTable;
+    return Center(
+      child:paginatedDataTable,
     );
   }
 }
@@ -133,7 +136,7 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
 class SourceData extends DataTableSource {
   int _selectCount = 0; //当前选中的行数
   final List<Map<String, dynamic>> _sourceData = List.generate(
-      200,
+      1000,
       (index) => {
             "id": "青云山西门${(index + 1)}",
             "name": "验票 ${(index + 1)}",

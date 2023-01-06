@@ -100,7 +100,7 @@ class _EventLogs extends State<EventLogs> {
               rows: List.generate(
                 widget.eventLogs.length,
                 (index) =>
-                    recentFileDataRow(widget.eventLogs.elementAt(index).value),
+                    recentFileDataRow(widget.eventLogs.elementAt(index).value,index),
               ),
             ),
           )
@@ -109,7 +109,7 @@ class _EventLogs extends State<EventLogs> {
     );
   }
 
-  DataRow recentFileDataRow(EventsEntity info) {
+  DataRow recentFileDataRow(EventsEntity info,index) {
     return DataRow(
       cells: [
         DataCell(Text(info.time!.split(" ")[1]), placeholder: true),
