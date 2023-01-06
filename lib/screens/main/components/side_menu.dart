@@ -19,6 +19,7 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           DrawerHeader(
             child: Image.asset("assets/images/logo1.png"),
