@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      key: NavigationService.navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Gate Flow',
       theme: ThemeDark(context),
@@ -38,4 +39,8 @@ class MyApp extends StatelessWidget {
       home: MainScreen(),
     );
   }
+}
+class NavigationService {
+  static GlobalKey<NavigatorState> navigatorKey =
+  GlobalKey<NavigatorState>();
 }
