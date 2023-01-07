@@ -8,8 +8,6 @@ import 'package:gateflow/models/events_page_entity.dart';
 import 'package:gateflow/utils/http.dart';
 import '../../../wiidget/mytoast.dart';
 
-EventsPageEntity pageEntity = EventsPageEntity();
-
 class PaginatedDataTablePage extends StatefulWidget {
   List<String> devices = <String>['全部设备', '青云山西门', '青云山东门', '青云山北门'];
 
@@ -22,10 +20,13 @@ class PaginatedDataTablePage extends StatefulWidget {
 }
 
 class _PaginatedPageState extends State<PaginatedDataTablePage> {
-  var _rowsPerPage = 10;
+  final _key = GlobalKey<PaginatedDataTable2State>();
+  int _rowsPerPage = 10;
+  int currentIndex = 0;
   bool _sortAscending = true;
   String deviceName = "全部设备";
-  SourceData _sourceData = SourceData(pageEntity);
+  EventsPageEntity pageEntity = EventsPageEntity();
+  late SourceData _sourceData;
 
   String _selectDay() {
     return widget.selectedDate.toString().split(" ")[0];
@@ -35,16 +36,11 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
   _getDevices() async {}
 
   //下一页
-  _getEvents(String day, int pageNo, int pageSize) async {
-    // var lastIndex = pageSize * pageNo;
-    // var dataIndex = pageSize;
-    // if (pageEntity.count < lastIndex) {
-    //   dataIndex = pageEntity.count;
-    // }
+  _getEvents({int rowIndex = 0}) async {
     var requestMap = {
-      'date': day,
-      'pageNo': pageNo,
-      'pageSize': pageSize,
+      'date': _selectDay(),
+      'pageNo': rowIndex,
+      'pageSize': _rowsPerPage,
       'deviceName': deviceName,
     };
     var json =
@@ -61,21 +57,39 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
     });
   }
 
-  _pageChanged(pageNo) {
-    print(pageNo);
-    _getEvents(_selectDay(), pageNo, _rowsPerPage);
+  _deviceChanged(String device) {
+    debugPrint("_deviceChanged :${device}");
+    deviceName = device;
+    _refresh();
   }
 
-  _dateChanged() {
-    _getEvents(_selectDay(), 1, _rowsPerPage);
+  _pageChanged(int rowIndex) {
+    currentIndex = rowIndex;
+    debugPrint("_pageChanged :${rowIndex}");
+    _getEvents();
+  }
+
+  _dateChanged(DateTime date) {
+    debugPrint("_dateChanged :${date}");
+    widget.selectedDate = date;
+    _refresh();
   }
 
   _resetFilter() {
     deviceName = widget.devices.first;
     widget.selectedDate = DateTime.now().toLocal();
-    pageEntity.count = 0;
-    pageEntity.data?.clear();
-    _getEvents(_selectDay(), 1, _rowsPerPage);
+    _refresh();
+    FToast().init(context).showToast(child: MyToast(tip: "已重置过滤条件", ok: true));
+  }
+
+  void _refresh() {
+    debugPrint(
+        "_refresh:date=${_selectDay()} device=$deviceName index = $currentIndex ");
+    if (currentIndex == 0) {
+      _getEvents();
+      return;
+    }
+    _key.currentState?.pageTo(0);
   }
 
   @override
@@ -83,8 +97,15 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
     if (deviceName == "") {
       deviceName = widget.devices.first;
     }
-    _getEvents(_selectDay(), 0, _rowsPerPage);
+    _sourceData = SourceData(pageEntity);
+    _getEvents();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _sourceData.dispose();
+    super.dispose();
   }
 
   @override
@@ -98,81 +119,87 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
               locale: Locale("zh"))
           .then((value) {
         if (value != null) {
-          setState(() {
-            widget.selectedDate = value;
-          });
+          _dateChanged(value);
         }
       });
     }
 
+    var titleActions = [
+      TextButton.icon(
+        icon: Icon(Icons.access_time),
+        label: Text("时间(${_selectDay()})"),
+        onPressed: () async {
+          _showDatePicker();
+        },
+      ),
+      DropdownButton<String>(
+        value: deviceName,
+        icon: const Icon(
+          Icons.arrow_drop_down,
+          color: Colors.blue,
+        ),
+        elevation: 16,
+        style: const TextStyle(color: Colors.blue),
+        underline: Container(
+          height: 0,
+          color: Colors.white12,
+        ),
+        onChanged: (String? value) {
+          // This is called when the user selects an item.
+          _deviceChanged(value!);
+          deviceName = value!;
+          setState(() {
+            deviceName = value!;
+          });
+        },
+        items: widget.devices.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+      ),
+      TextButton.icon(
+        icon: Icon(Icons.refresh),
+        label: Text("重置过滤条件"),
+        onPressed: () {
+          _resetFilter();
+        },
+      ),
+      TextButton.icon(
+        icon: Icon(Icons.clear),
+        label: Text("关闭"),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    ];
     var paginatedDataTable = PaginatedDataTable2(
+      key: _key,
       source: _sourceData,
       header: Text('事件'),
-      actions: [
-        TextButton.icon(
-          icon: Icon(Icons.access_time),
-          label: Text("时间(${_selectDay()})"),
-          onPressed: () async {
-            _showDatePicker();
-          },
-        ),
-        DropdownButton<String>(
-          value: deviceName,
-          icon: const Icon(
-            Icons.arrow_drop_down,
-            color: Colors.blue,
-          ),
-          elevation: 16,
-          style: const TextStyle(color: Colors.blue),
-          underline: Container(
-            height: 0,
-            color: Colors.white12,
-          ),
-          onChanged: (String? value) {
-            // This is called when the user selects an item.
-            deviceName = value!;
-            setState(() {
-              deviceName = value!;
-            });
-          },
-          items: widget.devices.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-        ),
-        TextButton.icon(
-          icon: Icon(Icons.refresh),
-          label: Text("重置过滤条件"),
-          onPressed: () {
-            setState(() {
-              widget.selectedDate = DateTime.now().toLocal();
-              FToast()
-                  .init(context)
-                  .showToast(child: MyToast(tip: "已重置过滤条件", ok: true));
-            });
-          },
-        ),
-        TextButton.icon(
-          icon: Icon(Icons.clear),
-          label: Text("关闭"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
+      actions: titleActions,
       headingRowHeight: 50.0,
       dataRowHeight: 60.0,
       rowsPerPage: _rowsPerPage,
-      onPageChanged: (i) => _pageChanged(i),
-      availableRowsPerPage: [10, 20, 50, 100],
-      onRowsPerPageChanged: (value) => setState(() => _rowsPerPage = value!),
+      onPageChanged: (rowIndex) {
+        debugPrint("onPageChanged:$rowIndex");
+        _pageChanged(rowIndex!);
+      },
+      availableRowsPerPage: [10, 20, 50],
+      onRowsPerPageChanged: (value) {
+        debugPrint("onRowsPerPageChanged:$value");
+        _rowsPerPage = value!;
+      },
       sortAscending: _sortAscending,
       //sortColumnIndex: 1,
       //showCheckboxColumn: true,
       //onSelectAll: (state) => setState(() => _sourceData.selectAll(state!)),
       columns: [
+        DataColumn2(
+            label: Container(
+          child: Text('ID'),
+        )),
         DataColumn2(label: Text('时间')),
         DataColumn2(
           label: Text('点位'),
@@ -188,9 +215,11 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
       ],
       empty: const Center(child: Text('暂无数据')),
       // showFirstLastButtons: true,
-      // initialFirstRowIndex: 0,
-      // columnSpacing: 0,
-      // horizontalMargin: 5,
+      initialFirstRowIndex: 0,
+      showCheckboxColumn: false,
+      columnSpacing: 0,
+      horizontalMargin: 5,
+      wrapInCard: false,
     );
     return paginatedDataTable;
   }
@@ -235,12 +264,13 @@ class SourceData extends DataTableSource {
   DataRow? getRow(int index) {
     EventsPageData? item;
     try {
-      item = pageEntity.data?[index%10];
+      item = pageEntity.data?[index % 10];
     } catch (e) {
       print(e);
     }
-    if(item ==null) return null;
+    if (item == null) return null;
     return DataRow(cells: [
+      DataCell(Text("${item?.id}"), placeholder: true),
       DataCell(Text("${item?.time}"), placeholder: true),
       DataCell(Text("${item?.deviceName}"), placeholder: true),
       DataCell(Text("${item?.tag}"), placeholder: true),
