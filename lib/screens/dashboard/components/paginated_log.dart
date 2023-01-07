@@ -43,7 +43,7 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
     // }
     var requestMap = {
       'date': day,
-      'pageNo': pageNo + 1,
+      'pageNo': pageNo,
       'pageSize': pageSize,
       'deviceName': deviceName,
     };
@@ -83,7 +83,7 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
     if (deviceName == "") {
       deviceName = widget.devices.first;
     }
-    _getEvents(_selectDay(), 1, _rowsPerPage);
+    _getEvents(_selectDay(), 0, _rowsPerPage);
     super.initState();
   }
 
