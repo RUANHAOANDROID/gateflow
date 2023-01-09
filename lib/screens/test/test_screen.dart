@@ -46,21 +46,8 @@ class _TestScreen extends State<TestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          RichText(
-            text: TextSpan(
-              children: [
-                const WidgetSpan(
-                  child: Icon(
-                    Icons.devices,
-                    color: Colors.blue,
-                  ),
-                ),
-                TextSpan(
-                  text: "  设备列表 ",
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ],
-            ),
+          Text("设备列表 ",
+            style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox(
             width: double.infinity,

@@ -61,12 +61,12 @@ class _EventLogs extends State<EventLogs> {
         )
       ],
     );
-    return Container(
+    var container = Container(
       padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
+      // decoration: BoxDecoration(
+      //   color: Theme.of(context).cardColor,
+      //   borderRadius: BorderRadius.all(Radius.circular(10)),
+      // ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -100,6 +100,12 @@ class _EventLogs extends State<EventLogs> {
         ],
       ),
     );
+    return Card(
+        elevation: 5.0, //设置阴影
+        color: Theme.of(context).canvasColor,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))), //设置圆角
+        child: container);
   }
 
   DataRow recentFileDataRow(EventsEntity info, index) {

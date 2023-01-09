@@ -88,9 +88,9 @@ class _LoginPageState extends State<LoginScreen> {
           return null;
         },
         decoration: InputDecoration(
-            hoverColor: Colors.blueGrey,
-            labelStyle: formTextStyle(context),
-            hintStyle: formTextStyle(context),
+            hoverColor: Theme.of(context).hoverColor,
+            //labelStyle: formTextStyle(context),
+            //hintStyle: formTextStyle(context),
             border: outlineInputBorder,
             labelText: '用户名',
             hintText: '请输入用户名'),
@@ -113,16 +113,16 @@ class _LoginPageState extends State<LoginScreen> {
           return null;
         },
         decoration: InputDecoration(
-            hoverColor: Colors.blueGrey,
-            labelStyle: formTextStyle(context),
-            hintStyle: formTextStyle(context),
+            hoverColor: Theme.of(context).highlightColor,
+            //labelStyle: formTextStyle(context),
+            //hintStyle: formTextStyle(context),
             border: outlineInputBorder,
             labelText: '密码',
             hintText: '请输入密码'),
       ),
     );
     var loginBtnWidget = Padding(
-      padding: EdgeInsets.only(top:defaultPadding * 4),
+      padding: EdgeInsets.only(top: defaultPadding * 4),
       child: ElevatedButton(
         style: buttonStyle(context),
         onPressed: () {
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginScreen> {
         },
         child: const Text(
           '登录',
-          style: TextStyle(color: Colors.white, fontSize: 25),
+          //style: TextStyle(color: Colors.white, fontSize: 25),
         ),
       ),
     );
@@ -140,38 +140,38 @@ class _LoginPageState extends State<LoginScreen> {
     double paddingBottom = 100;
 
     return Scaffold(
-      backgroundColor: bgColor,
+      //backgroundColor: bgColor,
       // appBar: AppBar(
       //   title: const Text("登录"),
       // ),
       body: SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(
-            left: paddingLift,
-            right: paddingRight,
-            top: paddingTop,
-            bottom: paddingBottom),
-        child: Card(
-        elevation: 15.0, //设置阴影
-        color: secondaryColor,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(14.0))), //设置圆角
-        child: Form(
-      key: _formKey,
-      child: Column(
-      children: <Widget>[
-        logWidget,
-        userWidget,
-        pwdWidget,
-        loginBtnWidget,
-        Padding(
-      padding: EdgeInsets.all(defaultPadding * 2),
-    ),
-      ],
-    ),
-    )),
+        child: Padding(
+          padding: EdgeInsets.only(
+              left: paddingLift,
+              right: paddingRight,
+              top: paddingTop,
+              bottom: paddingBottom),
+          child: Card(
+              elevation: 15.0, //设置阴影
+              color: Theme.of(context).canvasColor,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(14.0))), //设置圆角
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    logWidget,
+                    userWidget,
+                    pwdWidget,
+                    loginBtnWidget,
+                    Padding(
+                      padding: EdgeInsets.all(defaultPadding * 2),
+                    ),
+                  ],
+                ),
+              )),
+        ),
       ),
-    ),
     );
   }
 }

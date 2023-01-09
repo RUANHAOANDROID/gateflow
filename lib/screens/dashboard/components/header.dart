@@ -42,16 +42,16 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    var container = Container(
       margin: const EdgeInsets.only(left: defaultPadding),
-      padding: const EdgeInsets.symmetric(
+      padding:  EdgeInsets.symmetric(
         horizontal: defaultPadding,
         vertical: defaultPadding / 2,
       ),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: Theme.of(context).cardColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        border: Border.all(color: Colors.white10),
+        //border: Border.all(color: Colors.white10),
       ),
       child: Row(
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -65,5 +65,6 @@ class ProfileCard extends StatelessWidget {
         ],
       ),
     );
+    return container;
   }
 }

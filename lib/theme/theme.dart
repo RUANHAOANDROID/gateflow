@@ -19,25 +19,54 @@ ButtonStyle buttonStyle(context) {
   );
 }
 
-ThemeData MyTheme(context) {
-  return ThemeData.light().copyWith(
+ThemeData ThemeDark(context) {
+  return ThemeData.dark().copyWith(
+    backgroundColor: bgColor,
+    dialogTheme: DialogTheme(backgroundColor: bgColor),
     scaffoldBackgroundColor: bgColor,
-    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-        .apply(bodyColor: Colors.white),
+    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
+        fontFamily: 'Regular',
+        bodyColor: Colors.white,
+        displayColor: Colors.white70),
     canvasColor: secondaryColor,
+    cardColor: secondaryColor,
+    iconTheme: IconTheme.of(context).copyWith(
+      color: Colors.white54,
+      size: 18,
+    ),
+    dividerColor: secondaryColor,
   );
 }
 
-ThemeData ThemeDark(context) {
-  return ThemeData.dark().copyWith(
-    dialogTheme: DialogTheme(backgroundColor: bgColor),
-    scaffoldBackgroundColor: bgColor,
-    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-        .apply(bodyColor: Colors.white, displayColor: Colors.white70),
-    canvasColor: secondaryColor,
-    cardColor: bgColor,
-    dividerColor: secondaryColor,
+ThemeData ThemeLight(context) {
+  return ThemeData.light().copyWith(
+    //dialogTheme: DialogTheme(backgroundColor: bgColor1),
+    // scaffoldBackgroundColor: bgColor1,
+    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
+      fontFamily: 'Regular',
+      //bodyColor: Colors.black,
+      //displayColor: Colors.black45,
+    ),
+    iconTheme: IconTheme.of(context).copyWith(
+      color: Colors.black54,
+      size: 18,
+    ),
+    //canvasColor: secondaryColor1,
+    //cardColor: bgColor1,
+    //dividerColor: secondaryColor1,
   );
+  // return ThemeData(
+  //   fontFamily: 'Regular',
+  //   dialogTheme: DialogTheme(backgroundColor: bgColor1),
+  //   scaffoldBackgroundColor: bgColor1,
+  //   canvasColor: secondaryColor1,
+  //   cardColor: bgColor1,
+  //   dividerColor: secondaryColor1,
+  //   textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
+  //       fontFamily: 'Regular',
+  //       bodyColor: Colors.white,
+  //       displayColor: Colors.white70),
+  // );
 }
 
 const outlineInputBorder = OutlineInputBorder(

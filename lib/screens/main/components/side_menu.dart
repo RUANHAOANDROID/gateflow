@@ -1,9 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../login/login_page.dart';
 
 class SideMenu extends StatelessWidget {
@@ -26,35 +21,35 @@ class SideMenu extends StatelessWidget {
           ),
           DrawerListTile(
             title: "运行概要",
-            svgSrc: "assets/icons/menu_dashbord.svg",
+            icon: Icons.dashboard,
             press: () {
               pageController.jumpToPage(0);
             },
           ),
           DrawerListTile(
             title: "设备调试",
-            svgSrc: "assets/icons/menu_tran.svg",
+            icon: Icons.hardware,
             press: () {
               pageController.jumpToPage(1);
             },
           ),
           DrawerListTile(
             title: "参数设置",
-            svgSrc: "assets/icons/menu_task.svg",
+            icon: Icons.pattern,
             press: () {
               pageController.jumpToPage(2);
             },
           ),
           DrawerListTile(
             title: "设备绑定",
-            svgSrc: "assets/icons/menu_doc.svg",
+            icon: Icons.devices,
             press: () {
               pageController.jumpToPage(3);
             },
           ),
           DrawerListTile(
             title: "退出登录",
-            svgSrc: "assets/icons/menu_doc.svg",
+            icon: Icons.logout,
             press: () {
               // Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
               Navigator.pushAndRemoveUntil(
@@ -75,28 +70,24 @@ class SideMenu extends StatelessWidget {
 class DrawerListTile extends StatelessWidget {
   const DrawerListTile({
     Key? key,
-    // For selecting those three line once press "Command+D"
     required this.title,
-    required this.svgSrc,
     required this.press,
+    required this.icon,
   }) : super(key: key);
 
-  final String title, svgSrc;
+  final String title;
   final VoidCallback press;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: press,
       horizontalTitleGap: 0.0,
-      leading: SvgPicture.asset(
-        svgSrc,
-        color: Colors.white54,
-        height: 16,
-      ),
+      leading: Icon(icon,color: Theme.of(context).iconTheme.color,),
       title: Text(
         title,
-        style: const TextStyle(color: Colors.white54),
+        style: Theme.of(context).textTheme.subtitle2,
       ),
     );
   }

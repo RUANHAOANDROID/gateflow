@@ -15,10 +15,10 @@ class HardwareInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    var container = Container(
       padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
-        color: secondaryColor,
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
@@ -60,21 +60,25 @@ class HardwareInfoCard extends StatelessWidget {
                 "${info.used}",
                 style: Theme.of(context)
                     .textTheme
-                    .caption!
-                    .copyWith(color: Colors.white70),
+                    .caption!,
               ),
               Text(
                 info.total!,
                 style: Theme.of(context)
                     .textTheme
-                    .caption!
-                    .copyWith(color: Colors.white),
+                    .caption!,
               ),
             ],
           )
         ],
       ),
     );
+    return Card(
+        elevation: 5.0, //设置阴影
+        color: Theme.of(context).canvasColor,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0))), //设置圆角
+        child: container);
   }
 }
 
