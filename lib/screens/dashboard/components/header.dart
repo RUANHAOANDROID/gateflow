@@ -42,29 +42,18 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var container = Container(
-      margin: const EdgeInsets.only(left: defaultPadding),
-      padding:  EdgeInsets.symmetric(
-        horizontal: defaultPadding,
-        vertical: defaultPadding / 2,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        //border: Border.all(color: Colors.white10),
-      ),
-      child: Row(
-        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: defaultPadding / 4),
-            child: CustomStatus(color: Colors.green),
-          ),
-          const Text("通讯正常")
-        ],
-      ),
-    );
-    return container;
+    var card = Card(
+        margin: EdgeInsets.only(left: defaultPadding),
+        elevation: 10.0,
+        //设置阴影
+        color: Theme.of(context).canvasColor,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0))),
+        //设置圆角
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: CustomStatus(color: Colors.green, status: "通讯正常..",),
+        ));
+    return card;
   }
 }

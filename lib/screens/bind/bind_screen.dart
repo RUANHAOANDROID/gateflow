@@ -4,7 +4,9 @@ import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/screens/bind/components/edit_dialog.dart';
 import 'package:gateflow/utils/http.dart';
 import '../../../constants.dart';
+import '../../controllers/MenuController.dart';
 import '../../responsive.dart';
+import 'package:provider/provider.dart';
 
 class BindScreen extends StatefulWidget {
   final List<DevicesData> devices = List.empty(growable: true);
@@ -84,6 +86,25 @@ class _BindScreen extends State<BindScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var title = Padding(
+      padding: const EdgeInsets.only(
+          left: defaultPadding / 2,
+          top: defaultPadding / 2,
+          bottom: defaultPadding),
+      child: Row(
+        children: [
+          if (!Responsive.isDesktop(context))
+            IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: context.read<MenuController>().controlMenu,
+            ),
+          Text(
+            "设备绑定",
+            style: Theme.of(context).textTheme.headline6,
+          )
+        ],
+      ),
+    );
     print("getDevices");
     var container = Container(
       padding: const EdgeInsets.all(defaultPadding),
@@ -157,13 +178,7 @@ class _BindScreen extends State<BindScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: defaultPadding),
-              child: Text(
-                "设备绑定",
-                style: Theme.of(context).textTheme.headline6,
-              ),
-            ),
+            title,
             container,
           ],
         ),

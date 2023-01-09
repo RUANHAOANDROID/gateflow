@@ -1,17 +1,19 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:gateflow/generated/json/base/json_field.dart';
 import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_respons_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/utils/http.dart';
 import 'package:gateflow/wiidget/mytoast.dart';
 import '../../constants.dart';
-import '../../wiidget/tip.dart';
+import '../../controllers/MenuController.dart';
 import 'components/config_parms.dart';
 import 'components/config_url.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+
+import '../../../responsive.dart';
 
 class SettingScreen extends StatefulWidget {
   var formEntity = FormEntity();
@@ -136,14 +138,26 @@ class _SettingScreen extends State<SettingScreen> {
     widget.formEntity.url = widget.url;
     widget.formEntity.code = widget.code;
     var config = widget.formEntity.config;
+
     var title = Padding(
-      padding: const EdgeInsets.only(bottom: defaultPadding),
-      child: Text(
-        "参数设置",
-        style: Theme.of(context).textTheme.headline6,
+      padding: const EdgeInsets.only(
+          left: defaultPadding / 2,
+          top: defaultPadding/2,
+          bottom: defaultPadding),
+      child: Row(
+        children: [
+          if (!Responsive.isDesktop(context))
+            IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: context.read<MenuController>().controlMenu,
+            ),
+          Text(
+            "参数设置",
+            style: Theme.of(context).textTheme.headline6,
+          )
+        ],
       ),
     );
-
     var pramContainer = ParamsConfig(
       config: config,
       saved: (ConfigResponsData? value) {

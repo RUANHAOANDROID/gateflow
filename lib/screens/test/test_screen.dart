@@ -1,12 +1,13 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:gateflow/controllers/MenuController.dart';
 import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/net/http.dart';
 import 'package:gateflow/utils/http.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
-import '../../../models/EventLog.dart';
-import '../../responsive.dart';
+import '../../../responsive.dart';
 
 class TestScreen extends StatefulWidget {
   List<DevicesData> devices = List.empty(growable: true);
@@ -46,7 +47,8 @@ class _TestScreen extends State<TestScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("设备列表 ",
+          Text(
+            "设备列表 ",
             style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox(
@@ -83,6 +85,25 @@ class _TestScreen extends State<TestScreen> {
         ],
       ),
     );
+    var title = Padding(
+      padding: const EdgeInsets.only(
+          left: defaultPadding / 2,
+          top: defaultPadding/2,
+          bottom: defaultPadding),
+      child: Row(
+        children: [
+          if (!Responsive.isDesktop(context))
+            IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: context.read<MenuController>().controlMenu,
+            ),
+          Text(
+            "设备调试",
+            style: Theme.of(context).textTheme.headline6,
+          )
+        ],
+      ),
+    );
     return SafeArea(
       child: SingleChildScrollView(
         primary: false,
@@ -90,13 +111,7 @@ class _TestScreen extends State<TestScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: defaultPadding),
-              child: Text(
-                "设备调试",
-                style: Theme.of(context).textTheme.headline6,
-              ),
-            ),
+            title,
             container,
           ],
         ),

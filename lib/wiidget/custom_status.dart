@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import '../constants.dart';
+
 class CustomStatus extends StatefulWidget {
   final Color color;
+  final String status;
 
-  CustomStatus({Key? key, required this.color}) : super(key: key);
+  CustomStatus({Key? key, required this.color, required this.status})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CustomStatus();
@@ -20,9 +24,17 @@ class _CustomStatus extends State<CustomStatus> {
       size: Size(width, height),
       painter: MyPainter(widget.color),
     );
-
+    var _netStatus = Row(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(right: defaultPadding / 4),
+          child: drawCircle,
+        ),
+        Text(widget.status)
+      ],
+    );
     return Center(
-      child: drawCircle,
+      child: _netStatus,
     );
   }
 }

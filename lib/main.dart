@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       key: NavigationService.navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Gate Flow',
+      //theme: ThemeLight(context),
       theme: ThemeDark(context),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
