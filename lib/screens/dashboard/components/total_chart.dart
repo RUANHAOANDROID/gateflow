@@ -77,11 +77,7 @@ class _Chart extends State<Chart> {
                 const SizedBox(height: defaultPadding),
                 Text(
                   "${(widget.entity?.sum == null) ? 0 : widget.entity?.sum}",
-                  style: Theme.of(context).textTheme.headline4!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        height: 0.5,
-                      ),
+                  style: Theme.of(context).textTheme.headline4,
                 ),
                 const Text("共")
               ],
