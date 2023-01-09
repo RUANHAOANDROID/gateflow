@@ -30,43 +30,44 @@ ThemeData ThemeDark(context) {
         displayColor: Colors.white70),
     canvasColor: secondaryColor,
     cardColor: secondaryColor,
+    dividerColor: secondaryColor,
+    cardTheme: CardTheme(
+      elevation: 5.0,
+      color: secondaryColor,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))), //设置圆角
+    ),
     iconTheme: IconTheme.of(context).copyWith(
       color: Colors.white54,
       size: 18,
     ),
-    dividerColor: secondaryColor,
   );
 }
 
 ThemeData ThemeLight(context) {
   return ThemeData.light().copyWith(
-    //dialogTheme: DialogTheme(backgroundColor: bgColor1),
-    // scaffoldBackgroundColor: bgColor1,
-    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
-      fontFamily: 'Regular',
-      //bodyColor: Colors.black,
-      //displayColor: Colors.black45,
-    ),
-    iconTheme: IconTheme.of(context).copyWith(
-      color: Colors.black54,
-      size: 18,
-    ),
-    //canvasColor: secondaryColor1,
-    //cardColor: bgColor1,
-    //dividerColor: secondaryColor1,
-  );
-  // return ThemeData(
-  //   fontFamily: 'Regular',
-  //   dialogTheme: DialogTheme(backgroundColor: bgColor1),
-  //   scaffoldBackgroundColor: bgColor1,
-  //   canvasColor: secondaryColor1,
-  //   cardColor: bgColor1,
-  //   dividerColor: secondaryColor1,
-  //   textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
-  //       fontFamily: 'Regular',
-  //       bodyColor: Colors.white,
-  //       displayColor: Colors.white70),
-  // );
+      //dialogTheme: DialogTheme(backgroundColor: bgColor1),
+      // scaffoldBackgroundColor: bgColor1,
+      textTheme:
+          GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
+        fontFamily: 'Regular',
+        //bodyColor: Colors.black,
+        //displayColor: Colors.black45,
+      ),
+      iconTheme: IconTheme.of(context).copyWith(
+        color: Colors.black54,
+        size: 18,
+      ),
+      //canvasColor: secondaryColor1,
+      cardColor: Colors.white,
+      cardTheme: CardTheme(
+        elevation: 5.0,
+        color: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))), //设置圆角
+      )
+      //dividerColor: secondaryColor1,
+      );
 }
 
 const outlineInputBorder = OutlineInputBorder(

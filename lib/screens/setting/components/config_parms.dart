@@ -55,12 +55,9 @@ class _ConfigParams extends State<ParamsConfig> {
     final TextEditingController tipOtherErrController =
         TextEditingController(text: widget.config?.deFalseVoice?.other);
 
-    var container = Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
+    var container = Card(
+        child: Padding(
+      padding: defaultPaddingAll,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -185,7 +182,7 @@ class _ConfigParams extends State<ParamsConfig> {
           ),
         ],
       ),
-    );
+    ));
     return Form(key: widget.formKey, child: container);
   }
 }

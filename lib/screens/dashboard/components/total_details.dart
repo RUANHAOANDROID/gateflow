@@ -55,7 +55,7 @@ class _TotalDetails extends State<TotalDetails> {
     }
 
     var container = Container(
-      padding: const EdgeInsets.all(defaultPadding),
+      padding: defaultPaddingAll,
       // decoration: const BoxDecoration(
       //   color: secondaryColor,
       //   borderRadius: BorderRadius.all(Radius.circular(10)),

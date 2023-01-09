@@ -38,57 +38,50 @@ class _TestScreen extends State<TestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var container = Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "设备列表 ",
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: DataTable2(
-              columnSpacing: defaultPadding,
-              minWidth: 600,
-              columns: const [
-                DataColumn(
-                  label: Text("点位"),
-                ),
-                DataColumn(
-                  label: Text("设备编号"),
-                ),
-                DataColumn(
-                  label: Text("IP"),
-                ),
-                DataColumn(
-                  label: Text("版本"),
-                ),
-                DataColumn(
-                  label: Text("状态"),
-                ),
-                DataColumn(
-                  label: Text("操作"),
-                ),
-              ],
-              rows: List.generate(
-                widget.devices.length,
-                (index) => devicesDataRow(widget.devices[index]),
+    var column = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "设备列表 ",
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: DataTable2(
+            columnSpacing: defaultPadding,
+            minWidth: 600,
+            columns: const [
+              DataColumn(
+                label: Text("点位"),
               ),
+              DataColumn(
+                label: Text("设备编号"),
+              ),
+              DataColumn(
+                label: Text("IP"),
+              ),
+              DataColumn(
+                label: Text("版本"),
+              ),
+              DataColumn(
+                label: Text("状态"),
+              ),
+              DataColumn(
+                label: Text("操作"),
+              ),
+            ],
+            rows: List.generate(
+              widget.devices.length,
+              (index) => devicesDataRow(widget.devices[index]),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
     var title = Padding(
       padding: const EdgeInsets.only(
           left: defaultPadding / 2,
-          top: defaultPadding/2,
+          top: defaultPadding / 2,
           bottom: defaultPadding),
       child: Row(
         children: [
@@ -107,12 +100,20 @@ class _TestScreen extends State<TestScreen> {
     return SafeArea(
       child: SingleChildScrollView(
         primary: false,
-        padding: const EdgeInsets.all(defaultPadding),
+        padding: defaultPaddingAll,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             title,
-            container,
+            Card(
+              color: Theme.of(context).cardTheme.color,
+              margin: EdgeInsets.only(left: defaultPadding / 2),
+              child: Padding(
+                padding: EdgeInsets.all(defaultPadding / 2),
+                child: column,
+              ),
+            )
+            //Card()container,
           ],
         ),
       ),

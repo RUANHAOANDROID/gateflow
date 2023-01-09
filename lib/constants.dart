@@ -7,7 +7,7 @@ const success = 1;
 const fail = 0;
 
 const defaultPadding = 16.0;
-
+const defaultPaddingAll = EdgeInsets.all(defaultPadding);
 const MyUrl = 'http://localhost:8888';
 const ICBC_URL = 'http://localhost:9090';
 const EMCS_URL = 'http://localhost:9090';

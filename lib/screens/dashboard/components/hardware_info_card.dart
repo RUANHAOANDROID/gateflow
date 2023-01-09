@@ -16,7 +16,7 @@ class HardwareInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var container = Container(
-      padding: const EdgeInsets.all(defaultPadding),
+      padding: defaultPaddingAll,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.all(Radius.circular(10)),

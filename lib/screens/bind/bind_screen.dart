@@ -106,12 +106,9 @@ class _BindScreen extends State<BindScreen> {
       ),
     );
     print("getDevices");
-    var container = Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
+    var card = Card(
+        child: Padding(
+      padding: EdgeInsets.all(defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -170,16 +167,16 @@ class _BindScreen extends State<BindScreen> {
           ),
         ],
       ),
-    );
+    ));
     return SafeArea(
       child: SingleChildScrollView(
         primary: false,
-        padding: const EdgeInsets.all(defaultPadding),
+        padding: defaultPaddingAll,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             title,
-            container,
+            card,
           ],
         ),
       ),
@@ -211,7 +208,7 @@ class _BindScreen extends State<BindScreen> {
                 IconButton(
                   icon: const Icon(
                     Icons.edit,
-                    color: primaryColor,
+                    color: Colors.blue,
                   ),
                   onPressed: () {
                     showDialog<bool>(

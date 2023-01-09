@@ -88,7 +88,7 @@ class _DashboardScreen extends State<DashboardScreen> {
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
             primary: false,
-            padding: const EdgeInsets.all(defaultPadding),
+            padding: defaultPaddingAll,
             child: Column(
               children: [
                 const Header(),

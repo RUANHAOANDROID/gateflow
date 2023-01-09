@@ -17,7 +17,7 @@ class SideMenu extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           DrawerHeader(
-            child: Image.asset("assets/images/logo1.png"),
+            child: Image.asset("assets/images/logo1.png",color: Colors.blueAccent,),
           ),
           DrawerListTile(
             title: "运行概要",

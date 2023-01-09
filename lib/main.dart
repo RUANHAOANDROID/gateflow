@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       key: NavigationService.navigatorKey,
       debugShowCheckedModeBanner: false,
-      title: 'Gate Flow',
+      //title: 'Gate Flow',
       //theme: ThemeLight(context),
       theme: ThemeDark(context),
       localizationsDelegates: const [

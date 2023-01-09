@@ -22,7 +22,7 @@ class TotalInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: defaultPadding),
-      padding: const EdgeInsets.all(defaultPadding),
+      padding: defaultPaddingAll,
       decoration: BoxDecoration(
         border: Border.all(width: 2, color: primaryColor.withOpacity(0.15)),
         borderRadius: const BorderRadius.all(

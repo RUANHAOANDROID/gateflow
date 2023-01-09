@@ -62,7 +62,7 @@ class _EventLogs extends State<EventLogs> {
       ],
     );
     var container = Container(
-      padding: const EdgeInsets.all(defaultPadding),
+      padding: defaultPaddingAll,
       // decoration: BoxDecoration(
       //   color: Theme.of(context).cardColor,
       //   borderRadius: BorderRadius.all(Radius.circular(10)),

@@ -27,9 +27,9 @@ class _ConfigUrl extends State<ConfigUrl> {
   @override
   ConfigUrl get widget => super.widget;
   var padding = const EdgeInsets.only(bottom: defaultPadding / 2);
+
   @override
   Widget build(BuildContext context) {
-    print("config url build");
     print("config url build");
     var buttonStyleFrom = TextButton.styleFrom(
       padding: EdgeInsets.symmetric(
@@ -37,30 +37,29 @@ class _ConfigUrl extends State<ConfigUrl> {
         vertical: defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
       ),
     );
-    return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: padding,
-            child: RichText(
-              text: TextSpan(
-                text: " 获取配置 ",
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
+    var column = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: padding,
+          child: RichText(
+            text: TextSpan(
+              text: " 获取配置 ",
+              style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
-          Container(
-            color: secondaryColor,
-            child: Form(
-                key: widget.formKey, child: rowConfigPull(buttonStyleFrom)),
-          )
-        ],
+        ),
+        Container(
+          child:
+              Form(key: widget.formKey, child: rowConfigPull(buttonStyleFrom)),
+        )
+      ],
+    );
+    return Card(
+      color: Theme.of(context).cardColor,
+      child: Padding(
+        padding: EdgeInsets.all(defaultPadding),
+        child: column,
       ),
     );
   }
@@ -133,9 +132,9 @@ class _ConfigUrl extends State<ConfigUrl> {
         hoverColor: Colors.blueGrey,
         border: const OutlineInputBorder(),
         labelText: hite,
-        labelStyle: const TextStyle(color: Colors.white70),
+        // labelStyle: const TextStyle(color: Colors.white70),
         hintText: hite,
-        hintStyle: const TextStyle(color: Colors.white70),
+        // hintStyle: const TextStyle(color: Colors.white70),
       ),
     );
   }

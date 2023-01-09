@@ -70,12 +70,12 @@ class _RowFormField extends State<RowFormField> {
         changed(value);
       },
       decoration: InputDecoration(
-        hoverColor: Colors.blueGrey,
+        //hoverColor: Colors.blueGrey,
         border: outlineInputBorder,
         labelText: hite,
-        labelStyle: const TextStyle(color: Colors.white70),
+        //labelStyle: const TextStyle(color: Colors.white70),
         hintText: hite,
-        hintStyle: const TextStyle(color: Colors.white70),
+        //hintStyle: const TextStyle(color: Colors.white70),
       ),
     );
   }
