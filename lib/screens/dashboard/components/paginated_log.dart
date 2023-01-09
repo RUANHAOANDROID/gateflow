@@ -356,7 +356,6 @@ class SourceData extends DataTableSource {
               height: 300,
               padding:
               const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-              color: bgColor,
               child: SelectableText(text),
             ),
           );
