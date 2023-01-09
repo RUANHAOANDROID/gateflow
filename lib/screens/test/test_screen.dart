@@ -107,9 +107,8 @@ class _TestScreen extends State<TestScreen> {
             title,
             Card(
               color: Theme.of(context).cardTheme.color,
-              margin: EdgeInsets.only(left: defaultPadding / 2),
               child: Padding(
-                padding: EdgeInsets.all(defaultPadding / 2),
+                padding: defaultPaddingAll,
                 child: column,
               ),
             )
