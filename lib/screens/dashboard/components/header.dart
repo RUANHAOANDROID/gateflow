@@ -43,7 +43,7 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var card = Card(
-        margin: EdgeInsets.only(left: defaultPadding),
+        margin: const EdgeInsets.only(left: defaultPadding/2),
         elevation: 10.0,
         //设置阴影
         color: Theme.of(context).canvasColor,
@@ -51,8 +51,8 @@ class ProfileCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5.0))),
         //设置圆角
         child: Padding(
-          padding: EdgeInsets.all(8),
-          child: CustomStatus(color: Colors.green, status: "通讯正常..",),
+          padding: const EdgeInsets.symmetric(vertical: defaultPadding/2,horizontal: defaultPadding/2),
+          child: CustomStatus(color: Colors.green, status: "通讯正常  ",),
         ));
     return card;
   }

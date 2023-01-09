@@ -70,7 +70,12 @@ class _LoginPageState extends State<LoginScreen> {
     var logWidget = Padding(
       padding: const EdgeInsets.only(
           top: defaultPadding * 2, bottom: defaultPadding * 2),
-      child: Center(child: Image.asset('assets/images/logo.png')),
+      child: Center(
+        child: Image.asset(
+          'assets/images/logo.png',
+          color: Colors.blueAccent,
+        ),
+      ),
     );
     var userWidget = Padding(
       padding: EdgeInsets.only(

@@ -86,17 +86,15 @@ class _SettingScreen extends State<SettingScreen> {
       print("Json String ");
       print(string);
       Map<String, dynamic> myConfigJson = jsonDecode(string!);
-      print("Json myConfigJson ");
       print(myConfigJson);
       var config = ConfigResponsData.fromJson(myConfigJson);
-      print("config obj ");
       print(config);
       setState(() {
         widget.formEntity.config = config;
       });
     } catch (e) {
+      showTip("获取配置失败", false);
       print(e);
-      showTip(e.toString(), false);
     }
   }
 
