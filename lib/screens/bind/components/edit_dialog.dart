@@ -196,7 +196,6 @@ class _EditDialog extends State<EditDialog> {
       ),
     );
     return AlertDialog(
-      backgroundColor: secondaryColor,
       title: const Text('添加设备'),
       content: Container(
         width: 450,

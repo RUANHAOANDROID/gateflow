@@ -52,10 +52,7 @@ class TotalInfoCard extends StatelessWidget {
                   ),
                   Text(
                     "$numOfFiles",
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption!
-                        .copyWith(color: Colors.white70),
+                    style: Theme.of(context).textTheme.caption,
                   ),
                 ],
               ),

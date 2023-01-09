@@ -140,17 +140,17 @@ class _DashboardScreen extends State<DashboardScreen> {
     var type = jsonMap['type'];
     var data = jsonMap['data'];
     print("handleWsMsg type= ${type} data = ${data}");
-    if (type == TYPE_HARDWARES) {
-      handleHardware(data);
-    } else if (type == TYPE_EVENT) {
-      handleEventLog(data);
-    } else if (type == TYPE_DEVICES) {
-    } else if (type == TYPE_TOTAL) {
-      handleDevicesTotal(data);
-    }
-    if(mounted){
+    if (mounted) {
       setState(() {
         debugPrint("state handle ws msg");
+        if (type == TYPE_HARDWARES) {
+          handleHardware(data);
+        } else if (type == TYPE_EVENT) {
+          handleEventLog(data);
+        } else if (type == TYPE_DEVICES) {
+        } else if (type == TYPE_TOTAL) {
+          handleDevicesTotal(data);
+        }
       });
     }
   }

@@ -54,22 +54,18 @@ class _TotalDetails extends State<TotalDetails> {
       return widgets; // all widget added now retrun the list here
     }
 
-    var container = Container(
-      padding: defaultPaddingAll,
-      // decoration: const BoxDecoration(
-      //   color: secondaryColor,
-      //   borderRadius: BorderRadius.all(Radius.circular(10)),
-      // ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: widgets(),
+    return Card(
+      elevation: 5.0, //设置阴影
+      color: Theme.of(context).canvasColor,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5.0))), //设置圆角
+      child: Padding(
+        padding: defaultPaddingAll,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: widgets(),
+        ),
       ),
     );
-    return Card(
-        elevation: 5.0, //设置阴影
-        color: Theme.of(context).canvasColor,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(5.0))), //设置圆角
-        child: container);
   }
 }

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         Locale('en', 'US'),
       ],
       locale: const Locale('zh'),
-      home: MainScreen(),
+      home: LoginScreen(),
     );
   }
 }
