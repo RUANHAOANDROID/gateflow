@@ -41,7 +41,6 @@ class _BindScreen extends State<BindScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: secondaryColor,
           title: const Text("提示"),
           content: const Text("您确定要删除当前设备吗?"),
           actions: <Widget>[

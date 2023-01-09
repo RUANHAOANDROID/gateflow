@@ -135,13 +135,11 @@ class _EventLogs extends State<EventLogs> {
       //barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: secondaryColor,
           child: Container(
             width: 600,
             height: 300,
             padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-            color: bgColor,
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
             child: SelectableText(info.content!),
           ),
         );

@@ -351,7 +351,6 @@ class SourceData extends DataTableSource {
         //barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return Dialog(
-            backgroundColor: secondaryColor,
             child: Container(
               width: 600,
               height: 300,

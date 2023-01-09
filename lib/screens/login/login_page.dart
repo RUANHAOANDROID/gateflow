@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginScreen> {
     var logWidget = Padding(
       padding: const EdgeInsets.only(
           top: defaultPadding * 2, bottom: defaultPadding * 2),
-      child: Center(child: Image.asset('assets/images/logo1.png')),
+      child: Center(child: Image.asset('assets/images/logo.png')),
     );
     var userWidget = Padding(
       padding: EdgeInsets.only(
@@ -140,10 +140,6 @@ class _LoginPageState extends State<LoginScreen> {
     double paddingBottom = 100;
 
     return Scaffold(
-      //backgroundColor: bgColor,
-      // appBar: AppBar(
-      //   title: const Text("登录"),
-      // ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
