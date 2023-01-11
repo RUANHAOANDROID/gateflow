@@ -77,14 +77,13 @@ class _SettingScreen extends State<SettingScreen> {
 //个人配置
   void getMyConfig() async {
     try {
-      print("init get my config");
+      debugPrint("init get my config");
       var requestBody = ConfigGetEntity();
       requestBody.id = widget.formEntity.code;
       requestBody.configUrl = widget.formEntity.url;
       var json = await HttpUtils.post("/config/getMyConfig", "");
       var string = ResponseEntity.fromJson(json).data;
-      print("Json String ");
-      print(string);
+      debugPrint("config json string :$string");
       Map<String, dynamic> myConfigJson = jsonDecode(string!);
       print(myConfigJson);
       var config = ConfigResponsData.fromJson(myConfigJson);

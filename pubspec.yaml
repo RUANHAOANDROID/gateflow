@@ -88,7 +88,7 @@ flutter:
   fonts:
     - family: Regular
       fonts:
-        - asset: assets/fonts/SourceHanSansCN-Regular.ttf
+        - asset: fonts/SourceHanSansCN-Regular.ttf
           style: normal
   #
   # For details regarding fonts from package dependencies,
