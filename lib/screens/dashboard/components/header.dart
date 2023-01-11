@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gateflow/controllers/ThemeController.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
@@ -14,6 +15,21 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isDarkModel = Provider.of<ThemeController>(context).isDarkMode;
+    Color _activeColor;
+    if (isDarkModel) {
+      _activeColor = Colors.white;
+    } else {
+      _activeColor = Colors.black;
+    }
+    var switchListTile = SwitchListTile(
+      activeColor: _activeColor,
+      value: isDarkModel,
+      onChanged: (selected) {
+        isDarkModel = selected;
+        context.read<ThemeController>().setTheme(selected);
+      },
+    );
     return Row(
       children: [
         if (!Responsive.isDesktop(context))
@@ -28,7 +44,10 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        //Expanded(child: SearchField()),
+        Expanded(
+          flex: 1,
+          child: switchListTile,
+        ),
         const ProfileCard()
       ],
     );
@@ -43,7 +62,7 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var card = Card(
-        margin: const EdgeInsets.only(left: defaultPadding/2),
+        margin: const EdgeInsets.only(left: defaultPadding / 2),
         elevation: 10.0,
         //设置阴影
         color: Theme.of(context).canvasColor,
@@ -51,8 +70,12 @@ class ProfileCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5.0))),
         //设置圆角
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: defaultPadding/2,horizontal: defaultPadding/2),
-          child: CustomStatus(color: Colors.green, status: "通讯正常  ",),
+          padding: const EdgeInsets.symmetric(
+              vertical: defaultPadding / 2, horizontal: defaultPadding / 2),
+          child: CustomStatus(
+            color: Colors.green,
+            status: "通讯正常  ",
+          ),
         ));
     return card;
   }

@@ -75,8 +75,8 @@ class _LoginPageState extends State<LoginScreen> {
     double padding = defaultPadding;
 
     if (Responsive.isDesktop(context)) {
-      verticalMargin = 200;
-      horizontalMargin = 400;
+      verticalMargin = 100;
+      horizontalMargin = 300;
       padding = defaultPadding*1.5;
     }
     if (Responsive.isTablet(context)) {
