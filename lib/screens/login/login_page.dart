@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/constants.dart';
+import 'package:gateflow/controllers/ThemeController.dart';
 import 'package:gateflow/models/login_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/responsive.dart';
@@ -9,6 +10,7 @@ import 'package:gateflow/theme/theme.dart';
 import 'package:gateflow/utils/http.dart';
 import 'package:gateflow/wiidget/tip.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -67,112 +69,113 @@ class _LoginPageState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var logWidget = Padding(
-      padding: const EdgeInsets.only(
-          top: defaultPadding * 2, bottom: defaultPadding * 2),
-      child: Center(
-        child: Image.asset(
-          'assets/images/logo.png',
-          color: Colors.blueAccent,
-        ),
-      ),
-    );
-    var userWidget = Padding(
-      padding: EdgeInsets.only(
-          top: defaultPadding * 4,
-          left: defaultPadding * 8,
-          right: defaultPadding * 8),
-      child: TextFormField(
-        onSaved: (value) {
-          user = value!;
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return '用户名为空';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-            hoverColor: Theme.of(context).hoverColor,
-            //labelStyle: formTextStyle(context),
-            //hintStyle: formTextStyle(context),
-            border: outlineInputBorder,
-            labelText: '用户名',
-            hintText: '请输入用户名'),
-      ),
-    );
-    var pwdWidget = Padding(
-      padding: EdgeInsets.only(
-          top: defaultPadding * 2,
-          left: defaultPadding * 8,
-          right: defaultPadding * 8),
-      child: TextFormField(
-        onSaved: (value) {
-          pwd = value!;
-        },
-        obscureText: true,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return '密码为空';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-            hoverColor: Theme.of(context).highlightColor,
-            //labelStyle: formTextStyle(context),
-            //hintStyle: formTextStyle(context),
-            border: outlineInputBorder,
-            labelText: '密码',
-            hintText: '请输入密码'),
-      ),
-    );
-    var loginBtnWidget = Padding(
-      padding: EdgeInsets.only(top: defaultPadding * 4),
-      child: ElevatedButton(
-        style: buttonStyle(context),
-        onPressed: () {
-          login();
-        },
-        child: const Text(
-          '登录',
-          //style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-      ),
-    );
-    double paddingLift = 200;
-    double paddingRight = 200;
-    double paddingTop = 100;
-    double paddingBottom = 100;
+    double verticalMargin = 100;
+    double horizontalMargin = 100;
 
-    return Scaffold(
-      body: SingleChildScrollView(
+    double padding = defaultPadding;
+
+    if (Responsive.isDesktop(context)) {
+      verticalMargin = 200;
+      horizontalMargin = 400;
+      padding = defaultPadding*1.5;
+    }
+    if (Responsive.isTablet(context)) {
+      verticalMargin = 100;
+      horizontalMargin = 100;
+      padding = defaultPadding *1.5;
+    }
+
+    if (Responsive.isMobile(context)) {
+      verticalMargin = 200;
+      horizontalMargin = 50;
+      padding = padding;
+    }
+
+    var column = Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: padding*2, bottom: padding * 2),
+          child: Center(
+            child: Image.asset(
+              'assets/images/logo.png',
+              color: Colors.blueAccent,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: padding , bottom: padding,left: padding*4,right: padding*4),
+          child: TextFormField(
+            onSaved: (value) {
+              user = value!;
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return '用户名为空';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+                hoverColor: Theme.of(context).hoverColor,
+                border: outlineInputBorder,
+                labelText: '用户名',
+                hintText: '请输入用户名'),
+          ),
+        ),
+        Padding(
+          padding:  EdgeInsets.only(top: padding , bottom: padding,left: padding*4,right: padding*4),
+          child: TextFormField(
+            onSaved: (value) {
+              pwd = value!;
+            },
+            obscureText: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return '密码为空';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+                hoverColor: Theme.of(context).highlightColor,
+                //labelStyle: formTextStyle(context),
+                //hintStyle: formTextStyle(context),
+                border: outlineInputBorder,
+                labelText: '密码',
+                hintText: '请输入密码'),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: padding * 2, bottom: padding),
+          child: ElevatedButton(
+            style: buttonStyle(context),
+            onPressed: () {
+              login();
+            },
+            child: const Text(
+              '登录',
+            ),
+          ),
+        ),
+      ],
+    );
+    var card = Card(
+      elevation: 15.0,
+      //设置阴影
+      margin: EdgeInsets.symmetric(
+          vertical: verticalMargin, horizontal: horizontalMargin),
+      color: Theme.of(context).canvasColor,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(14.0))),
+      //设置圆角
+      child: Form(
+        key: _formKey,
         child: Padding(
-          padding: EdgeInsets.only(
-              left: paddingLift,
-              right: paddingRight,
-              top: paddingTop,
-              bottom: paddingBottom),
-          child: Card(
-              elevation: 15.0, //设置阴影
-              color: Theme.of(context).canvasColor,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))), //设置圆角
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    logWidget,
-                    userWidget,
-                    pwdWidget,
-                    loginBtnWidget,
-                    Padding(
-                      padding: EdgeInsets.all(defaultPadding * 2),
-                    ),
-                  ],
-                ),
-              )),
+          padding: defaultPaddingAll,
+          child: Center(
+            child: column,
+          ),
         ),
       ),
     );
+    return Scaffold(body: SingleChildScrollView(child: card,      primary: false,));
   }
 }

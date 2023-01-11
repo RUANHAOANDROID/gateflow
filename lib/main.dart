@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:gateflow/controllers/ThemeController.dart';
 import 'package:gateflow/screens/login/login_page.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
 import 'package:gateflow/theme/theme.dart';
@@ -13,20 +14,33 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => MenuController()),
+      ChangeNotifierProvider(create: (context) => ThemeController(),child: MyAppState(),),
     ],
-    child: MyApp(),
+    child: MyAppState(),
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyAppState extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+    print("_MyAppState build app");
+    var theme = ThemeDark(context);
+    var isDarkMode = context.read<ThemeController>().isDarkMode;
+    if (!isDarkMode) {
+      theme = ThemeLight(context);
+    }
+    _getTheme() {
+      return Provider.of<ThemeController>(context).isDarkMode
+          ? ThemeDark(context)
+          : ThemeLight(context);
+    }
+
     return MaterialApp(
-      key: NavigationService.navigatorKey,
       debugShowCheckedModeBanner: false,
       //title: 'Gate Flow',
       //theme: ThemeLight(context),
-      theme: ThemeDark(context),
+      theme: _getTheme(),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -42,7 +56,33 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    print("build app");
+    return MaterialApp(
+      key: NavigationService.navigatorKey,
+      debugShowCheckedModeBanner: false,
+      //title: 'Gate Flow',
+      //theme: ThemeLight(context),
+      theme: ThemeDark(context).copyWith(backgroundColor: Colors.white),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('zh', 'CH'),
+        Locale('en', 'US'),
+      ],
+      locale: const Locale('zh'),
+      home: LoginScreen(),
+      //initialRoute: "/",
+    );
+  }
+}
+
 class NavigationService {
-  static GlobalKey<NavigatorState> navigatorKey =
-  GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 }
