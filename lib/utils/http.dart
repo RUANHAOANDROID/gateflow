@@ -12,7 +12,15 @@ class HttpUtils {
       var options = BaseOptions(
           baseUrl: BASE_URL,
           connectTimeout: CONNECT_TIMEOUT,
-          receiveTimeout: RECEIVE_TIMEOUT);
+          receiveTimeout: RECEIVE_TIMEOUT,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Expose-Headers":
+                "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, Content-Language, Content-Type",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Credentials": "true",
+          });
       dio = Dio(options);
     }
     return dio!;
