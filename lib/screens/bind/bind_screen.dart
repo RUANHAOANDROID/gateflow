@@ -4,7 +4,7 @@ import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/screens/bind/components/edit_dialog.dart';
 import 'package:gateflow/utils/http.dart';
 import '../../../constants.dart';
-import '../../controllers/MenuController.dart';
+import '../../controllers/MenuItemController.dart';
 import '../../responsive.dart';
 import 'package:provider/provider.dart';
 
@@ -95,7 +95,7 @@ class _BindScreen extends State<BindScreen> {
           if (!Responsive.isDesktop(context))
             IconButton(
               icon: const Icon(Icons.menu),
-              onPressed: context.read<MenuController>().controlMenu,
+              onPressed: context.read<MenuItemController>().controlMenu,
             ),
           Text(
             "设备绑定",

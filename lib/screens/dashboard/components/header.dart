@@ -4,7 +4,7 @@ import 'package:gateflow/controllers/ThemeController.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
-import '../../../controllers/MenuController.dart';
+import '../../../controllers/MenuItemController.dart';
 import '../../../responsive.dart';
 import '../../../wiidget/custom_status.dart';
 
@@ -35,7 +35,7 @@ class Header extends StatelessWidget {
         if (!Responsive.isDesktop(context))
           IconButton(
             icon: const Icon(Icons.menu),
-            onPressed: context.read<MenuController>().controlMenu,
+            onPressed: context.read<MenuItemController>().controlMenu,
           ),
         if (!Responsive.isMobile(context))
           Text(

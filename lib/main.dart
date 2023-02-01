@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gateflow/controllers/ThemeController.dart';
-import 'package:gateflow/screens/login/login_page.dart';
+  import 'package:gateflow/screens/login/login_page.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
 import 'package:gateflow/theme/theme.dart';
 import 'package:provider/provider.dart';
 
-import 'controllers/MenuController.dart';
+import 'controllers/MenuItemController.dart';
 
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => MenuController()),
+      ChangeNotifierProvider(create: (context) => MenuItemController()),
       ChangeNotifierProvider(
         create: (context) => ThemeController(),
         child: MyAppState(),

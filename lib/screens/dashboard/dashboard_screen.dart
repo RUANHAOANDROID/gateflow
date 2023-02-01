@@ -42,8 +42,9 @@ class _DashboardScreen extends State<DashboardScreen> {
       WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
 
   //获取面板信息
-  void getInfo() {
-    _sendMsg("ComeOn");
+  void _again() {
+    //在重新绘制时通知ws再发一次数据
+    _sendMsg("again");
   }
 
   @override
@@ -72,6 +73,7 @@ class _DashboardScreen extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _again();
     return SafeArea(
       child: StreamBuilder(
         //stream: _channel.stream,

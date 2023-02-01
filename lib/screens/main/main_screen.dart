@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/theme/theme.dart';
 import 'package:provider/provider.dart';
-import '../../controllers/MenuController.dart';
+import 'package:gateflow/controllers/MenuItemController.dart';
 import '../../responsive.dart';
 import '../bind/bind_screen.dart';
 import '../dashboard/dashboard_screen.dart';
@@ -18,7 +18,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var scaffold = Scaffold(
-      key: context.read<MenuController>().scaffoldKey,
+      key: context.read<MenuItemController>().scaffoldKey,
       drawer: SideMenu(
         pageController: _controller,
       ),

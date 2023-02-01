@@ -1,6 +1,6 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:gateflow/controllers/MenuController.dart';
+import 'package:gateflow/controllers/MenuItemController.dart';
 import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/net/http.dart';
 import 'package:gateflow/utils/http.dart';
@@ -88,7 +88,7 @@ class _TestScreen extends State<TestScreen> {
           if (!Responsive.isDesktop(context))
             IconButton(
               icon: const Icon(Icons.menu),
-              onPressed: context.read<MenuController>().controlMenu,
+              onPressed: context.read<MenuItemController>().controlMenu,
             ),
           Text(
             "设备调试",

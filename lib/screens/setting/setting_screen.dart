@@ -7,7 +7,7 @@ import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/utils/http.dart';
 import 'package:gateflow/wiidget/mytoast.dart';
 import '../../constants.dart';
-import '../../controllers/MenuController.dart';
+import '../../controllers/MenuItemController.dart';
 import 'components/config_parms.dart';
 import 'components/config_url.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -146,7 +146,7 @@ class _SettingScreen extends State<SettingScreen> {
           if (!Responsive.isDesktop(context))
             IconButton(
               icon: const Icon(Icons.menu),
-              onPressed: context.read<MenuController>().controlMenu,
+              onPressed: context.read<MenuItemController>().controlMenu,
             ),
           Text(
             "参数设置",
