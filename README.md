@@ -1,12 +1,7 @@
 # gateflow
 
-A new Flutter project.
-## 构建
+A device relay service, running on windows, linux, macos,web
+## web
 base url /gateflow/
-web html
+## web html renderer
 flutter build web --web-renderer html
-login 
-![login page](https://github.com/RUANHAOANDROID/gateflow/blob/main/docs/login.png)
-home
-![login page](https://github.com/RUANHAOANDROID/gateflow/blob/main/docs/home.png)
-
