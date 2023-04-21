@@ -46,6 +46,7 @@ class _TestScreen extends State<TestScreen> {
           style: Theme.of(context).textTheme.subtitle1,
         ),
         SizedBox(
+          height: 200,
           width: double.infinity,
           child: DataTable2(
             columnSpacing: defaultPadding,
