@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:gateflow/controllers/MenuItemController.dart';
@@ -46,7 +48,7 @@ class _TestScreen extends State<TestScreen> {
           style: Theme.of(context).textTheme.subtitle1,
         ),
         SizedBox(
-          height: 200,
+          height: window.physicalSize.height*0.58,
           width: double.infinity,
           child: DataTable2(
             columnSpacing: defaultPadding,

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/devices_entity.dart';
@@ -134,6 +136,7 @@ class _BindScreen extends State<BindScreen> {
             label: const Text("添加设备"),
           ),
           SizedBox(
+            height: window.physicalSize.height*0.56,
             width: double.infinity,
             child: DataTable2(
               columnSpacing: defaultPadding,

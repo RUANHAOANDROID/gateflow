@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:ui';
 
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,7 @@ class _EventLogs extends State<EventLogs> {
         children: [
           titleColumn,
           SizedBox(
+            height: window.physicalSize.height*0.4,
             width: double.infinity,
             child: DataTable2(
               columnSpacing: defaultPadding,
