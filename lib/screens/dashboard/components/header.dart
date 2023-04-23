@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gateflow/controllers/ThemeController.dart';
@@ -17,14 +19,21 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     var isDarkModel = Provider.of<ThemeController>(context).isDarkMode;
     Color _activeColor;
+    String _model;
     if (isDarkModel) {
-      _activeColor = Colors.white;
+      _activeColor = Colors.grey;
+      _model = "暗黑模式";
     } else {
-      _activeColor = Colors.black;
+      _activeColor = Colors.grey;
+      _model = "明亮模式";
     }
     var switchListTile = SwitchListTile(
+      title: Text(_model),
+      contentPadding: const EdgeInsets.only(left: 8,right: 8),
       activeColor: _activeColor,
       value: isDarkModel,
+      inactiveThumbImage: const AssetImage('assets/images/dark_mode.png'),
+      activeThumbImage: const AssetImage('assets/images/light_mode_sunny.png'),
       onChanged: (selected) {
         isDarkModel = selected;
         context.read<ThemeController>().setTheme(selected);
@@ -44,8 +53,8 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        Expanded(
-          flex: 1,
+        SizedBox(
+         width: 180,
           child: switchListTile,
         ),
         const ProfileCard()
