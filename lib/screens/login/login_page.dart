@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gateflow/constants.dart';
-import 'package:gateflow/controllers/ThemeController.dart';
 import 'package:gateflow/models/login_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/responsive.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
-import 'package:gateflow/screens/setting/setting_screen.dart';
 import 'package:gateflow/theme/theme.dart';
 import 'package:gateflow/utils/http.dart';
 import 'package:gateflow/wiidget/tip.dart';
-import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -69,32 +65,44 @@ class _LoginPageState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double verticalMargin = 100;
-    double horizontalMargin = 100;
-
-    double padding = defaultPadding;
-
-    if (Responsive.isDesktop(context)) {
-      verticalMargin = 100;
-      horizontalMargin = 300;
-      padding = defaultPadding*1.5;
-    }
-    if (Responsive.isTablet(context)) {
-      verticalMargin = 100;
-      horizontalMargin = 100;
-      padding = defaultPadding *1.5;
-    }
-
-    if (Responsive.isMobile(context)) {
-      verticalMargin = 200;
-      horizontalMargin = 50;
-      padding = padding;
-    }
-
-    var column = Column(
+  var centerLayout=  LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        //   verticalMargin = window.physicalSize.width/4;
+        //   horizontalMargin = window.physicalSize.width/4;
+        double  paddingVertical =constraints.maxHeight /35;
+        double paddingHorizontal =constraints.maxWidth /30;
+        double cardWidth = constraints.maxWidth / 2;
+        double cardHeight = constraints.maxHeight/ 2;
+        if (Responsive.isDesktop(context)) {
+          paddingVertical=constraints.maxHeight/35;
+          paddingHorizontal=constraints.maxWidth/20;
+          cardWidth = constraints.maxWidth / 2.5;
+        }
+        if (Responsive.isMobile(context)) {
+          paddingVertical=constraints.maxHeight/35;
+          paddingHorizontal=constraints.maxWidth/30;
+          cardWidth= constraints.maxWidth/1.5;
+        }
+        if (Responsive.isTablet(context)) {
+          paddingVertical=constraints.maxHeight/35;
+          paddingHorizontal=constraints.maxWidth/20;
+          cardWidth= constraints.maxWidth/1.5;
+        }
+        return Card(elevation: 15.0, color: Theme.of(context).canvasColor,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(14.0))),
+      //设置圆角
+      child: Form(
+        key: _formKey,
+        child: Padding(
+          padding: defaultPaddingAll,
+          child: SizedBox(
+            width: cardWidth,
+            height: cardHeight,
+            child: Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: padding*2, bottom: padding * 2),
+          padding: EdgeInsets.only(top: paddingVertical,bottom: paddingVertical),
           child: Center(
             child: Image.asset(
               'assets/images/logo.png',
@@ -103,7 +111,7 @@ class _LoginPageState extends State<LoginScreen> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: padding , bottom: padding,left: padding*4,right: padding*4),
+          padding:EdgeInsets.only(top: paddingVertical,left: paddingHorizontal,right: paddingHorizontal),
           child: TextFormField(
             onSaved: (value) {
               user = value!;
@@ -122,7 +130,7 @@ class _LoginPageState extends State<LoginScreen> {
           ),
         ),
         Padding(
-          padding:  EdgeInsets.only(top: padding , bottom: padding,left: padding*4,right: padding*4),
+          padding:  EdgeInsets.only(top: paddingVertical,bottom: paddingVertical,left: paddingHorizontal,right: paddingHorizontal),
           child: TextFormField(
             onSaved: (value) {
               pwd = value!;
@@ -144,7 +152,7 @@ class _LoginPageState extends State<LoginScreen> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: padding * 2, bottom: padding),
+          padding:EdgeInsets.only(top: paddingVertical,bottom: paddingVertical),
           child: ElevatedButton(
             style: buttonStyle(context),
             onPressed: () {
@@ -156,26 +164,15 @@ class _LoginPageState extends State<LoginScreen> {
           ),
         ),
       ],
-    );
-    var card = Card(
-      elevation: 15.0,
-      //设置阴影
-      margin: EdgeInsets.symmetric(
-          vertical: verticalMargin, horizontal: horizontalMargin),
-      color: Theme.of(context).canvasColor,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(14.0))),
-      //设置圆角
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: defaultPaddingAll,
-          child: Center(
-            child: column,
+    ),
           ),
         ),
       ),
     );
-    return Scaffold(body: SingleChildScrollView(child: card,      primary: false,));
+        },
+  );
+    var center =Center(child: centerLayout);
+    var singleChildScrollView = SingleChildScrollView(child: center, primary: false,);
+    return Scaffold(body: center);
   }
 }
