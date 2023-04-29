@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'controllers/MenuItemController.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => MenuItemController()),

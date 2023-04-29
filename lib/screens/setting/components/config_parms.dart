@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gateflow/models/config_respons_entity.dart';
+import 'package:gateflow/models/config_response_entity.dart';
 import 'package:gateflow/screens/setting/components/row_form.dart';
 
 import '../../../constants.dart';
@@ -12,8 +12,8 @@ class ParamsConfig extends StatefulWidget {
     required this.saved,
     required this.formKey,
   }) : super(key: key);
-  final ValueChanged<ConfigResponsData?> saved;
-  final ConfigResponsData? config;
+  final ValueChanged<ConfigResponseData?> saved;
+  final ConfigResponseData? config;
   final GlobalKey<FormState> formKey;
 
   @override

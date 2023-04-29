@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/config_get_entity.dart';
-import 'package:gateflow/models/config_respons_entity.dart';
+import 'package:gateflow/models/config_response_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/utils/http.dart';
 import 'package:gateflow/wiidget/mytoast.dart';
@@ -27,7 +27,7 @@ class SettingScreen extends StatefulWidget {
 class FormEntity {
   String? url;
   String? code;
-  ConfigResponsData? config;
+  ConfigResponseData? config;
 }
 
 class SaveMyConfigEntity {
@@ -62,7 +62,7 @@ class _SettingScreen extends State<SettingScreen> {
         requestBody.configUrl = widget.formEntity.url;
         var responseBody =
             await HttpUtils.post("/config/getConfig", requestBody);
-        var stateData = ConfigResponsEntity.fromJson(responseBody).data;
+        var stateData = ConfigResponseEntity.fromJson(responseBody).data;
         setState(() {
           showTip("获取成功", true);
           widget.formEntity.config = stateData;
@@ -86,7 +86,7 @@ class _SettingScreen extends State<SettingScreen> {
       debugPrint("config json string :$string");
       Map<String, dynamic> myConfigJson = jsonDecode(string!);
       print(myConfigJson);
-      var config = ConfigResponsData.fromJson(myConfigJson);
+      var config = ConfigResponseData.fromJson(myConfigJson);
       print(config);
       setState(() {
         widget.formEntity.config = config;
@@ -157,7 +157,7 @@ class _SettingScreen extends State<SettingScreen> {
     );
     var pramContainer = ParamsConfig(
       config: config,
-      saved: (ConfigResponsData? value) {
+      saved: (ConfigResponseData? value) {
         saveConfig();
         print("pram url save");
       },

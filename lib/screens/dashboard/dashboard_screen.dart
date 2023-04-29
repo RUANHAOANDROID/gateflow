@@ -44,7 +44,7 @@ class _DashboardScreen extends State<DashboardScreen> {
   //获取面板信息
   void _again() {
     //在重新绘制时通知ws再发一次数据
-    _sendMsg("again");
+    _sendMsg("ping");
   }
 
   @override
@@ -73,7 +73,6 @@ class _DashboardScreen extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _again();
     return SafeArea(
       child: StreamBuilder(
         //stream: _channel.stream,
