@@ -62,20 +62,7 @@ class _EventLogs extends State<EventLogs> {
         )
       ],
     );
-    var container = Container(
-      padding: defaultPaddingAll,
-      // decoration: BoxDecoration(
-      //   color: Theme.of(context).cardColor,
-      //   borderRadius: BorderRadius.all(Radius.circular(10)),
-      // ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          titleColumn,
-          SizedBox(
-            height: window.physicalSize.height*0.4,
-            width: double.infinity,
-            child: DataTable2(
+    var dataTable2 = DataTable2(
               columnSpacing: defaultPadding,
               minWidth: 600,
               columns: const [
@@ -97,7 +84,21 @@ class _EventLogs extends State<EventLogs> {
                 (index) => recentFileDataRow(
                     widget.eventLogs.elementAt(index).value, index),
               ),
-            ),
+            );
+    var container = Container(
+      padding: defaultPaddingAll,
+      // decoration: BoxDecoration(
+      //   color: Theme.of(context).cardColor,
+      //   borderRadius: BorderRadius.all(Radius.circular(10)),
+      // ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          titleColumn,
+          SizedBox(
+            height: window.physicalSize.height*0.4,
+            width: double.infinity,
+            child: dataTable2,
           )
         ],
       ),

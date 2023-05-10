@@ -51,6 +51,7 @@ class _DashboardScreen extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+    developer.log("dashboard init State");
     _channel.stream.listen((event) {
       developer.log("ws channel listen = $event");
       handleWsMsg(event);
@@ -63,8 +64,8 @@ class _DashboardScreen extends State<DashboardScreen> {
 
   @override
   void dispose() {
+    developer.log("dashboard dispose: channel close");
     _channel.sink.close();
-    developer.log("dispose: channel close");
     super.dispose();
   }
 
@@ -75,6 +76,7 @@ class _DashboardScreen extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    developer.log("dashboard build");
     var singleChildScrollView = SingleChildScrollView(
       scrollDirection: Axis.vertical,
       primary: false,
