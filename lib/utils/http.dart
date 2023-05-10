@@ -34,11 +34,8 @@ class HttpUtils {
     data = data ?? {};
     method = method ?? "get";
     // 打印请求相关信息：请求地址、请求方式、请求参数
-    log("-------Dio Request-------\n"
-        "BaseUrl=$BASE_URL$path\n"
-        "Method=$method\n"
-        "Path=$path\n"
-        "Body=${jsonEncode(data)}");
+    log("------Dio Request-----\n$method\t$BASE_URL\t$path\n"
+        "${jsonEncode(data)}");
 
     var dio = getInstance();
     var resp;
@@ -51,7 +48,7 @@ class HttpUtils {
       var response = await dio.post(path, data: data);
       resp = response.data;
     }
-    debugger(message: "haha");
+    //debugger(message: "response");
     log("------Dio Response-----\n"
         "${jsonEncode(resp)}");
     return resp;
