@@ -84,11 +84,9 @@ class _SettingScreen extends State<SettingScreen> {
       var json = await HttpUtils.post("/config/getMyConfig", "");
       var string = ResponseEntity.fromJson(json).data;
       //developer.debugger(message: string);
-      developer.log("config json string :$string");
       Map<String, dynamic> myConfigJson = jsonDecode(string!);
       developer.log(myConfigJson.toString());
       var config = ConfigResponseData.fromJson(myConfigJson);
-      developer.log(config.toString());
       setState(() {
         widget.formEntity.config = config;
       });

@@ -43,17 +43,16 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
       var myDevices = DevicesEntity.fromJson(response).data!;
       developer.log("_getDevices : ${myDevices}");
       var data = myDevices.map((e) => e.tag!).toList();
-      print(data);
       _devices.clear();
       _devices.add(_deviceName);
       _devices.addAll(data);
       setState(() {
         //devices.clear();
         //devices=data;
-        print("setState _getDevices :$_devices");
+
       });
-    } catch (e) {
-      debugPrint(e.toString());
+    } catch (e,stackTrace) {
+      developer.log("_getDevices",error: e,stackTrace: stackTrace);
     }
   }
 

@@ -66,7 +66,6 @@ class _BindScreen extends State<BindScreen> {
   void _deleteDevices(int? dId) async {
     try {
       var response = await HttpUtils.post("/devices/delete", dId);
-      developer.log(response.toString());
     } catch (e) {
       developer.log("delete device",error: e);
     }

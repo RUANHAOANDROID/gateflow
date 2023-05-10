@@ -52,7 +52,6 @@ class _EditDialog extends State<EditDialog> {
         body.sn = snC.text;
         body.version = versionC.text;
         body.tag = pointC.text;
-        developer.log(body.toString());
         var response = HttpUtils.post("/devices/update", body);
         setState(() {
           Navigator.of(context).pop(true);
