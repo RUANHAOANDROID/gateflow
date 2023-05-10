@@ -5,6 +5,7 @@ import 'package:gateflow/controllers/ThemeController.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
 import 'package:gateflow/theme/theme.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as dev;
 
 import 'controllers/MenuItemController.dart';
 
@@ -25,7 +26,7 @@ void main() {
 class MyAppState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print("_MyAppState build app");
+    dev.log("_MyAppState build app");
     _getTheme() {
       return Provider.of<ThemeController>(context).isDarkMode
           ? ThemeDark(context)

@@ -16,6 +16,7 @@ import 'components/header.dart';
 import 'components/hardware_list.dart';
 import 'components/event_log.dart';
 import 'components/total_details.dart';
+import 'dart:developer' as developer;
 
 //import 'package:web_socket_channel/io.dart';
 //import 'package:web_socket_channel/custom_status.dart' as status;
@@ -51,83 +52,71 @@ class _DashboardScreen extends State<DashboardScreen> {
   void initState() {
     super.initState();
     _channel.stream.listen((event) {
-      print("ws channel listen = $event");
+      developer.log("ws channel listen = $event");
       handleWsMsg(event);
     }, onDone: () {
-      print("ws channel listen onDone");
+      developer.log("ws channel listen onDone");
     }, onError: (err) {
-      print("ws channel listen onError $err");
+      developer.log("ws channel listen onError $err");
     });
   }
 
   @override
   void dispose() {
     _channel.sink.close();
+    developer.log("dispose: channel close");
     super.dispose();
   }
 
   void _sendMsg(String msg) {
     _channel.sink.add(msg);
-    print("_sendMsg = $msg");
+    developer.log("_sendMsg = $msg");
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: StreamBuilder(
-        //stream: _channel.stream,
-        builder: (context, snapshot) {
-          //网络不通会走到这
-          if (snapshot.hasError) {
-            print("hasError");
-            print(snapshot);
-          } else if (snapshot.hasData) {
-            var body = snapshot.data.toString();
-            print(body);
-            handleWsMsg(body);
-          }
-          return SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            primary: false,
-            padding: defaultPaddingAll,
-            child: Column(
-              children: [
-                const Header(),
-                const SizedBox(height: defaultPadding),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    var singleChildScrollView = SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      primary: false,
+      padding: defaultPaddingAll,
+      child: Column(
+        children: [
+          const Header(),
+          const SizedBox(height: defaultPadding),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 5,
+                child: Column(
                   children: [
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        children: [
-                          HardwareList(
-                            hardwares: widget.hardwares,
-                          ),
-                          const SizedBox(height: defaultPadding),
-                          EventLogs(eventLogs: widget.eventLogs),
-                          if (Responsive.isMobile(context))
-                            const SizedBox(height: defaultPadding),
-                          if (Responsive.isMobile(context))
-                            TotalDetails(entity: widget.passedTotalEntity),
-                        ],
-                      ),
+                    HardwareList(
+                      hardwares: widget.hardwares,
                     ),
-                    if (!Responsive.isMobile(context))
-                      const SizedBox(width: defaultPadding),
-                    // On Mobile means if the screen is less than 850 we dont want to show it
-                    if (!Responsive.isMobile(context))
-                      Expanded(
-                        flex: 2,
-                        child: TotalDetails(entity: widget.passedTotalEntity),
-                      ),
+                    const SizedBox(height: defaultPadding),
+                    EventLogs(eventLogs: widget.eventLogs),
+                    if (Responsive.isMobile(context))
+                      const SizedBox(height: defaultPadding),
+                    if (Responsive.isMobile(context))
+                      TotalDetails(entity: widget.passedTotalEntity),
                   ],
-                )
-              ],
-            ),
-          );
-        },
+                ),
+              ),
+              if (!Responsive.isMobile(context))
+                const SizedBox(width: defaultPadding),
+              // On Mobile means if the screen is less than 850 we dont want to show it
+              if (!Responsive.isMobile(context))
+                Expanded(
+                  flex: 2,
+                  child: TotalDetails(entity: widget.passedTotalEntity),
+                ),
+            ],
+          )
+        ],
       ),
+    );
+    return SafeArea(
+      child: singleChildScrollView,
     );
   }
 
@@ -137,28 +126,33 @@ class _DashboardScreen extends State<DashboardScreen> {
     const TYPE_EVENT = 3; //事件
     const TYPE_HARDWARES = 4; // 硬件信息
     const TYPE_TOTAL = 6; // 共计人数
-    var jsonMap = json.decode(body);
-    var type = jsonMap['type'];
-    var data = jsonMap['data'];
-    print("handleWsMsg type= ${type} data = ${data}");
-    if (mounted) {
-      setState(() {
-        debugPrint("state handle ws msg");
-        if (type == TYPE_HARDWARES) {
-          handleHardware(data);
-        } else if (type == TYPE_EVENT) {
-          handleEventLog(data);
-        } else if (type == TYPE_DEVICES) {
-        } else if (type == TYPE_TOTAL) {
-          handleDevicesTotal(data);
-        }
-      });
+    try{
+      var jsonMap = json.decode(body);
+      var type = jsonMap['type'];
+      var data = jsonMap['data'];
+      developer.log("handleWsMsg type= ${type} data = ${data}");
+      if (mounted) {
+        setState(() {
+          developer.log("state handle ws msg");
+          if (type == TYPE_HARDWARES) {
+            handleHardware(data);
+          } else if (type == TYPE_EVENT) {
+            handleEventLog(data);
+          } else if (type == TYPE_DEVICES) {
+          } else if (type == TYPE_TOTAL) {
+            handleDevicesTotal(data);
+          }
+       });
+      }
+    }catch(e){
+      developer.log("error",level: 0,error: e);
     }
+
   }
 
   //硬件
   void handleHardware(data) {
-    print("handleHardware 处理当前硬件消息");
+    developer.log("handleHardware 处理当前硬件消息");
     for (dynamic data in data) {
       HardwareEntity hd = HardwareEntity.fromJson(data);
 
@@ -198,7 +192,7 @@ class _DashboardScreen extends State<DashboardScreen> {
 
   //事件
   void handleEventLog(data) {
-    print("handleEventLog 处理事件消息");
+    developer.log("handleEventLog 处理事件消息");
     for (dynamic item in data) {
       EventsEntity event = EventsEntity.fromJson(item);
       var entry = LinkedListEntryImpl(event);
@@ -224,7 +218,7 @@ class _DashboardScreen extends State<DashboardScreen> {
   }
 
   void handleDevicesTotal(data) {
-    print("handleDevicesTotal 处理统计消息");
+    developer.log("handleDevicesTotal 处理统计消息");
     widget.passedTotalEntity = PassedTotalEntity.fromJson(data);
   }
 }

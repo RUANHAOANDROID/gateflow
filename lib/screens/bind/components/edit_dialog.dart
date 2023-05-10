@@ -7,7 +7,7 @@ import '../../../responsive.dart';
 import '../../../theme/theme.dart';
 import '../../../utils/IpInputFormatter.dart';
 import '../../../utils/http.dart';
-
+import 'dart:developer' as developer;
 class EditDialog extends StatefulWidget {
   final DevicesData? device;
   final _formKey = GlobalKey<FormState>();
@@ -29,7 +29,6 @@ class _EditDialog extends State<EditDialog> {
         body.sn = snC.text;
         body.version = versionC.text;
         body.tag = pointC.text;
-        print(body);
         HttpUtils.post("/devices/add", body);
         setState(() {
           Navigator.of(context).pop(true);
@@ -37,7 +36,7 @@ class _EditDialog extends State<EditDialog> {
       }
       return true;
     } catch (e) {
-      print(e);
+      developer.log("_EditDialog",error: e);
       return false;
     }
   }
@@ -53,7 +52,7 @@ class _EditDialog extends State<EditDialog> {
         body.sn = snC.text;
         body.version = versionC.text;
         body.tag = pointC.text;
-        print(body);
+        developer.log(body.toString());
         var response = HttpUtils.post("/devices/update", body);
         setState(() {
           Navigator.of(context).pop(true);
@@ -61,7 +60,7 @@ class _EditDialog extends State<EditDialog> {
       }
       return true;
     } catch (e) {
-      print(e);
+      developer.log("updateDevice",error: e);
       return false;
     }
   }
@@ -225,13 +224,12 @@ class _EditDialog extends State<EditDialog> {
             ),
           ),
           onPressed: () async {
-            print(widget.device?.id);
             if (widget.device?.id != null) {
               bool isOK = await updateDevice();
-              print(isOK);
+              developer.log(isOK.toString());
             } else {
               bool isOK = await addDevice();
-              print(isOK);
+              developer.log(isOK.toString());
             }
           },
           child: const Text("保存"),

@@ -12,7 +12,7 @@ import 'components/config_parms.dart';
 import 'components/config_url.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:developer' as developer;
 import '../../../responsive.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -69,7 +69,7 @@ class _SettingScreen extends State<SettingScreen> {
         });
       }
     } catch (e) {
-      print(e);
+
       showTip(e.toString(), false);
     }
   }
@@ -77,28 +77,29 @@ class _SettingScreen extends State<SettingScreen> {
 //个人配置
   void getMyConfig() async {
     try {
-      debugPrint("init get my config");
+      developer.log("init get my config");
       var requestBody = ConfigGetEntity();
       requestBody.id = widget.formEntity.code;
       requestBody.configUrl = widget.formEntity.url;
       var json = await HttpUtils.post("/config/getMyConfig", "");
       var string = ResponseEntity.fromJson(json).data;
-      debugPrint("config json string :$string");
+      developer.debugger(message: string);
+      developer.log("config json string :$string");
       Map<String, dynamic> myConfigJson = jsonDecode(string!);
-      print(myConfigJson);
+      developer.log(myConfigJson.toString());
       var config = ConfigResponseData.fromJson(myConfigJson);
-      print(config);
+      developer.log(config.toString());
       setState(() {
         widget.formEntity.config = config;
       });
-    } catch (e) {
+    } catch (e,stackTrace) {
       showTip("获取配置失败", false);
-      print(e);
+      developer.log("getConfig",error: e,stackTrace: stackTrace);
     }
   }
 
   void saveConfig() async {
-    print("saveConfig");
+    developer.log("saveConfig");
     var currentState1 = _formKey1.currentState;
     var currentState2 = _formKey2.currentState;
     if (currentState1!.validate() && currentState2!.validate()) {
@@ -117,13 +118,13 @@ class _SettingScreen extends State<SettingScreen> {
         showTip(msg, true);
       });
     } else {
-      print("code or url is null");
+      developer.log("code or url is null");
     }
   }
 
   @override
   void initState() {
-    print("initState");
+    developer.log("initState");
     widget.formEntity.url = widget.url;
     widget.formEntity.code = widget.code;
     getMyConfig();
@@ -159,7 +160,7 @@ class _SettingScreen extends State<SettingScreen> {
       config: config,
       saved: (ConfigResponseData? value) {
         saveConfig();
-        print("pram url save");
+        developer.log("pram url save");
       },
       formKey: _formKey2,
     );
@@ -169,15 +170,15 @@ class _SettingScreen extends State<SettingScreen> {
       },
       saved: () {
         saveConfig();
-        print("save configurl");
+        developer.log("save configurl");
       },
       formKey: _formKey1,
       entity: widget.formEntity,
       codeUrlChanged: (FormEntity value) {
         widget.formEntity.url = value.url;
         widget.formEntity.code = value.code;
-        print(value.url);
-        print(value.code);
+        developer.log(value.url.toString());
+        developer.log(value.code.toString());
       },
     );
     return SafeArea(

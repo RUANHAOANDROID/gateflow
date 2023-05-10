@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
-
 import '../constants.dart';
-
+import 'dart:developer';
 class HttpUtils {
   static Dio? dio;
 
@@ -14,6 +15,7 @@ class HttpUtils {
           connectTimeout: CONNECT_TIMEOUT,
           receiveTimeout: RECEIVE_TIMEOUT,
           headers: {
+            'Content-Type':'application/json',
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "*",
             "Access-Control-Expose-Headers":
@@ -31,27 +33,28 @@ class HttpUtils {
       {data, method}) async {
     data = data ?? {};
     method = method ?? "get";
-
     // 打印请求相关信息：请求地址、请求方式、请求参数
-    print("HTTP ：$BASE_URL$path");
-    print("HTTP ：$method");
-    print("HTTP ：$path");
-    print("HTTP ：$data");
+    log("-------Dio Request-------\n"
+        "BaseUrl=$BASE_URL$path\n"
+        "Method=$method\n"
+        "Path=$path\n"
+        "Body=${jsonEncode(data)}");
 
     var dio = getInstance();
-    var res;
+    var resp;
     if (method == "get") {
       // get
       var response = await dio.get(path);
-      res = response.data;
+      resp = response.data;
     } else {
       // post
       var response = await dio.post(path, data: data);
-      res = response.data;
+      resp = response.data;
     }
-    print("HTTP ：response");
-    print(res);
-    return res;
+    debugger(message: "haha");
+    log("------Dio Response-----\n"
+        "${jsonEncode(resp)}");
+    return resp;
   }
 
   /// get

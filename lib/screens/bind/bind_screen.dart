@@ -9,7 +9,7 @@ import '../../../constants.dart';
 import '../../controllers/MenuItemController.dart';
 import '../../responsive.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:developer' as developer;
 class BindScreen extends StatefulWidget {
   final List<DevicesData> devices = List.empty(growable: true);
 
@@ -27,7 +27,7 @@ class _BindScreen extends State<BindScreen> {
         widget.devices.addAll(newData);
       });
     } catch (e) {
-      print(e);
+      developer.log("get device list",error: e);
     }
   }
 
@@ -66,9 +66,9 @@ class _BindScreen extends State<BindScreen> {
   void _deleteDevices(int? dId) async {
     try {
       var response = await HttpUtils.post("/devices/delete", dId);
-      print(response);
+      developer.log(response.toString());
     } catch (e) {
-      print(e);
+      developer.log("delete device",error: e);
     }
     _getDevices();
   }
@@ -82,7 +82,7 @@ class _BindScreen extends State<BindScreen> {
   @override
   void deactivate() {
     super.deactivate();
-    print("deactivate");
+    developer.log("deactivate");
   }
 
   @override
@@ -106,7 +106,7 @@ class _BindScreen extends State<BindScreen> {
         ],
       ),
     );
-    print("getDevices");
+    developer.log("getDevices");
     var card = Card(
         child: Padding(
       padding: EdgeInsets.all(defaultPadding),
@@ -186,7 +186,7 @@ class _BindScreen extends State<BindScreen> {
   }
 
   DataRow devicesDataRow(DevicesData info) {
-    print(info);
+    developer.log(info.toString());
     return DataRow(
       cells: [
         DataCell(
@@ -232,7 +232,7 @@ class _BindScreen extends State<BindScreen> {
                   onPressed: () async {
                     bool? delete = await _showDeleteConfirmDialog();
                     if (delete == null) {
-                      print("取消删除");
+                      developer.log("取消删除");
                     } else {
                       _deleteDevices(info.id);
                     }

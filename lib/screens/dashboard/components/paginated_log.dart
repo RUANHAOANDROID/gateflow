@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:gateflow/models/events_page_entity.dart';
 import 'package:gateflow/utils/http.dart';
 import '../../../constants.dart';
 import '../../../wiidget/mytoast.dart';
+import 'dart:developer' as developer;
 
 class PaginatedDataTablePage extends StatefulWidget {
   //EventsPageEntity pageEntity = EventsPageEntity();
@@ -34,12 +36,12 @@ class _PaginatedPageState extends State<PaginatedDataTablePage> {
 
   //获取设备名称
   _getDevices() async {
-    debugPrint("_getDevices async");
+    developer.log("_getDevices async");
     try {
       var response = await HttpUtils.post("/devices/list", "");
 
       var myDevices = DevicesEntity.fromJson(response).data!;
-      debugPrint("_getDevices : ${myDevices}");
+      developer.log("_getDevices : ${myDevices}");
       var data = myDevices.map((e) => e.tag!).toList();
       print(data);
       _devices.clear();
