@@ -32,6 +32,8 @@ class DashboardScreen extends StatefulWidget {
   PassedTotalEntity passedTotalEntity =
       PassedTotalEntity.create(0, List.empty(growable: true));
 
+  DashboardScreen({super.key});
+
   @override
   State<StatefulWidget> createState() => _DashboardScreen();
 }
@@ -39,8 +41,8 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreen extends State<DashboardScreen> {
   //final _channel = HtmlWebSocketChannel.connect('ws://localhost:8888/ws/flow');
 
-  final _channel =
-      WebSocketChannel.connect(Uri.parse('ws://localhost:8888/ws/flow'));
+  final WebSocketChannel _channel =
+      WebSocketChannel.connect(Uri.parse(WS_URL));
 
   //获取面板信息
   void _again() {
