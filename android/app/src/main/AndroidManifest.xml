@@ -2,6 +2,7 @@
     package="com.example.gateflow">
    <application
         android:label="gateflow"
+        android:largeHeap="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
