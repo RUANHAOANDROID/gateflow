@@ -10,6 +10,7 @@ import '../../controllers/MenuItemController.dart';
 import '../../responsive.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as developer;
+
 class BindScreen extends StatefulWidget {
   final List<DevicesData> devices = List.empty(growable: true);
 
@@ -27,7 +28,7 @@ class _BindScreen extends State<BindScreen> {
         widget.devices.addAll(newData);
       });
     } catch (e) {
-      developer.log("get device list",error: e);
+      developer.log("get device list", error: e);
     }
   }
 
@@ -67,7 +68,7 @@ class _BindScreen extends State<BindScreen> {
     try {
       var response = await HttpUtils.post("/devices/delete", dId);
     } catch (e) {
-      developer.log("delete device",error: e);
+      developer.log("delete device", error: e);
     }
     _getDevices();
   }
@@ -106,36 +107,54 @@ class _BindScreen extends State<BindScreen> {
       ),
     );
     developer.log("getDevices");
+    var styleFrom = TextButton.styleFrom(
+      padding: EdgeInsets.symmetric(
+        horizontal: defaultPadding * 1.5,
+        vertical: defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
+      ),
+    );
     var card = Card(
         child: Padding(
-      padding: EdgeInsets.all(defaultPadding),
+      padding: const EdgeInsets.all(defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ElevatedButton.icon(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(
-                horizontal: defaultPadding * 1.5,
-                vertical:
-                    defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
-              ),
-            ),
-            onPressed: () {
-              showDialog<bool>(
-                context: context,
-                //barrierDismissible: false, // user must tap button!
-                builder: (BuildContext context) {
-                  return EditDialog(
-                    device: null,
-                  );
+          Row(
+            children: [
+              ElevatedButton.icon(
+                style: styleFrom,
+                onPressed: () {
+                  showDialog<bool>(
+                    context: context,
+                    //barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return EditDialog(
+                        device: null,
+                      );
+                    },
+                  ).then((value) => onRefresh());
                 },
-              ).then((value) => onRefresh());
-            },
-            icon: const Icon(Icons.add),
-            label: const Text("添加设备"),
+                icon: const Icon(Icons.add),
+                label: const Text("添加设备"),
+              ),
+              SizedBox(
+                width: defaultPadding,
+              ),
+              ElevatedButton.icon(
+                  style: styleFrom,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return NetScanner();
+                        });
+                  },
+                  icon: const Icon(Icons.broadcast_on_home_sharp),
+                  label: const Text("设备发现"))
+            ],
           ),
           SizedBox(
-            height: window.physicalSize.height*0.56,
+            height: window.physicalSize.height * 0.56,
             width: double.infinity,
             child: DataTable2(
               columnSpacing: defaultPadding,
@@ -243,4 +262,49 @@ class _BindScreen extends State<BindScreen> {
       ],
     );
   }
+}
+
+class NetScanner extends StatelessWidget {
+  const NetScanner({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("设备发现"),
+      content: Column(
+        children: [
+          Row(
+            children: [
+              Padding(
+                padding: defaultPaddingAll,
+                child: Text("单片机1  "),
+              ),
+              Padding(padding: defaultPaddingAll, child: Text("192.168.1.1")),
+              IconButton(
+                  onPressed: () {
+                    showDialog<bool>(
+                      context: context,
+                      //barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        return EditDialog(
+                          device: null,
+                        );
+                      },
+                    ).then((value) => onRefresh());
+                  },
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.blue,
+                  ))
+            ],
+          ),
+        ],
+      ),
+      actions: [TextButton(onPressed: () {Navigator.of(context).pop();}, child: Text("关闭"))],
+    );
+  }
+
+  onRefresh() {}
 }
