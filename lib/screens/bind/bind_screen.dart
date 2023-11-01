@@ -266,49 +266,101 @@ class _BindScreen extends State<BindScreen> {
   }
 }
 
-class NetScanner extends StatefulWidget{
+class NetScanner extends StatefulWidget {
   NetScanner({
     super.key,
   });
-  List<DiscoveryData> data =List.empty(growable: true);
-  @override
-  State<StatefulWidget> createState() =>_NetScanner();
 
+  @override
+  State<StatefulWidget> createState() => _NetScanner();
 }
+
 class _NetScanner extends State<NetScanner> {
+  final List<DiscoveryData> data = List.empty(growable: true);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("设备发现"),
-      content:Center(child:  Column(
-        children: [
-          createRow(context,widget.data),
-        ],
-      ),),
-      actions: [TextButton(onPressed: () {Navigator.of(context).pop();}, child: Text("关闭"))],
+      content: Container(
+        width: 400,
+        height: 400,
+        child: createRow(context, data),
+      ),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("关闭"))
+      ],
     );
   }
+
   @override
   void initState() {
     super.initState();
-    // discovery();
+    discovery();
   }
 
   ListView createRow(BuildContext context, List<DiscoveryData> data) {
-    return ListView.builder(itemCount:data.length,itemBuilder: (context,index){
-        return ListTile(title: Text("sss"));
+    return ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          var subtitle = Padding(
+            padding: const EdgeInsets.only(
+                left: defaultPadding * 2, top: defaultPadding / 2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Name:  ${data[index].name}"),
+                Text("IP:  ${data[index].ip}"),
+              ],
+            ),
+          );
+          return ListTile(
+            title: Text("${data[index].sn}"),
+            subtitle: Row(
+              children: [
+                subtitle,
+                const Expanded(child: Padding(padding: defaultPaddingAll,)),
+                TextButton.icon(
+                  onPressed: () {
+                    showDialog<bool>(
+                      context: context,
+                      //barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        return EditDialog(
+                          device: null,
+                        );
+                      },
+                    ).then((value) => onRefresh());
+                  },
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.blue,
+                  ),
+                  label: Text("绑定设备"),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  discovery() async {
+    var response = await HttpUtils.post("/devices/discovery", "");
+    var basic = DiscoveryEntity.fromJson(response);
+    developer.log("${basic.data}");
+    setState(() {
+      if (basic.code == 1) {
+        data.addAll(basic.data);
+        for (var element in basic.data) {
+          data.add(element);
+        }
+      }
     });
   }
-  discovery()async{
-    developer.debugger(message: "");
-   var response = await HttpUtils.post("/devices/discovery", "");
-   var basic =DiscoveryEntity.fromJson(response);
-   setState(() {
-     if(basic.code==200){
-       widget.data.clear();
-       widget.data.addAll(basic.data as Iterable<DiscoveryData>);
-     }
-   });
-  }
+
   onRefresh() {}
 }

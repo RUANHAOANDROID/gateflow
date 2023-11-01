@@ -7,7 +7,7 @@ export 'package:gateflow/generated/json/discovery_entity.g.dart';
 class DiscoveryEntity {
 	int? code = 0;
 	String? msg = '';
-	List<DiscoveryData>? data = [];
+	List<DiscoveryData> data = [];
 
 	DiscoveryEntity();
 
