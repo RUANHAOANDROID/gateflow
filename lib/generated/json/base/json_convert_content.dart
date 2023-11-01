@@ -7,6 +7,7 @@ import 'package:flutter/material.dart' show debugPrint;
 import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_response_entity.dart';
 import 'package:gateflow/models/devices_entity.dart';
+import 'package:gateflow/models/discovery_entity.dart';
 import 'package:gateflow/models/events_entity.dart';
 import 'package:gateflow/models/events_page_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
@@ -16,28 +17,37 @@ import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/models/ws_hds_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
+
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
 typedef EnumConvertFunction<T> = T Function(String value);
+typedef ConvertExceptionHandler = void Function(Object error, StackTrace stackTrace);
 
 class JsonConvert {
-	static final Map<String, JsonConvertFunction> convertFuncMap = {
-		(ConfigGetEntity).toString(): ConfigGetEntity.fromJson,
-		(ConfigResponseEntity).toString(): ConfigResponseEntity.fromJson,
-		(ConfigResponseData).toString(): ConfigResponseData.fromJson,
-		(ConfigResponseDataDeFalseVoice).toString(): ConfigResponseDataDeFalseVoice.fromJson,
-		(ConfigResponseDataDeTrueVoice).toString(): ConfigResponseDataDeTrueVoice.fromJson,
-		(DevicesEntity).toString(): DevicesEntity.fromJson,
-		(DevicesData).toString(): DevicesData.fromJson,
-		(EventsEntity).toString(): EventsEntity.fromJson,
-		(EventsPageEntity).toString(): EventsPageEntity.fromJson,
-		(EventsPageData).toString(): EventsPageData.fromJson,
-		(HardwareEntity).toString(): HardwareEntity.fromJson,
-		(LoginEntity).toString(): LoginEntity.fromJson,
-		(PassedTotalEntity).toString(): PassedTotalEntity.fromJson,
-		(PassedTotalDeviceTotals).toString(): PassedTotalDeviceTotals.fromJson,
-		(ResponseEntity).toString(): ResponseEntity.fromJson,
-		(WsHdsEntity).toString(): WsHdsEntity.fromJson,
-	};
+  static ConvertExceptionHandler? onError;
+
+  static Map<String, JsonConvertFunction> get convertFuncMap =>
+      {
+        (ConfigGetEntity).toString(): ConfigGetEntity.fromJson,
+        (ConfigResponseEntity).toString(): ConfigResponseEntity.fromJson,
+        (ConfigResponseData).toString(): ConfigResponseData.fromJson,
+        (ConfigResponseDataDeFalseVoice)
+            .toString(): ConfigResponseDataDeFalseVoice.fromJson,
+        (ConfigResponseDataDeTrueVoice)
+            .toString(): ConfigResponseDataDeTrueVoice.fromJson,
+        (DevicesEntity).toString(): DevicesEntity.fromJson,
+        (DevicesData).toString(): DevicesData.fromJson,
+        (DiscoveryEntity).toString(): DiscoveryEntity.fromJson,
+        (DiscoveryData).toString(): DiscoveryData.fromJson,
+        (EventsEntity).toString(): EventsEntity.fromJson,
+        (EventsPageEntity).toString(): EventsPageEntity.fromJson,
+        (EventsPageData).toString(): EventsPageData.fromJson,
+        (HardwareEntity).toString(): HardwareEntity.fromJson,
+        (LoginEntity).toString(): LoginEntity.fromJson,
+        (PassedTotalEntity).toString(): PassedTotalEntity.fromJson,
+        (PassedTotalDeviceTotals).toString(): PassedTotalDeviceTotals.fromJson,
+        (ResponseEntity).toString(): ResponseEntity.fromJson,
+        (WsHdsEntity).toString(): WsHdsEntity.fromJson,
+      };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
     if (value == null) {
@@ -50,30 +60,43 @@ class JsonConvert {
       return _asT<T>(value, enumConvert: enumConvert);
     } catch (e, stackTrace) {
       debugPrint('asT<$T> $e $stackTrace');
+      if (onError != null) {
+        onError!(e, stackTrace);
+      }
       return null;
     }
   }
 
-  List<T?>? convertList<T>(List<dynamic>? value, {EnumConvertFunction? enumConvert}) {
+  List<T?>? convertList<T>(List<dynamic>? value,
+      {EnumConvertFunction? enumConvert}) {
     if (value == null) {
       return null;
     }
     try {
-      return value.map((dynamic e) => _asT<T>(e,enumConvert: enumConvert)).toList();
+      return value.map((dynamic e) => _asT<T>(e, enumConvert: enumConvert))
+          .toList();
     } catch (e, stackTrace) {
       debugPrint('asT<$T> $e $stackTrace');
+      if (onError != null) {
+        onError!(e, stackTrace);
+      }
       return <T>[];
     }
   }
 
-List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
+  List<T>? convertListNotNull<T>(dynamic value,
+      {EnumConvertFunction? enumConvert}) {
     if (value == null) {
       return null;
     }
     try {
-      return (value as List<dynamic>).map((dynamic e) => _asT<T>(e,enumConvert: enumConvert)!).toList();
+      return (value as List<dynamic>).map((dynamic e) =>
+      _asT<T>(e, enumConvert: enumConvert)!).toList();
     } catch (e, stackTrace) {
       debugPrint('asT<$T> $e $stackTrace');
+      if (onError != null) {
+        onError!(e, stackTrace);
+      }
       return <T>[];
     }
   }
@@ -106,6 +129,9 @@ List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}
       return value as T;
     } else {
       if (convertFuncMap.containsKey(type)) {
+        if (value == null) {
+          return null;
+        }
         return convertFuncMap[type]!(Map<String, dynamic>.from(value)) as T;
       } else {
         throw UnimplementedError('$type unimplemented');
@@ -113,67 +139,96 @@ List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}
     }
   }
 
-	//list is returned by type
-	static M? _getListChildType<M>(List<Map<String, dynamic>> data) {
-		if(<ConfigGetEntity>[] is M){
-			return data.map<ConfigGetEntity>((Map<String, dynamic> e) => ConfigGetEntity.fromJson(e)).toList() as M;
-		}
-		if(<ConfigResponseEntity>[] is M){
-			return data.map<ConfigResponseEntity>((Map<String, dynamic> e) => ConfigResponseEntity.fromJson(e)).toList() as M;
-		}
-		if(<ConfigResponseData>[] is M){
-			return data.map<ConfigResponseData>((Map<String, dynamic> e) => ConfigResponseData.fromJson(e)).toList() as M;
-		}
-		if(<ConfigResponseDataDeFalseVoice>[] is M){
-			return data.map<ConfigResponseDataDeFalseVoice>((Map<String, dynamic> e) => ConfigResponseDataDeFalseVoice.fromJson(e)).toList() as M;
-		}
-		if(<ConfigResponseDataDeTrueVoice>[] is M){
-			return data.map<ConfigResponseDataDeTrueVoice>((Map<String, dynamic> e) => ConfigResponseDataDeTrueVoice.fromJson(e)).toList() as M;
-		}
-		if(<DevicesEntity>[] is M){
-			return data.map<DevicesEntity>((Map<String, dynamic> e) => DevicesEntity.fromJson(e)).toList() as M;
-		}
-		if(<DevicesData>[] is M){
-			return data.map<DevicesData>((Map<String, dynamic> e) => DevicesData.fromJson(e)).toList() as M;
-		}
-		if(<EventsEntity>[] is M){
-			return data.map<EventsEntity>((Map<String, dynamic> e) => EventsEntity.fromJson(e)).toList() as M;
-		}
-		if(<EventsPageEntity>[] is M){
-			return data.map<EventsPageEntity>((Map<String, dynamic> e) => EventsPageEntity.fromJson(e)).toList() as M;
-		}
-		if(<EventsPageData>[] is M){
-			return data.map<EventsPageData>((Map<String, dynamic> e) => EventsPageData.fromJson(e)).toList() as M;
-		}
-		if(<HardwareEntity>[] is M){
-			return data.map<HardwareEntity>((Map<String, dynamic> e) => HardwareEntity.fromJson(e)).toList() as M;
-		}
-		if(<LoginEntity>[] is M){
-			return data.map<LoginEntity>((Map<String, dynamic> e) => LoginEntity.fromJson(e)).toList() as M;
-		}
-		if(<PassedTotalEntity>[] is M){
-			return data.map<PassedTotalEntity>((Map<String, dynamic> e) => PassedTotalEntity.fromJson(e)).toList() as M;
-		}
-		if(<PassedTotalDeviceTotals>[] is M){
-			return data.map<PassedTotalDeviceTotals>((Map<String, dynamic> e) => PassedTotalDeviceTotals.fromJson(e)).toList() as M;
-		}
-		if(<ResponseEntity>[] is M){
-			return data.map<ResponseEntity>((Map<String, dynamic> e) => ResponseEntity.fromJson(e)).toList() as M;
-		}
-		if(<WsHdsEntity>[] is M){
-			return data.map<WsHdsEntity>((Map<String, dynamic> e) => WsHdsEntity.fromJson(e)).toList() as M;
-		}
+  //list is returned by type
+  static M? _getListChildType<M>(List<Map<String, dynamic>> data) {
+    if (<ConfigGetEntity>[] is M) {
+      return data.map<ConfigGetEntity>((Map<String, dynamic> e) =>
+          ConfigGetEntity.fromJson(e)).toList() as M;
+    }
+    if (<ConfigResponseEntity>[] is M) {
+      return data.map<ConfigResponseEntity>((Map<String, dynamic> e) =>
+          ConfigResponseEntity.fromJson(e)).toList() as M;
+    }
+    if (<ConfigResponseData>[] is M) {
+      return data.map<ConfigResponseData>((Map<String, dynamic> e) =>
+          ConfigResponseData.fromJson(e)).toList() as M;
+    }
+    if (<ConfigResponseDataDeFalseVoice>[] is M) {
+      return data.map<ConfigResponseDataDeFalseVoice>((
+          Map<String, dynamic> e) => ConfigResponseDataDeFalseVoice.fromJson(e))
+          .toList() as M;
+    }
+    if (<ConfigResponseDataDeTrueVoice>[] is M) {
+      return data.map<ConfigResponseDataDeTrueVoice>((Map<String, dynamic> e) =>
+          ConfigResponseDataDeTrueVoice.fromJson(e)).toList() as M;
+    }
+    if (<DevicesEntity>[] is M) {
+      return data.map<DevicesEntity>((Map<String, dynamic> e) =>
+          DevicesEntity.fromJson(e)).toList() as M;
+    }
+    if (<DevicesData>[] is M) {
+      return data.map<DevicesData>((Map<String, dynamic> e) =>
+          DevicesData.fromJson(e)).toList() as M;
+    }
+    if (<DiscoveryEntity>[] is M) {
+      return data.map<DiscoveryEntity>((Map<String, dynamic> e) =>
+          DiscoveryEntity.fromJson(e)).toList() as M;
+    }
+    if (<DiscoveryData>[] is M) {
+      return data.map<DiscoveryData>((Map<String, dynamic> e) =>
+          DiscoveryData.fromJson(e)).toList() as M;
+    }
+    if (<EventsEntity>[] is M) {
+      return data.map<EventsEntity>((Map<String, dynamic> e) =>
+          EventsEntity.fromJson(e)).toList() as M;
+    }
+    if (<EventsPageEntity>[] is M) {
+      return data.map<EventsPageEntity>((Map<String, dynamic> e) =>
+          EventsPageEntity.fromJson(e)).toList() as M;
+    }
+    if (<EventsPageData>[] is M) {
+      return data.map<EventsPageData>((Map<String, dynamic> e) =>
+          EventsPageData.fromJson(e)).toList() as M;
+    }
+    if (<HardwareEntity>[] is M) {
+      return data.map<HardwareEntity>((Map<String, dynamic> e) =>
+          HardwareEntity.fromJson(e)).toList() as M;
+    }
+    if (<LoginEntity>[] is M) {
+      return data.map<LoginEntity>((Map<String, dynamic> e) =>
+          LoginEntity.fromJson(e)).toList() as M;
+    }
+    if (<PassedTotalEntity>[] is M) {
+      return data.map<PassedTotalEntity>((Map<String, dynamic> e) =>
+          PassedTotalEntity.fromJson(e)).toList() as M;
+    }
+    if (<PassedTotalDeviceTotals>[] is M) {
+      return data.map<PassedTotalDeviceTotals>((Map<String, dynamic> e) =>
+          PassedTotalDeviceTotals.fromJson(e)).toList() as M;
+    }
+    if (<ResponseEntity>[] is M) {
+      return data.map<ResponseEntity>((Map<String, dynamic> e) =>
+          ResponseEntity.fromJson(e)).toList() as M;
+    }
+    if (<WsHdsEntity>[] is M) {
+      return data.map<WsHdsEntity>((Map<String, dynamic> e) =>
+          WsHdsEntity.fromJson(e)).toList() as M;
+    }
 
-		debugPrint("${M.toString()} not found");
-	
-		return null;
-}
+    debugPrint("${M.toString()} not found");
 
-	static M? fromJsonAsT<M>(dynamic json) {
-		if (json is List) {
-			return _getListChildType<M>(json.map((e) => e as Map<String, dynamic>).toList());
-		} else {
-			return jsonConvert.convert<M>(json);
-		}
-	}
+    return null;
+  }
+
+  static M? fromJsonAsT<M>(dynamic json) {
+    if (json is M) {
+      return json;
+    }
+    if (json is List) {
+      return _getListChildType<M>(
+          json.map((e) => e as Map<String, dynamic>).toList());
+    } else {
+      return jsonConvert.convert<M>(json);
+    }
+  }
 }

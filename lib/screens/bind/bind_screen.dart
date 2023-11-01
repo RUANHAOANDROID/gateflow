@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/devices_entity.dart';
+import 'package:gateflow/models/discovery_entity.dart';
+import 'package:gateflow/net/http.dart';
 import 'package:gateflow/screens/bind/components/edit_dialog.dart';
 import 'package:gateflow/utils/http.dart';
 import '../../../constants.dart';
@@ -264,47 +266,49 @@ class _BindScreen extends State<BindScreen> {
   }
 }
 
-class NetScanner extends StatelessWidget {
-  const NetScanner({
+class NetScanner extends StatefulWidget{
+  NetScanner({
     super.key,
   });
+  List<DiscoveryData> data =List.empty(growable: true);
+  @override
+  State<StatefulWidget> createState() =>_NetScanner();
 
+}
+class _NetScanner extends State<NetScanner> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("设备发现"),
-      content: Column(
+      content:Center(child:  Column(
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: defaultPaddingAll,
-                child: Text("单片机1  "),
-              ),
-              Padding(padding: defaultPaddingAll, child: Text("192.168.1.1")),
-              IconButton(
-                  onPressed: () {
-                    showDialog<bool>(
-                      context: context,
-                      //barrierDismissible: false, // user must tap button!
-                      builder: (BuildContext context) {
-                        return EditDialog(
-                          device: null,
-                        );
-                      },
-                    ).then((value) => onRefresh());
-                  },
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.blue,
-                  ))
-            ],
-          ),
+          createRow(context,widget.data),
         ],
-      ),
+      ),),
       actions: [TextButton(onPressed: () {Navigator.of(context).pop();}, child: Text("关闭"))],
     );
   }
+  @override
+  void initState() {
+    super.initState();
+    // discovery();
+  }
 
+  ListView createRow(BuildContext context, List<DiscoveryData> data) {
+    return ListView.builder(itemCount:data.length,itemBuilder: (context,index){
+        return ListTile(title: Text("sss"));
+    });
+  }
+  discovery()async{
+    developer.debugger(message: "");
+   var response = await HttpUtils.post("/devices/discovery", "");
+   var basic =DiscoveryEntity.fromJson(response);
+   setState(() {
+     if(basic.code==200){
+       widget.data.clear();
+       widget.data.addAll(basic.data as Iterable<DiscoveryData>);
+     }
+   });
+  }
   onRefresh() {}
 }
