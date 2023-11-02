@@ -11,8 +11,9 @@ import 'dart:developer' as developer;
 class EditDialog extends StatefulWidget {
   final DevicesData? device;
   final _formKey = GlobalKey<FormState>();
-
-  EditDialog({Key? key, this.device}) : super(key: key);
+  final String? ip ;
+  final String? sn ;
+  EditDialog({Key? key, this.device,this.ip,this.sn}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _EditDialog();
@@ -86,6 +87,8 @@ class _EditDialog extends State<EditDialog> {
       snC.text = widget.device?.sn as String;
       pointC.text = widget.device?.tag as String;
     }
+    ipC.text = widget.ip != null ? widget.ip as String : ipC.text;
+    snC.text = widget.sn != null ? widget.sn as String : snC.text;
   }
 
   @override

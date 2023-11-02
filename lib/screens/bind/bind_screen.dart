@@ -130,9 +130,7 @@ class _BindScreen extends State<BindScreen> {
                     context: context,
                     //barrierDismissible: false, // user must tap button!
                     builder: (BuildContext context) {
-                      return EditDialog(
-                        device: null,
-                      );
+                      return EditDialog();
                     },
                   ).then((value) => onRefresh());
                 },
@@ -318,6 +316,9 @@ class _NetScanner extends State<NetScanner> {
               ],
             ),
           );
+         var device = DevicesData();
+         device.sn="${data[index].sn}";
+         device.ip="${data[index].ip}";
           return ListTile(
             title: Text("${data[index].sn}"),
             subtitle: Row(
@@ -331,7 +332,8 @@ class _NetScanner extends State<NetScanner> {
                       //barrierDismissible: false, // user must tap button!
                       builder: (BuildContext context) {
                         return EditDialog(
-                          device: null,
+                          sn: "${data[index].sn}",
+                          ip: "${data[index].ip}" ,
                         );
                       },
                     ).then((value) => onRefresh());
@@ -355,9 +357,6 @@ class _NetScanner extends State<NetScanner> {
     setState(() {
       if (basic.code == 1) {
         data.addAll(basic.data);
-        for (var element in basic.data) {
-          data.add(element);
-        }
       }
     });
   }

@@ -196,7 +196,7 @@ class _DashboardScreen extends State<DashboardScreen> {
 
   //事件
   void handleEventLog(data) {
-    developer.log("handleEventLog 处理事件消息");
+    developer.log("handleEventLog 处理事件消息 $data");
     for (dynamic item in data) {
       EventsEntity event = EventsEntity.fromJson(item);
       var entry = LinkedListEntryImpl(event);
