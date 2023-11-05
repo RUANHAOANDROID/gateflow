@@ -12,6 +12,7 @@ import 'package:gateflow/models/events_entity.dart';
 import 'package:gateflow/models/events_page_entity.dart';
 import 'package:gateflow/models/hardware_entity.dart';
 import 'package:gateflow/models/login_entity.dart';
+import 'package:gateflow/models/macurl_entity.dart';
 import 'package:gateflow/models/passed_total_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/models/ws_hds_entity.dart';
@@ -43,6 +44,8 @@ class JsonConvert {
         (EventsPageData).toString(): EventsPageData.fromJson,
         (HardwareEntity).toString(): HardwareEntity.fromJson,
         (LoginEntity).toString(): LoginEntity.fromJson,
+        (MacurlEntity).toString(): MacurlEntity.fromJson,
+        (MacurlData).toString(): MacurlData.fromJson,
         (PassedTotalEntity).toString(): PassedTotalEntity.fromJson,
         (PassedTotalDeviceTotals).toString(): PassedTotalDeviceTotals.fromJson,
         (ResponseEntity).toString(): ResponseEntity.fromJson,
@@ -197,6 +200,14 @@ class JsonConvert {
     if (<LoginEntity>[] is M) {
       return data.map<LoginEntity>((Map<String, dynamic> e) =>
           LoginEntity.fromJson(e)).toList() as M;
+    }
+    if (<MacurlEntity>[] is M) {
+      return data.map<MacurlEntity>((Map<String, dynamic> e) =>
+          MacurlEntity.fromJson(e)).toList() as M;
+    }
+    if (<MacurlData>[] is M) {
+      return data.map<MacurlData>((Map<String, dynamic> e) =>
+          MacurlData.fromJson(e)).toList() as M;
     }
     if (<PassedTotalEntity>[] is M) {
       return data.map<PassedTotalEntity>((Map<String, dynamic> e) =>

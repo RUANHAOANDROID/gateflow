@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_response_entity.dart';
+import 'package:gateflow/models/macurl_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/utils/http.dart';
 import 'package:gateflow/wiidget/mytoast.dart';
@@ -17,8 +18,8 @@ import '../../../responsive.dart';
 
 class SettingScreen extends StatefulWidget {
   var formEntity = FormEntity();
-  final url = "http://emcs-api.youchiyun.com";
-  final code = "3Y32225000630212";
+  var url = "http://emcs-api.youchiyun.com";
+  var code = "3Y32225000630212";
 
   @override
   State<StatefulWidget> createState() => _SettingScreen();
@@ -62,18 +63,41 @@ class _SettingScreen extends State<SettingScreen> {
         requestBody.configUrl = widget.formEntity.url;
         var responseBody =
             await HttpUtils.post("/config/getConfig", requestBody);
-        var stateData = ConfigResponseEntity.fromJson(responseBody).data;
-        setState(() {
-          showTip("获取成功", true);
-          widget.formEntity.config = stateData;
-        });
+        var basic = ConfigResponseEntity.fromJson(responseBody);
+        var stateData = basic.data;
+        if(basic.code==0){
+          setState(() {
+            showTip("获取成功", true);
+            widget.formEntity.config = stateData;
+          });
+        }else{
+          setState(() {
+            showTip(basic.msg, false);
+          });
+        }
+
       }
     } catch (e) {
-
       showTip(e.toString(), false);
     }
   }
+  void getCondeAndUrl() async {
+    try {
+      var response =await HttpUtils.post("/config/getMacUrl", "");
+      var data =MacurlEntity.fromJson(response).data;
+      if(data!=null){
+        widget.code=data.mac!;
+        widget.url=data.url!;
+        widget.formEntity.code=widget.code!;
+        widget.formEntity.url=widget.url!;
+        setState(() {
 
+        });
+      }
+    }catch(e){
+      showTip(e.toString(), false);
+    }
+  }
 //个人配置
   void getMyConfig() async {
     try {
@@ -126,6 +150,7 @@ class _SettingScreen extends State<SettingScreen> {
     widget.formEntity.url = widget.url;
     widget.formEntity.code = widget.code;
     getMyConfig();
+    getCondeAndUrl();
     super.initState();
   }
 

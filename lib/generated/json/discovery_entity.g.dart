@@ -25,7 +25,7 @@ Map<String, dynamic> $DiscoveryEntityToJson(DiscoveryEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['code'] = entity.code;
   data['msg'] = entity.msg;
-  data['data'] = entity.data?.map((v) => v.toJson()).toList();
+  data['data'] = entity.data.map((v) => v.toJson()).toList();
   return data;
 }
 
