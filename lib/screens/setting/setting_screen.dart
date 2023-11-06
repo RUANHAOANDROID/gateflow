@@ -95,7 +95,7 @@ class _SettingScreen extends State<SettingScreen> {
       var requestBody = ConfigGetEntity();
       requestBody.id = widget.formEntity.code;
       requestBody.configUrl = widget.formEntity.url;
-      var response = await HttpUtils.post("/config/getMyConfig", "");
+      var response = await HttpUtils.post("/config/getCustomConfig", "");
       var data = ResponseEntity.fromJson(response).data;
       if (data != null) {
         //developer.debugger(message: string);
