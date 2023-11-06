@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:gateflow/screens/setting/setting_screen.dart';
 
 import '../../../constants.dart';
-import '../../../models/macurl_entity.dart';
 import '../../../responsive.dart';
-import '../../../utils/http.dart';
 
 class ConfigUrl extends StatefulWidget {
-  ConfigUrl({
+  const ConfigUrl({
     Key? key,
     required this.formKey,
     required this.get,
@@ -54,10 +52,7 @@ class _ConfigUrl extends State<ConfigUrl> {
             ),
           ),
         ),
-        Container(
-          child:
-              Form(key: widget.formKey, child: rowConfigPull(buttonStyleFrom)),
-        )
+        Form(key: widget.formKey, child: rowConfigPull(buttonStyleFrom))
       ],
     );
     return Card(
