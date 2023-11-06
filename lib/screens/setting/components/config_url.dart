@@ -28,23 +28,9 @@ class ConfigUrl extends StatefulWidget {
 
 class _ConfigUrl extends State<ConfigUrl> {
   var padding = const EdgeInsets.only(bottom: defaultPadding / 2);
-  void getCondeAndUrl() async {
-    try {
-      var response =await HttpUtils.post("/config/getMacUrl", "");
-      var data =MacurlEntity.fromJson(response).data;
-      if(data!=null){
-        setState(() {
-          widget.entity.code=data.mac!;
-          widget.entity.url=data.url!;
-        });
-      }
-    }catch(e){
-      print(e);
-    }
-  }
+
   @override
   void initState() {
-    getCondeAndUrl();
     super.initState();
   }
   @override
