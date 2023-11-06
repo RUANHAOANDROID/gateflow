@@ -1,17 +1,22 @@
+import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/models/discovery_entity.dart';
 import 'package:gateflow/net/http.dart';
 import 'package:gateflow/screens/bind/components/edit_dialog.dart';
 import 'package:gateflow/utils/http.dart';
+import 'package:gateflow/wiidget/mytoast.dart';
 import '../../../constants.dart';
 import '../../controllers/MenuItemController.dart';
 import '../../responsive.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as developer;
+
+import '../../wiidget/lodging.dart';
 
 class BindScreen extends StatefulWidget {
   final List<DevicesData> devices = List.empty(growable: true);
@@ -115,6 +120,7 @@ class _BindScreen extends State<BindScreen> {
         vertical: defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
       ),
     );
+
     var card = Card(
         child: Padding(
       padding: const EdgeInsets.all(defaultPadding),
@@ -142,12 +148,22 @@ class _BindScreen extends State<BindScreen> {
               ),
               ElevatedButton.icon(
                   style: styleFrom,
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return NetScanner();
-                        });
+                  onPressed: () async {
+                    showLoadingDialog(context, () async {
+                      var response =
+                          await HttpUtils.post("/devices/discovery", "");
+                      var code = response["code"];
+                      return code == 1;
+                    }).then(
+                      (value) => {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return NetScanner();
+                          },
+                        ),
+                      },
+                    );
                   },
                   icon: const Icon(Icons.broadcast_on_home_sharp),
                   label: const Text("设备发现"))
@@ -278,12 +294,18 @@ class _NetScanner extends State<NetScanner> {
 
   @override
   Widget build(BuildContext context) {
+    Widget centerWidget(){
+      if(data.isNotEmpty) {
+        return createRow(context, data);
+      }
+      return const Center(child: Text("暂未发现设备"));
+    }
     return AlertDialog(
       title: Text("设备发现"),
       content: Container(
         width: 400,
         height: 400,
-        child: createRow(context, data),
+        child: centerWidget(),
       ),
       actions: [
         TextButton(
@@ -298,7 +320,7 @@ class _NetScanner extends State<NetScanner> {
   @override
   void initState() {
     super.initState();
-    discovery();
+    discoveryList();
   }
 
   ListView createRow(BuildContext context, List<DiscoveryData> data) {
@@ -316,15 +338,18 @@ class _NetScanner extends State<NetScanner> {
               ],
             ),
           );
-         var device = DevicesData();
-         device.sn="${data[index].sn}";
-         device.ip="${data[index].ip}";
+          var device = DevicesData();
+          device.sn = "${data[index].sn}";
+          device.ip = "${data[index].ip}";
           return ListTile(
             title: Text("${data[index].sn}"),
             subtitle: Row(
               children: [
                 subtitle,
-                const Expanded(child: Padding(padding: defaultPaddingAll,)),
+                const Expanded(
+                    child: Padding(
+                  padding: defaultPaddingAll,
+                )),
                 TextButton.icon(
                   onPressed: () {
                     showDialog<bool>(
@@ -333,7 +358,7 @@ class _NetScanner extends State<NetScanner> {
                       builder: (BuildContext context) {
                         return EditDialog(
                           sn: "${data[index].sn}",
-                          ip: "${data[index].ip}" ,
+                          ip: "${data[index].ip}",
                         );
                       },
                     ).then((value) => onRefresh());
@@ -350,8 +375,8 @@ class _NetScanner extends State<NetScanner> {
         });
   }
 
-  discovery() async {
-    var response = await HttpUtils.post("/devices/discovery", "");
+  discoveryList() async {
+    var response = await HttpUtils.post("/devices/discoveryList", "");
     var basic = DiscoveryEntity.fromJson(response);
     developer.log("${basic.data}");
     setState(() {

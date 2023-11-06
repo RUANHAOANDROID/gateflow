@@ -18,9 +18,6 @@ import '../../../responsive.dart';
 
 class SettingScreen extends StatefulWidget {
   var formEntity = FormEntity();
-  var url = "http://emcs-api.youchiyun.com";
-  var code = "3Y32225000630212";
-
   @override
   State<StatefulWidget> createState() => _SettingScreen();
 }
@@ -42,14 +39,6 @@ class _SettingScreen extends State<SettingScreen> {
   final _formKey2 = GlobalKey<FormState>();
 
   void showTip(String? msg, bool ok) {
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   SnackBar(
-    //     content: Tip(
-    //       tip: '${msg}',
-    //       ok: true,
-    //     ),
-    //   ),
-    // );
     FToast().init(context).showToast(child: MyToast(tip: "$msg", ok: ok));
   }
 
@@ -86,12 +75,12 @@ class _SettingScreen extends State<SettingScreen> {
       var response =await HttpUtils.post("/config/getMacUrl", "");
       var data =MacurlEntity.fromJson(response).data;
       if(data!=null){
-        widget.code=data.mac!;
-        widget.url=data.url!;
-        widget.formEntity.code=widget.code!;
-        widget.formEntity.url=widget.url!;
         setState(() {
+          widget.formEntity.code=data.mac!;
+          widget.formEntity.url=data.url!;
+          setState(() {
 
+          });
         });
       }
     }catch(e){
@@ -105,15 +94,19 @@ class _SettingScreen extends State<SettingScreen> {
       var requestBody = ConfigGetEntity();
       requestBody.id = widget.formEntity.code;
       requestBody.configUrl = widget.formEntity.url;
-      var json = await HttpUtils.post("/config/getMyConfig", "");
-      var string = ResponseEntity.fromJson(json).data;
-      //developer.debugger(message: string);
-      Map<String, dynamic> myConfigJson = jsonDecode(string!);
-      developer.log(myConfigJson.toString());
-      var config = ConfigResponseData.fromJson(myConfigJson);
-      setState(() {
-        widget.formEntity.config = config;
-      });
+      var response = await HttpUtils.post("/config/getMyConfig", "");
+      var data = ResponseEntity.fromJson(response).data;
+      if(data!=null){
+        //developer.debugger(message: string);
+        Map<String, dynamic> myConfigJson = jsonDecode(data!);
+        developer.log(myConfigJson.toString());
+        var config = ConfigResponseData.fromJson(myConfigJson);
+        setState(() {
+          widget.formEntity.config = config;
+        });
+      }else{
+        showTip("暂无配置", true);
+      }
     } catch (e,stackTrace) {
       showTip("获取配置失败", false);
       developer.log("getConfig",error: e,stackTrace: stackTrace);
@@ -147,17 +140,13 @@ class _SettingScreen extends State<SettingScreen> {
   @override
   void initState() {
     developer.log("initState");
-    widget.formEntity.url = widget.url;
-    widget.formEntity.code = widget.code;
-    getMyConfig();
     getCondeAndUrl();
+    getMyConfig();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    widget.formEntity.url = widget.url;
-    widget.formEntity.code = widget.code;
     var config = widget.formEntity.config;
 
     var title = Padding(
