@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_response_entity.dart';
+import 'package:gateflow/models/custom_config_entity.dart';
 import 'package:gateflow/models/macurl_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/utils/http.dart';
@@ -73,21 +74,6 @@ class _SettingScreen extends State<SettingScreen> {
     }
   }
 
-  void getCondeAndUrl() async {
-    try {
-      var response = await HttpUtils.post("/config/getMacUrl", "");
-      var data = MacurlEntity.fromJson(response).data;
-      if (data != null) {
-        setState(() {
-          widget.formEntity.code = data.mac!;
-          widget.formEntity.url = data.url!;
-        });
-      }
-    } catch (e) {
-      showTip(e.toString(), false);
-    }
-  }
-
 //个人配置
   void getMyConfig() async {
     try {
@@ -96,14 +82,12 @@ class _SettingScreen extends State<SettingScreen> {
       requestBody.id = widget.formEntity.code;
       requestBody.configUrl = widget.formEntity.url;
       var response = await HttpUtils.post("/config/getCustomConfig", "");
-      var data = ResponseEntity.fromJson(response).data;
-      if (data != null) {
-        //developer.debugger(message: string);
-        Map<String, dynamic> myConfigJson = jsonDecode(data!);
-        developer.log(myConfigJson.toString());
-        var config = ConfigResponseData.fromJson(myConfigJson);
+      var respBody = CustomConfigEntity.fromJson(response);
+      if (respBody.code==success && respBody.data!= null) {
         setState(() {
-          widget.formEntity.config = config;
+          widget.formEntity.url=respBody.data?.url;
+          widget.formEntity.code=respBody.data?.code;
+          widget.formEntity.config = respBody.data?.config;
         });
       } else {
         showTip("暂无配置", true);
@@ -140,7 +124,6 @@ class _SettingScreen extends State<SettingScreen> {
   void initState() {
     developer.log("initState");
     super.initState();
-    getCondeAndUrl();
     getMyConfig();
   }
 

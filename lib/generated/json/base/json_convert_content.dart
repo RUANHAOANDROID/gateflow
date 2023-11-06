@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart' show debugPrint;
 import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_response_entity.dart';
+import 'package:gateflow/models/custom_config_entity.dart';
 import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/models/discovery_entity.dart';
 import 'package:gateflow/models/events_entity.dart';
@@ -35,6 +36,12 @@ class JsonConvert {
             .toString(): ConfigResponseDataDeFalseVoice.fromJson,
         (ConfigResponseDataDeTrueVoice)
             .toString(): ConfigResponseDataDeTrueVoice.fromJson,
+        (CustomConfigEntity).toString(): CustomConfigEntity.fromJson,
+        (CustomConfigData).toString(): CustomConfigData.fromJson,
+        (CustomConfigDataConfigDeFalseVoice)
+            .toString(): CustomConfigDataConfigDeFalseVoice.fromJson,
+        (CustomConfigDataConfigDeTrueVoice)
+            .toString(): CustomConfigDataConfigDeTrueVoice.fromJson,
         (DevicesEntity).toString(): DevicesEntity.fromJson,
         (DevicesData).toString(): DevicesData.fromJson,
         (DiscoveryEntity).toString(): DiscoveryEntity.fromJson,
@@ -164,6 +171,24 @@ class JsonConvert {
     if (<ConfigResponseDataDeTrueVoice>[] is M) {
       return data.map<ConfigResponseDataDeTrueVoice>((Map<String, dynamic> e) =>
           ConfigResponseDataDeTrueVoice.fromJson(e)).toList() as M;
+    }
+    if (<CustomConfigEntity>[] is M) {
+      return data.map<CustomConfigEntity>((Map<String, dynamic> e) =>
+          CustomConfigEntity.fromJson(e)).toList() as M;
+    }
+    if (<CustomConfigData>[] is M) {
+      return data.map<CustomConfigData>((Map<String, dynamic> e) =>
+          CustomConfigData.fromJson(e)).toList() as M;
+    }
+    if (<CustomConfigDataConfigDeFalseVoice>[] is M) {
+      return data.map<CustomConfigDataConfigDeFalseVoice>((
+          Map<String, dynamic> e) =>
+          CustomConfigDataConfigDeFalseVoice.fromJson(e)).toList() as M;
+    }
+    if (<CustomConfigDataConfigDeTrueVoice>[] is M) {
+      return data.map<CustomConfigDataConfigDeTrueVoice>((
+          Map<String, dynamic> e) =>
+          CustomConfigDataConfigDeTrueVoice.fromJson(e)).toList() as M;
     }
     if (<DevicesEntity>[] is M) {
       return data.map<DevicesEntity>((Map<String, dynamic> e) =>
