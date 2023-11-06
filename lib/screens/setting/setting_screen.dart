@@ -16,12 +16,6 @@ import 'package:provider/provider.dart';
 import 'dart:developer' as developer;
 import '../../../responsive.dart';
 
-class SettingScreen extends StatefulWidget {
-  var formEntity = FormEntity();
-  @override
-  State<StatefulWidget> createState() => _SettingScreen();
-}
-
 class FormEntity {
   String? url;
   String? code;
@@ -32,6 +26,15 @@ class SaveMyConfigEntity {
   String? url;
   String? code;
   String? config;
+}
+
+class SettingScreen extends StatefulWidget {
+  var formEntity = FormEntity();
+
+  SettingScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _SettingScreen();
 }
 
 class _SettingScreen extends State<SettingScreen> {
@@ -54,39 +57,37 @@ class _SettingScreen extends State<SettingScreen> {
             await HttpUtils.post("/config/getConfig", requestBody);
         var basic = ConfigResponseEntity.fromJson(responseBody);
         var stateData = basic.data;
-        if(basic.code==0){
+        if (basic.code == 0) {
           setState(() {
             showTip("获取成功", true);
             widget.formEntity.config = stateData;
           });
-        }else{
+        } else {
           setState(() {
             showTip(basic.msg, false);
           });
         }
-
       }
     } catch (e) {
       showTip(e.toString(), false);
     }
   }
+
   void getCondeAndUrl() async {
     try {
-      var response =await HttpUtils.post("/config/getMacUrl", "");
-      var data =MacurlEntity.fromJson(response).data;
-      if(data!=null){
+      var response = await HttpUtils.post("/config/getMacUrl", "");
+      var data = MacurlEntity.fromJson(response).data;
+      if (data != null) {
         setState(() {
-          widget.formEntity.code=data.mac!;
-          widget.formEntity.url=data.url!;
-          setState(() {
-
-          });
+          widget.formEntity.code = data.mac!;
+          widget.formEntity.url = data.url!;
         });
       }
-    }catch(e){
+    } catch (e) {
       showTip(e.toString(), false);
     }
   }
+
 //个人配置
   void getMyConfig() async {
     try {
@@ -96,7 +97,7 @@ class _SettingScreen extends State<SettingScreen> {
       requestBody.configUrl = widget.formEntity.url;
       var response = await HttpUtils.post("/config/getMyConfig", "");
       var data = ResponseEntity.fromJson(response).data;
-      if(data!=null){
+      if (data != null) {
         //developer.debugger(message: string);
         Map<String, dynamic> myConfigJson = jsonDecode(data!);
         developer.log(myConfigJson.toString());
@@ -104,12 +105,12 @@ class _SettingScreen extends State<SettingScreen> {
         setState(() {
           widget.formEntity.config = config;
         });
-      }else{
+      } else {
         showTip("暂无配置", true);
       }
-    } catch (e,stackTrace) {
+    } catch (e, stackTrace) {
       showTip("获取配置失败", false);
-      developer.log("getConfig",error: e,stackTrace: stackTrace);
+      developer.log("getConfig", error: e, stackTrace: stackTrace);
     }
   }
 
@@ -122,15 +123,13 @@ class _SettingScreen extends State<SettingScreen> {
       var requestMap = {
         'url': config.url,
         'code': config.code,
-        'content': config.config.toString()
+        'config': config.config
       };
-      var json =
-          await HttpUtils.post("/config/saveMyConfig", jsonEncode(requestMap));
+      var json = await HttpUtils.post(
+          "/config/saveCustomConfig", jsonEncode(requestMap));
       var response = ResponseEntity.fromJson(json);
-      if (response == fail) {}
-      var msg = response.msg;
       setState(() {
-        showTip(msg, true);
+        showTip(response.msg, response.code == success);
       });
     } else {
       developer.log("code or url is null");
@@ -140,9 +139,9 @@ class _SettingScreen extends State<SettingScreen> {
   @override
   void initState() {
     developer.log("initState");
+    super.initState();
     getCondeAndUrl();
     getMyConfig();
-    super.initState();
   }
 
   @override
@@ -152,7 +151,7 @@ class _SettingScreen extends State<SettingScreen> {
     var title = Padding(
       padding: const EdgeInsets.only(
           left: defaultPadding / 2,
-          top: defaultPadding/2,
+          top: defaultPadding / 2,
           bottom: defaultPadding),
       child: Row(
         children: [
@@ -176,7 +175,7 @@ class _SettingScreen extends State<SettingScreen> {
       },
       formKey: _formKey2,
     );
-    var codeUrl = ConfigUrl(
+    var codeUrlWidget = ConfigUrl(
       get: () {
         getConfig();
       },
@@ -201,7 +200,7 @@ class _SettingScreen extends State<SettingScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             title,
-            codeUrl,
+            codeUrlWidget,
             const Padding(padding: EdgeInsets.all(defaultPadding / 2)),
             pramContainer,
           ],

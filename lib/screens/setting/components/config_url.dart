@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:gateflow/screens/setting/setting_screen.dart';
 
 import '../../../constants.dart';
+import '../../../models/macurl_entity.dart';
 import '../../../responsive.dart';
+import '../../../utils/http.dart';
 
 class ConfigUrl extends StatefulWidget {
-  const ConfigUrl({
+  ConfigUrl({
     Key? key,
     required this.formKey,
     required this.get,
@@ -18,16 +22,31 @@ class ConfigUrl extends StatefulWidget {
   final VoidCallback saved;
   final VoidCallback get;
   final GlobalKey<FormState> formKey;
-
   @override
   State<StatefulWidget> createState() => _ConfigUrl();
 }
 
 class _ConfigUrl extends State<ConfigUrl> {
-  @override
-  ConfigUrl get widget => super.widget;
   var padding = const EdgeInsets.only(bottom: defaultPadding / 2);
-
+  void getCondeAndUrl() async {
+    try {
+      var response =await HttpUtils.post("/config/getMacUrl", "");
+      var data =MacurlEntity.fromJson(response).data;
+      if(data!=null){
+        setState(() {
+          widget.entity.code=data.mac!;
+          widget.entity.url=data.url!;
+        });
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+  @override
+  void initState() {
+    getCondeAndUrl();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     print("config url build");
@@ -58,7 +77,7 @@ class _ConfigUrl extends State<ConfigUrl> {
     return Card(
       color: Theme.of(context).cardColor,
       child: Padding(
-        padding: EdgeInsets.all(defaultPadding),
+        padding: const EdgeInsets.all(defaultPadding),
         child: column,
       ),
     );
