@@ -20,6 +20,7 @@ class ConfigUrl extends StatefulWidget {
   final VoidCallback saved;
   final VoidCallback get;
   final GlobalKey<FormState> formKey;
+
   @override
   State<StatefulWidget> createState() => _ConfigUrl();
 }
@@ -31,9 +32,14 @@ class _ConfigUrl extends State<ConfigUrl> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     print("config url build");
+    final TextEditingController codeController =
+        TextEditingController(text: widget.entity.code);
+    final TextEditingController urlController =
+        TextEditingController(text: widget.entity.url);
     var buttonStyleFrom = TextButton.styleFrom(
       padding: EdgeInsets.symmetric(
         horizontal: defaultPadding * 1.5,
@@ -52,7 +58,7 @@ class _ConfigUrl extends State<ConfigUrl> {
             ),
           ),
         ),
-        Form(key: widget.formKey, child: rowConfigPull(buttonStyleFrom))
+        Form(key: widget.formKey, child: rowConfigPull(buttonStyleFrom,codeController,urlController))
       ],
     );
     return Card(
@@ -64,7 +70,7 @@ class _ConfigUrl extends State<ConfigUrl> {
     );
   }
 
-  Row rowConfigPull(ButtonStyle buttonStyleFrom) {
+  Row rowConfigPull(ButtonStyle buttonStyleFrom,codeController,urlController) {
     var paddingAll = const EdgeInsets.all(defaultPadding / 2);
     return Row(
       children: <Widget>[
@@ -72,22 +78,21 @@ class _ConfigUrl extends State<ConfigUrl> {
           flex: 1,
           child: Padding(
             padding: paddingAll,
-            child: textFormField("设备编号", widget.entity.code, (value) {
+            child: textFormField("设备编号", (value) {
               widget.entity.code = value;
               widget.codeUrlChanged(widget.entity);
-              print(value);
-            }),
+            },codeController),
           ),
         ),
         Expanded(
           flex: 2,
           child: Padding(
               padding: paddingAll,
-              child: textFormField("获取参数地址", widget.entity.url, (value) {
+              child: textFormField("获取参数地址",(value) {
                 print(value);
                 widget.entity.url = value;
                 widget.codeUrlChanged(widget.entity);
-              })),
+              },urlController)),
         ),
         Padding(
           padding: paddingAll,
@@ -112,13 +117,14 @@ class _ConfigUrl extends State<ConfigUrl> {
   }
 
   TextFormField textFormField(
-      String hite, String? initValue, ValueChanged changed) {
+      String hint, ValueChanged changed, controller) {
     return TextFormField(
+      controller: controller,
       autofocus: true,
-      initialValue: initValue,
+      //initialValue: initValue,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return '$hite为空';
+          return '$hint为空';
         }
         return null;
       },
@@ -131,9 +137,9 @@ class _ConfigUrl extends State<ConfigUrl> {
       decoration: InputDecoration(
         hoverColor: Colors.blueGrey,
         border: const OutlineInputBorder(),
-        labelText: hite,
+        labelText: hint,
         // labelStyle: const TextStyle(color: Colors.white70),
-        hintText: hite,
+        hintText: hint,
         // hintStyle: const TextStyle(color: Colors.white70),
       ),
     );

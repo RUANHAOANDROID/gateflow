@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_response_entity.dart';
 import 'package:gateflow/models/custom_config_entity.dart';
-import 'package:gateflow/models/macurl_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
 import 'package:gateflow/utils/http.dart';
 import 'package:gateflow/wiidget/mytoast.dart';
@@ -18,8 +17,8 @@ import 'dart:developer' as developer;
 import '../../../responsive.dart';
 
 class FormEntity {
-  String? url;
-  String? code;
+  String? url="";
+  String? code="";
   ConfigResponseData? config;
 }
 

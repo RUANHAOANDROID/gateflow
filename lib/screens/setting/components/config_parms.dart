@@ -24,7 +24,6 @@ class _ConfigParams extends State<ParamsConfig> {
   @override
   Widget build(BuildContext context) {
     print("config parms build");
-    print(widget.config);
     final TextEditingController f1Controller =
         TextEditingController(text: widget.config?.manufacturerId1);
     final TextEditingController f2Controller =
