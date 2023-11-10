@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gateflow/controllers/ThemeController.dart';
+import 'package:gateflow/net/http.dart';
   import 'package:gateflow/screens/login/login_page.dart';
 import 'package:gateflow/screens/main/main_screen.dart';
 import 'package:gateflow/theme/theme.dart';
+import 'package:gateflow/utils/http.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 
@@ -23,21 +27,37 @@ void main() {
   ));
 }
 
-class MyAppState extends StatelessWidget {
+class MyAppState extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState()=>_MyAppState();
+}
+class _MyAppState extends State<MyAppState> {
+
+  syncTheme(context)async{
+    var resp =await HttpManager.getTheme();
+    int isDark =resp["data"];
+    Provider.of<ThemeController>(context,listen: false).setTheme(isDark==1);
+  }
+
+  _getTheme(context){
+    return Provider.of<ThemeController>(context).isDarkMode
+        ? ThemeDark(context)
+        : ThemeLight(context);
+  }
+  @override
+  void initState() {
+    syncTheme(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     dev.log("_MyAppState build app");
-    _getTheme() {
-      return Provider.of<ThemeController>(context).isDarkMode
-          ? ThemeDark(context)
-          : ThemeLight(context);
-    }
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //title: 'Gate Flow',
       //theme: ThemeLight(context),
-      theme: _getTheme(),
+      theme: _getTheme(context),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -48,12 +68,12 @@ class MyAppState extends StatelessWidget {
         Locale('en', 'US'),
       ],
       locale: const Locale('zh'),
-      home: MainScreen(),
+      home: const LoginScreen(),
       //initialRoute: "/",
     );
   }
-}
 
+}
 class NavigationService {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 }
