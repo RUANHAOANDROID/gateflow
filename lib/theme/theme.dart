@@ -21,31 +21,42 @@ ButtonStyle buttonStyle(context) {
 
 ThemeData ThemeDark(context) {
   return ThemeData.dark().copyWith(
-    backgroundColor: bgColor,
-    dialogTheme: DialogTheme(backgroundColor: bgColor),
-    scaffoldBackgroundColor: bgColor,
-    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
-        fontFamily: 'Regular',
-        bodyColor: Colors.white,
-        displayColor: Colors.white70),
-    canvasColor: secondaryColor,
-    cardColor: secondaryColor,
-    dividerColor: secondaryColor,
-    cardTheme: CardTheme(
-      elevation: 5.0,
-      color: secondaryColor,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))), //设置圆角
-    ),
-    iconTheme: IconTheme.of(context).copyWith(
-      color: Colors.white54,
-      size: 18,
-    ),
+      useMaterial3: false,
+      backgroundColor: bgColor,
+      dialogTheme: DialogTheme(backgroundColor: bgColor),
+      scaffoldBackgroundColor: bgColor,
+      textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+          .apply(
+              fontFamily: 'Regular',
+              bodyColor: Colors.white,
+              displayColor: Colors.white70),
+      canvasColor: secondaryColor,
+      cardColor: secondaryColor,
+      dividerColor: secondaryColor,
+      cardTheme: const CardTheme(
+        elevation: 5.0,
+        color: secondaryColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))), //设置圆角
+      ),
+      iconTheme: IconTheme.of(context).copyWith(
+        color: Colors.white54,
+        size: 18,
+      ),
+      textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+        foregroundColor: Colors.blue, // 设置按钮文本颜色为蓝色
+      )),
+      //drawerTheme: DrawerTheme.of(context).copyWith(scrimColor: Colors.blue),
+      buttonTheme: ButtonTheme.of(context).copyWith(buttonColor: Colors.blue),
+      inputDecorationTheme: InputDecorationTheme(border: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue))),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(foregroundColor:Colors.white,backgroundColor: Colors.blue )),
   );
 }
 
 ThemeData ThemeLight(context) {
   return ThemeData.light().copyWith(
+    useMaterial3: false,
     //dialogTheme: DialogTheme(backgroundColor: bgColor1),
     // scaffoldBackgroundColor: bgColor1,
     //canvasColor: secondaryColor1,
@@ -60,14 +71,12 @@ ThemeData ThemeLight(context) {
       color: Colors.black54,
       size: 18,
     ),
-
-    cardTheme: CardTheme(
+    cardTheme: const CardTheme(
       elevation: 5.0,
       color: Colors.white,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))), //设置圆角
     ),
-
   );
 }
 
