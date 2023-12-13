@@ -5,6 +5,7 @@ import 'package:gateflow/models/config_get_entity.dart';
 import 'package:gateflow/models/config_response_entity.dart';
 import 'package:gateflow/models/custom_config_entity.dart';
 import 'package:gateflow/models/response_entity.dart';
+import 'package:gateflow/net/http.dart';
 import 'package:gateflow/utils/http.dart';
 import 'package:gateflow/wiidget/mytoast.dart';
 import '../../constants.dart';
@@ -72,8 +73,20 @@ class _SettingScreen extends State<SettingScreen> {
       showTip(e.toString(), false);
     }
   }
+  void getCodeUrl()async {
+    var response = await HttpManager.getCodeUrl();
+    if(response.isNotEmpty){
+      var _code = response["data"]["code"];
+      var _url = response["data"]["url"];
+      developer.log("code $_code url $_url");
+      widget.formEntity.code =_code;
+      widget.formEntity.url =_url;
+      setState(() {
 
-//个人配置
+      });
+    }
+  }
+  //个人配置
   void getMyConfig() async {
     try {
       developer.log("init get my config");
@@ -124,6 +137,7 @@ class _SettingScreen extends State<SettingScreen> {
     developer.log("initState");
     super.initState();
     getMyConfig();
+    getCodeUrl();
   }
 
   @override

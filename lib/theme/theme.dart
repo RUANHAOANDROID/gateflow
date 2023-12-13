@@ -48,8 +48,8 @@ ThemeData ThemeDark(context) {
         foregroundColor: Colors.blue, // 设置按钮文本颜色为蓝色
       )),
       //drawerTheme: DrawerTheme.of(context).copyWith(scrimColor: Colors.blue),
-      buttonTheme: ButtonTheme.of(context).copyWith(buttonColor: Colors.blue),
-      inputDecorationTheme: InputDecorationTheme(border: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue))),
+      //buttonTheme: ButtonTheme.of(context).copyWith(buttonColor: Colors.blue),
+      //inputDecorationTheme: InputDecorationTheme(border: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue))),
       elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(foregroundColor:Colors.white,backgroundColor: Colors.blue )),
   );
 }

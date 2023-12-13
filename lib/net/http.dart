@@ -12,4 +12,7 @@ class HttpManager {
   static Future<Map<String, dynamic>> setTheme(bool isDask) async {
     return await HttpUtils.get("/config/setTheme?theme=$isDask",'');
   }
+  static Future<Map<String, dynamic>> getCodeUrl() async {
+    return await HttpUtils.get("/config/getCodeUrl",'');
+  }
 }
