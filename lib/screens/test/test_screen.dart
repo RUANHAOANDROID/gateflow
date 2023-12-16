@@ -144,7 +144,7 @@ DataRow devicesDataRow(DevicesData info) {
       DataCell(Text(info.number!), placeholder: true),
       DataCell(Text(info.ip!), placeholder: true),
       DataCell(Text(info.version!), placeholder: true),
-      DataCell(Text(info.status!), placeholder: true),
+      DataCell(Text(info.status=="0"?"离线":"在线"), placeholder: true),
       DataCell(
           Row(
             children: [
