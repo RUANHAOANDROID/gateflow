@@ -1,0 +1,33 @@
+kind: pipeline
+type: docker
+name: default
+steps:
+  - name: build
+#    image: mobiledevops/flutter-sdk-image
+    image: instrumentisto/flutter
+    volumes:
+      - name: build
+        path: /drone/src/build
+    commands:
+      - ls
+      - flutter upgrade --force
+      - flutter build web --web-renderer html
+      - flutter build linux
+      - tar -czvf gateflow-web.tar.gz build/web
+      - tar -czvf gateflow-linux.tar.gz build/linux
+  - name: upload
+    image: minio/mc:RELEASE.2024-01-16T16-06-34Z
+    environment:
+      ADDRESS:
+        from_secret: MINIO_ADDRESS
+      ACCESS_KEY:
+        from_secret: MINIO_ACCESS_KEY
+      SECRET_KEY:
+        from_secret: MINIO_SECRET_KEY
+    commands:
+      - mc config host add mio $ADDRESS $ACCESS_KEY $SECRET_KEY
+      - mc cp gateflow.tar.gz mio/uchi/ledshow_web
+volumes:
+  - name: build
+    host:
+      path: /mnt/user/appdata/drone/build/flutter/gateflow
