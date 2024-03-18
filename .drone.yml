@@ -10,7 +10,7 @@ steps:
         path: /drone/src/build
     commands:
       - ls
-      - flutter upgrade --force
+#      - flutter upgrade --force
       - flutter build web --web-renderer html
       - flutter build linux
       - tar -czvf gateflow-web.tar.gz build/web
