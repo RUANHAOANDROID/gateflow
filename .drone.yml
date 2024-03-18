@@ -12,8 +12,11 @@ steps:
       - ls
 #      - flutter upgrade --force
 #      - flutter build web --web-renderer html
+      - flutter --version
+      - sleep 1000
       - flutter build linux
-      - tar -czvf gateflow-web.tar.gz build/web
+      - flutter pub outdated
+#      - tar -czvf gateflow-web.tar.gz build/web
       - tar -czvf gateflow-linux.tar.gz build/linux
   - name: upload
     image: minio/mc:RELEASE.2024-01-16T16-06-34Z
