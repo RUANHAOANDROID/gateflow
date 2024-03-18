@@ -11,7 +11,7 @@ steps:
     commands:
       - ls
 #      - flutter upgrade --force
-      - flutter build web --web-renderer html
+#      - flutter build web --web-renderer html
       - flutter build linux
       - tar -czvf gateflow-web.tar.gz build/web
       - tar -czvf gateflow-linux.tar.gz build/linux
