@@ -50,10 +50,6 @@ DevicesData $DevicesDataFromJson(Map<String, dynamic> json) {
   if (tag != null) {
     devicesData.tag = tag;
   }
-  final String? number = jsonConvert.convert<String>(json['number']);
-  if (number != null) {
-    devicesData.number = number;
-  }
   final String? ip = jsonConvert.convert<String>(json['ip']);
   if (ip != null) {
     devicesData.ip = ip;
@@ -85,7 +81,6 @@ Map<String, dynamic> $DevicesDataToJson(DevicesData entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['id'] = entity.id;
   data['tag'] = entity.tag;
-  data['number'] = entity.number;
   data['ip'] = entity.ip;
   data['sn'] = entity.sn;
   data['version'] = entity.version;
@@ -99,7 +94,6 @@ extension DevicesDataExtension on DevicesData {
   DevicesData copyWith({
     int? id,
     String? tag,
-    String? number,
     String? ip,
     String? sn,
     String? version,
@@ -110,7 +104,6 @@ extension DevicesDataExtension on DevicesData {
     return DevicesData()
       ..id = id ?? this.id
       ..tag = tag ?? this.tag
-      ..number = number ?? this.number
       ..ip = ip ?? this.ip
       ..sn = sn ?? this.sn
       ..version = version ?? this.version

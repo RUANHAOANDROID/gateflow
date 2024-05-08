@@ -78,7 +78,7 @@ class _ConfigUrl extends State<ConfigUrl> {
           flex: 1,
           child: Padding(
             padding: paddingAll,
-            child: textFormField("设备编号", (value) {
+            child: textFormField("设备号", (value) {
               widget.entity.code = value;
               widget.codeUrlChanged(widget.entity);
             },codeController),

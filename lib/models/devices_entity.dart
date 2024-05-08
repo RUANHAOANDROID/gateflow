@@ -4,14 +4,14 @@ import 'dart:convert';
 
 @JsonSerializable()
 class DevicesEntity {
+  int? code;
+  String? msg;
+  List<DevicesData>? data;
 
-	int? code;
-	String? msg;
-	List<DevicesData>? data;
-  
   DevicesEntity();
 
-  factory DevicesEntity.fromJson(Map<String, dynamic> json) => $DevicesEntityFromJson(json);
+  factory DevicesEntity.fromJson(Map<String, dynamic> json) =>
+      $DevicesEntityFromJson(json);
 
   Map<String, dynamic> toJson() => $DevicesEntityToJson(this);
 
@@ -23,20 +23,19 @@ class DevicesEntity {
 
 @JsonSerializable()
 class DevicesData {
+  int? id;
+  String? tag;
+  String? ip;
+  String? sn;
+  String? version;
+  String? status;
+  String? addTime;
+  String? updateTime;
 
-	int? id;
-	String? tag;
-	String? number;
-	String? ip;
-	String? sn;
-	String? version;
-	String? status;
-	String? addTime;
-	String? updateTime;
-  
   DevicesData();
 
-  factory DevicesData.fromJson(Map<String, dynamic> json) => $DevicesDataFromJson(json);
+  factory DevicesData.fromJson(Map<String, dynamic> json) =>
+      $DevicesDataFromJson(json);
 
   Map<String, dynamic> toJson() => $DevicesDataToJson(this);
 

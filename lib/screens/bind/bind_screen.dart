@@ -180,7 +180,7 @@ class _BindScreen extends State<BindScreen> {
                   label: Text("点位"),
                 ),
                 DataColumn(
-                  label: Text("设备编号"),
+                  label: Text("设备号"),
                 ),
                 DataColumn(
                   label: Text("IP"),
@@ -234,7 +234,7 @@ class _BindScreen extends State<BindScreen> {
               ],
             ),
             placeholder: true),
-        DataCell(Text("${info.number}"), placeholder: true),
+        DataCell(Text("${info.sn}"), placeholder: true),
         DataCell(Text("${info.ip}"), placeholder: true),
         DataCell(Text("${info.version}"), placeholder: true),
         DataCell(Text(info.status=="0"?"离线":"在线"), placeholder: true),
@@ -333,7 +333,7 @@ class _NetScanner extends State<NetScanner> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Name:  ${data[index].name}"),
+                Text("SN:  ${data[index].name}"),
                 Text("IP:  ${data[index].ip}"),
               ],
             ),

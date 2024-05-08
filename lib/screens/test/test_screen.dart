@@ -58,7 +58,7 @@ class _TestScreen extends State<TestScreen> {
                 label: Text("点位"),
               ),
               DataColumn(
-                label: Text("设备编号"),
+                label: Text("设备号"),
               ),
               DataColumn(
                 label: Text("IP"),
@@ -125,7 +125,7 @@ class _TestScreen extends State<TestScreen> {
 
 DataRow devicesDataRow(DevicesData info) {
   void _openGateTest(DevicesData info) async {
-    var map = {'number': info.number, 'ip': info.ip};
+    var map = {'sn': info.sn, 'ip': info.ip};
     HttpUtils.post("/devices/openGateTest", map);
   }
 
@@ -141,7 +141,7 @@ DataRow devicesDataRow(DevicesData info) {
             ],
           ),
           placeholder: true),
-      DataCell(Text(info.number!), placeholder: true),
+      DataCell(Text(info.sn!), placeholder: true),
       DataCell(Text(info.ip!), placeholder: true),
       DataCell(Text(info.version!), placeholder: true),
       DataCell(Text(info.status=="0"?"离线":"在线"), placeholder: true),

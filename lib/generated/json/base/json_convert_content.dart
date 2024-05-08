@@ -23,41 +23,38 @@ JsonConvert jsonConvert = JsonConvert();
 typedef JsonConvertFunction<T> = T Function(Map<String, dynamic> json);
 typedef EnumConvertFunction<T> = T Function(String value);
 typedef ConvertExceptionHandler = void Function(Object error, StackTrace stackTrace);
+extension MapSafeExt<K, V> on Map<K, V> {
+  T? getOrNull<T>(K? key) {
+    if (!containsKey(key) || key == null) {
+      return null;
+    } else {
+      return this[key] as T?;
+    }
+  }
+}
 
 class JsonConvert {
   static ConvertExceptionHandler? onError;
+  JsonConvertClassCollection convertFuncMap = JsonConvertClassCollection();
 
-  static Map<String, JsonConvertFunction> get convertFuncMap =>
-      {
-        (ConfigGetEntity).toString(): ConfigGetEntity.fromJson,
-        (ConfigResponseEntity).toString(): ConfigResponseEntity.fromJson,
-        (ConfigResponseData).toString(): ConfigResponseData.fromJson,
-        (ConfigResponseDataDeFalseVoice)
-            .toString(): ConfigResponseDataDeFalseVoice.fromJson,
-        (ConfigResponseDataDeTrueVoice)
-            .toString(): ConfigResponseDataDeTrueVoice.fromJson,
-        (CustomConfigEntity).toString(): CustomConfigEntity.fromJson,
-        (CustomConfigData).toString(): CustomConfigData.fromJson,
-        (CustomConfigDataConfigDeFalseVoice)
-            .toString(): CustomConfigDataConfigDeFalseVoice.fromJson,
-        (CustomConfigDataConfigDeTrueVoice)
-            .toString(): CustomConfigDataConfigDeTrueVoice.fromJson,
-        (DevicesEntity).toString(): DevicesEntity.fromJson,
-        (DevicesData).toString(): DevicesData.fromJson,
-        (DiscoveryEntity).toString(): DiscoveryEntity.fromJson,
-        (DiscoveryData).toString(): DiscoveryData.fromJson,
-        (EventsEntity).toString(): EventsEntity.fromJson,
-        (EventsPageEntity).toString(): EventsPageEntity.fromJson,
-        (EventsPageData).toString(): EventsPageData.fromJson,
-        (HardwareEntity).toString(): HardwareEntity.fromJson,
-        (LoginEntity).toString(): LoginEntity.fromJson,
-        (MacurlEntity).toString(): MacurlEntity.fromJson,
-        (MacurlData).toString(): MacurlData.fromJson,
-        (PassedTotalEntity).toString(): PassedTotalEntity.fromJson,
-        (PassedTotalDeviceTotals).toString(): PassedTotalDeviceTotals.fromJson,
-        (ResponseEntity).toString(): ResponseEntity.fromJson,
-        (WsHdsEntity).toString(): WsHdsEntity.fromJson,
-      };
+  /// When you are in the development, to generate a new model class, hot-reload doesn't find new generation model class, you can build on MaterialApp method called jsonConvert. ReassembleConvertFuncMap (); This method only works in a development environment
+  /// https://flutter.cn/docs/development/tools/hot-reload
+  /// class MyApp extends StatelessWidget {
+  ///    const MyApp({Key? key})
+  ///        : super(key: key);
+  ///
+  ///    @override
+  ///    Widget build(BuildContext context) {
+  ///      jsonConvert.reassembleConvertFuncMap();
+  ///      return MaterialApp();
+  ///    }
+  /// }
+  void reassembleConvertFuncMap() {
+    bool isReleaseMode = const bool.fromEnvironment('dart.vm.product');
+    if (!isReleaseMode) {
+      convertFuncMap = JsonConvertClassCollection();
+    }
+  }
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
     if (value == null) {
@@ -142,9 +139,10 @@ class JsonConvert {
         if (value == null) {
           return null;
         }
-        return convertFuncMap[type]!(Map<String, dynamic>.from(value)) as T;
+        return convertFuncMap[type]!(value as Map<String, dynamic>) as T;
       } else {
-        throw UnimplementedError('$type unimplemented');
+        throw UnimplementedError(
+            '$type unimplemented,you can try running the app again');
       }
     }
   }
@@ -251,7 +249,7 @@ class JsonConvert {
           WsHdsEntity.fromJson(e)).toList() as M;
     }
 
-    debugPrint("${M.toString()} not found");
+    debugPrint("$M not found");
 
     return null;
   }
@@ -262,9 +260,50 @@ class JsonConvert {
     }
     if (json is List) {
       return _getListChildType<M>(
-          json.map((e) => e as Map<String, dynamic>).toList());
+          json.map((dynamic e) => e as Map<String, dynamic>).toList());
     } else {
       return jsonConvert.convert<M>(json);
     }
+  }
+}
+
+class JsonConvertClassCollection {
+  Map<String, JsonConvertFunction> convertFuncMap = {
+    (ConfigGetEntity).toString(): ConfigGetEntity.fromJson,
+    (ConfigResponseEntity).toString(): ConfigResponseEntity.fromJson,
+    (ConfigResponseData).toString(): ConfigResponseData.fromJson,
+    (ConfigResponseDataDeFalseVoice).toString(): ConfigResponseDataDeFalseVoice
+        .fromJson,
+    (ConfigResponseDataDeTrueVoice).toString(): ConfigResponseDataDeTrueVoice
+        .fromJson,
+    (CustomConfigEntity).toString(): CustomConfigEntity.fromJson,
+    (CustomConfigData).toString(): CustomConfigData.fromJson,
+    (CustomConfigDataConfigDeFalseVoice)
+        .toString(): CustomConfigDataConfigDeFalseVoice.fromJson,
+    (CustomConfigDataConfigDeTrueVoice)
+        .toString(): CustomConfigDataConfigDeTrueVoice.fromJson,
+    (DevicesEntity).toString(): DevicesEntity.fromJson,
+    (DevicesData).toString(): DevicesData.fromJson,
+    (DiscoveryEntity).toString(): DiscoveryEntity.fromJson,
+    (DiscoveryData).toString(): DiscoveryData.fromJson,
+    (EventsEntity).toString(): EventsEntity.fromJson,
+    (EventsPageEntity).toString(): EventsPageEntity.fromJson,
+    (EventsPageData).toString(): EventsPageData.fromJson,
+    (HardwareEntity).toString(): HardwareEntity.fromJson,
+    (LoginEntity).toString(): LoginEntity.fromJson,
+    (MacurlEntity).toString(): MacurlEntity.fromJson,
+    (MacurlData).toString(): MacurlData.fromJson,
+    (PassedTotalEntity).toString(): PassedTotalEntity.fromJson,
+    (PassedTotalDeviceTotals).toString(): PassedTotalDeviceTotals.fromJson,
+    (ResponseEntity).toString(): ResponseEntity.fromJson,
+    (WsHdsEntity).toString(): WsHdsEntity.fromJson,
+  };
+
+  bool containsKey(String type) {
+    return convertFuncMap.containsKey(type);
+  }
+
+  JsonConvertFunction? operator [](String key) {
+    return convertFuncMap[key];
   }
 }

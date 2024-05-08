@@ -8,12 +8,15 @@ import '../../../theme/theme.dart';
 import '../../../utils/IpInputFormatter.dart';
 import '../../../utils/http.dart';
 import 'dart:developer' as developer;
+
 class EditDialog extends StatefulWidget {
   final DevicesData? device;
   final _formKey = GlobalKey<FormState>();
-  final String? ip ;
-  final String? sn ;
-  EditDialog({Key? key, this.device,this.ip,this.sn}) : super(key: key);
+  final String? ip;
+
+  final String? sn;
+
+  EditDialog({Key? key, this.device, this.ip, this.sn}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _EditDialog();
@@ -25,7 +28,6 @@ class _EditDialog extends State<EditDialog> {
       var state = widget._formKey.currentState;
       if (state!.validate()) {
         var body = DevicesData();
-        body.number = numberC.text;
         body.ip = ipC.text;
         body.sn = snC.text;
         body.version = versionC.text;
@@ -37,7 +39,7 @@ class _EditDialog extends State<EditDialog> {
       }
       return true;
     } catch (e) {
-      developer.log("_EditDialog",error: e);
+      developer.log("_EditDialog", error: e);
       return false;
     }
   }
@@ -48,7 +50,6 @@ class _EditDialog extends State<EditDialog> {
       if (state!.validate()) {
         var body = DevicesData();
         body.id = widget.device!.id;
-        body.number = numberC.text;
         body.ip = ipC.text;
         body.sn = snC.text;
         body.version = versionC.text;
@@ -60,7 +61,7 @@ class _EditDialog extends State<EditDialog> {
       }
       return true;
     } catch (e) {
-      developer.log("updateDevice",error: e);
+      developer.log("updateDevice", error: e);
       return false;
     }
   }
@@ -68,7 +69,6 @@ class _EditDialog extends State<EditDialog> {
   TextEditingController snC = TextEditingController();
   TextEditingController versionC = TextEditingController();
   TextEditingController ipC = TextEditingController();
-  TextEditingController numberC = TextEditingController();
   TextEditingController pointC = TextEditingController();
 
   void checkParameter() {
@@ -81,7 +81,6 @@ class _EditDialog extends State<EditDialog> {
   void initState() {
     super.initState();
     if (widget.device != null) {
-      numberC.text = widget.device?.number as String;
       ipC.text = widget.device?.ip as String;
       versionC.text = widget.device?.version as String;
       snC.text = widget.device?.sn as String;
@@ -93,7 +92,6 @@ class _EditDialog extends State<EditDialog> {
 
   @override
   void dispose() {
-    numberC.dispose();
     ipC.dispose();
     versionC.dispose();
     snC.dispose();
@@ -125,24 +123,6 @@ class _EditDialog extends State<EditDialog> {
           Padding(
             padding: paddingAll,
             child: TextFormField(
-              controller: numberC,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return '编号为空';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                  border: outlineInputBorder,
-                  labelText: '设备编号',
-                  // labelStyle: formTextStyle(context),
-                  // hintStyle: formTextStyle(context),
-                  hintText: '请输设备编号'),
-            ),
-          ),
-          Padding(
-            padding: paddingAll,
-            child: TextFormField(
               inputFormatters: [
                 MyInputFormatters.ipAddressInputFilter(),
                 LengthLimitingTextInputFormatter(15),
@@ -166,18 +146,6 @@ class _EditDialog extends State<EditDialog> {
           Padding(
             padding: paddingAll,
             child: TextFormField(
-              controller: versionC,
-              decoration: InputDecoration(
-                  border: outlineInputBorder,
-                  labelText: '设备版本',
-                  // labelStyle: formTextStyle(context),
-                  // hintStyle: formTextStyle(context),
-                  hintText: '请输设备编号'),
-            ),
-          ),
-          Padding(
-            padding: paddingAll,
-            child: TextFormField(
               controller: snC,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -191,6 +159,18 @@ class _EditDialog extends State<EditDialog> {
                   // labelStyle: formTextStyle(context),
                   // hintStyle: formTextStyle(context),
                   hintText: '请输设备序列号'),
+            ),
+          ),
+          Padding(
+            padding: paddingAll,
+            child: TextFormField(
+              controller: versionC,
+              decoration: InputDecoration(
+                  border: outlineInputBorder,
+                  labelText: '设备版本',
+                  // labelStyle: formTextStyle(context),
+                  // hintStyle: formTextStyle(context),
+                  hintText: '请输入设备版本'),
             ),
           ),
         ],
