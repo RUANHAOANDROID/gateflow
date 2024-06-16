@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:gateflow/models/config_response_entity.dart';
 import 'package:gateflow/screens/setting/components/row_form.dart';
 
 import '../../../constants.dart';
 import '../../../responsive.dart';
+import '../../../theme/theme.dart';
 
 class ParamsConfig extends StatefulWidget {
   const ParamsConfig({
@@ -23,7 +26,12 @@ class ParamsConfig extends StatefulWidget {
 class _ConfigParams extends State<ParamsConfig> {
   @override
   Widget build(BuildContext context) {
-    print("config parms build");
+    log("config parms build");
+    final TextEditingController eqpController =
+        TextEditingController(text: widget.config?.equipmentNo);
+    final TextEditingController fCodeController =
+        TextEditingController(text: widget.config?.yccode);
+
     final TextEditingController f1Controller =
         TextEditingController(text: widget.config?.manufacturerId1);
     final TextEditingController f2Controller =
@@ -53,7 +61,6 @@ class _ConfigParams extends State<ParamsConfig> {
         TextEditingController(text: widget.config?.deFalseVoice?.error);
     final TextEditingController tipOtherErrController =
         TextEditingController(text: widget.config?.deFalseVoice?.other);
-
     var container = Card(
         child: Padding(
       padding: defaultPaddingAll,
@@ -65,22 +72,48 @@ class _ConfigParams extends State<ParamsConfig> {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           Padding(
+            padding: const EdgeInsets.only(
+                left: defaultPadding / 2,
+                right: defaultPadding / 2,
+                top: defaultPadding),
+            child: RowFormField(
+              hite1: "注册编码",
+              hite2: "厂商编码",
+              vc1: (value) {
+                widget.config?.equipmentNo=value;
+              },
+              vc2: (value) {
+                widget.config?.yccode=value;
+              },
+              teController1: eqpController,
+              teController2: fCodeController,
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(defaultPadding / 2),
             child: Column(
               children: [
                 RowFormField(
                   hite1: "厂商标识1",
                   hite2: "厂商标识2",
-                  vc1: (value) {},
-                  vc2: (value) {},
+                  vc1: (value) {
+                    widget.config?.manufacturerId1=value;
+                  },
+                  vc2: (value) {
+                    widget.config?.manufacturerId2=value;
+                  },
                   teController1: f1Controller,
                   teController2: f2Controller,
                 ),
                 RowFormField(
                   hite1: "验票地址",
                   hite2: "核销地址",
-                  vc1: (value) {},
-                  vc2: (value) {},
+                  vc1: (value) {
+                    widget.config?.checkUrl=value;
+                  },
+                  vc2: (value) {
+
+                  },
                   teController1: cUrlController,
                   teController2: vUrlController,
                 ),

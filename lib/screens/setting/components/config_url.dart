@@ -35,7 +35,7 @@ class _ConfigUrl extends State<ConfigUrl> {
 
   @override
   Widget build(BuildContext context) {
-    print("config url build");
+    log("config url build");
     final TextEditingController codeController =
         TextEditingController(text: widget.entity.code);
     final TextEditingController urlController =
