@@ -108,7 +108,7 @@ class _BindScreen extends State<BindScreen> {
             ),
           Text(
             "设备绑定",
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.headlineSmall,
           )
         ],
       ),

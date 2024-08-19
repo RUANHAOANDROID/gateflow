@@ -54,7 +54,7 @@ class _ConfigUrl extends State<ConfigUrl> {
           child: RichText(
             text: TextSpan(
               text: " 获取配置 ",
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
         ),

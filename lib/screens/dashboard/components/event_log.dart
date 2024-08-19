@@ -37,7 +37,7 @@ class _EventLogs extends State<EventLogs> {
     var titleString2 = "事件面板";
     var title = Text(
       titleString2,
-      style: Theme.of(context).textTheme.subtitle1,
+      style: Theme.of(context).textTheme.titleMedium,
     );
     var titleColumn = Row(
       children: [

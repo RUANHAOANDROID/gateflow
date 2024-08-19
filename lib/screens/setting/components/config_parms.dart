@@ -69,7 +69,7 @@ class _ConfigParams extends State<ParamsConfig> {
         children: [
           Text(
             "业务配置 ",
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           Padding(
             padding: const EdgeInsets.only(
@@ -124,7 +124,7 @@ class _ConfigParams extends State<ParamsConfig> {
             padding: const EdgeInsets.only(top: defaultPadding),
             child: Text(
               "  验票通过提示配置 ",
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           Padding(
@@ -162,7 +162,7 @@ class _ConfigParams extends State<ParamsConfig> {
             padding: const EdgeInsets.only(top: defaultPadding / 2),
             child: Text(
               "  验票失败提示配置 ",
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           Padding(

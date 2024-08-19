@@ -158,7 +158,7 @@ class _SettingScreen extends State<SettingScreen> {
             ),
           Text(
             "参数设置",
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.headlineSmall,
           )
         ],
       ),

@@ -22,7 +22,7 @@ ButtonStyle buttonStyle(context) {
 ThemeData ThemeDark(context) {
   return ThemeData.dark().copyWith(
       useMaterial3: false,
-      backgroundColor: bgColor,
+      // backgroundColor: bgColor,
       dialogTheme: DialogTheme(backgroundColor: bgColor),
       scaffoldBackgroundColor: bgColor,
       textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
@@ -86,5 +86,5 @@ const outlineInputBorder = OutlineInputBorder(
 );
 
 TextStyle? formTextStyle(context) {
-  return Theme.of(context).primaryTextTheme.subtitle2;
+  return Theme.of(context).primaryTextTheme.titleMedium;
 }

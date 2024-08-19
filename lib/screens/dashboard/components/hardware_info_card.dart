@@ -60,13 +60,13 @@ class HardwareInfoCard extends StatelessWidget {
                 "${info.used}",
                 style: Theme.of(context)
                     .textTheme
-                    .caption!,
+                    .titleSmall!,
               ),
               Text(
                 info.total!,
                 style: Theme.of(context)
                     .textTheme
-                    .caption!,
+                    .titleSmall!,
               ),
             ],
           )

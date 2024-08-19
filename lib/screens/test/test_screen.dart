@@ -45,7 +45,7 @@ class _TestScreen extends State<TestScreen> {
       children: [
         Text(
           "设备列表 ",
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         SizedBox(
           height: window.physicalSize.height*0.58,
@@ -95,7 +95,7 @@ class _TestScreen extends State<TestScreen> {
             ),
           Text(
             "设备调试",
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.headlineSmall,
           )
         ],
       ),

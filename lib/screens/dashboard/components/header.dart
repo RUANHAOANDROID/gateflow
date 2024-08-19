@@ -51,7 +51,7 @@ class Header extends StatelessWidget {
         if (!Responsive.isMobile(context))
           Text(
             "运行概要",
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
