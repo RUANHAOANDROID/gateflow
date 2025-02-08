@@ -23,9 +23,10 @@ class DiscoveryEntity {
 
 @JsonSerializable()
 class DiscoveryData {
-	String? name = '';
-	String? sn = '';
-	String? ip = '';
+	String? device_name = '';
+	String? device_sn = '';
+	String? device_ip = '';
+	String? device_type = '';
 	String? added = '';
 
 	DiscoveryData();

@@ -139,7 +139,12 @@ class JsonConvert {
         if (value == null) {
           return null;
         }
-        return convertFuncMap[type]!(value as Map<String, dynamic>) as T;
+        var covertFunc = convertFuncMap[type]!;
+        if (covertFunc is Map<String, dynamic>) {
+          return covertFunc(value as Map<String, dynamic>) as T;
+        } else {
+          return covertFunc(Map<String, dynamic>.from(value)) as T;
+        }
       } else {
         throw UnimplementedError(
             '$type unimplemented,you can try running the app again');

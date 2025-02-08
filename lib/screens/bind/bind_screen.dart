@@ -333,16 +333,17 @@ class _NetScanner extends State<NetScanner> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("SN:  ${data[index].name}"),
-                Text("IP:  ${data[index].ip}"),
+                Text("SN:  ${data[index].device_name}"),
+                Text("IP:  ${data[index].device_ip}"),
+                Text("Type:  ${data[index].device_type}"),
               ],
             ),
           );
           var device = DevicesData();
-          device.sn = "${data[index].sn}";
-          device.ip = "${data[index].ip}";
+          device.sn = "${data[index].device_sn}";
+          device.ip = "${data[index].device_ip}";
           return ListTile(
-            title: Text("${data[index].sn}"),
+            title: Text("${data[index].device_sn}"),
             subtitle: Row(
               children: [
                 subtitle,
@@ -357,8 +358,8 @@ class _NetScanner extends State<NetScanner> {
                       //barrierDismissible: false, // user must tap button!
                       builder: (BuildContext context) {
                         return EditDialog(
-                          sn: "${data[index].sn}",
-                          ip: "${data[index].ip}",
+                          sn: "${data[index].device_sn}",
+                          ip: "${data[index].device_ip}",
                         );
                       },
                     ).then((value) => onRefresh());

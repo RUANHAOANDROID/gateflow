@@ -1,6 +1,6 @@
 import 'package:gateflow/generated/json/base/json_convert_content.dart';
 import 'package:gateflow/models/custom_config_entity.dart';
-import 'package:gateflow/models/config_response_entity.dart';
+import '../../models/config_response_entity.dart';
 
 
 CustomConfigEntity $CustomConfigEntityFromJson(Map<String, dynamic> json) {

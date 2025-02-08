@@ -7,6 +7,7 @@ import 'package:gateflow/models/devices_entity.dart';
 import 'package:gateflow/net/http.dart';
 import 'package:gateflow/utils/http.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants.dart';
 import '../../../responsive.dart';
@@ -148,18 +149,40 @@ DataRow devicesDataRow(DevicesData info) {
       DataCell(
           Row(
             children: [
-              ElevatedButton(
-                onPressed: () {
+              // ElevatedButton(
+              //   onPressed: () {
+              //     _openGateTest(info);
+              //   },
+              //   child: const Text(
+              //     '开闸调试',
+              //     style: TextStyle(color: Colors.white),
+              //   ),
+              // ),
+              IconButton(
+                icon: const Icon(
+                  Icons.open_in_browser,
+                  color: Colors.blue,
+                ),
+                onPressed: ()  {
                   _openGateTest(info);
                 },
-                child: const Text(
-                  '开闸调试',
-                  style: TextStyle(color: Colors.white),
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.settings,
+                  color: Colors.blue,
                 ),
+                onPressed: () async {
+                  final Uri url = Uri.parse('http://192.168.1.141:8585');
+                  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                    throw '无法打开 $url';
+                  }
+                },
               ),
             ],
           ),
           placeholder: true),
     ],
   );
+
 }
