@@ -60,6 +60,11 @@ DiscoveryData $DiscoveryDataFromJson(Map<String, dynamic> json) {
   if (device_type != null) {
     discoveryData.device_type = device_type;
   }
+  final String? device_version = jsonConvert.convert<String>(
+      json['device_version']);
+  if (device_version != null) {
+    discoveryData.device_version = device_version;
+  }
   final String? added = jsonConvert.convert<String>(json['added']);
   if (added != null) {
     discoveryData.added = added;
@@ -73,6 +78,7 @@ Map<String, dynamic> $DiscoveryDataToJson(DiscoveryData entity) {
   data['device_sn'] = entity.device_sn;
   data['device_ip'] = entity.device_ip;
   data['device_type'] = entity.device_type;
+  data['device_version'] = entity.device_version;
   data['added'] = entity.added;
   return data;
 }
@@ -83,6 +89,7 @@ extension DiscoveryDataExtension on DiscoveryData {
     String? device_sn,
     String? device_ip,
     String? device_type,
+    String? device_version,
     String? added,
   }) {
     return DiscoveryData()
@@ -90,6 +97,7 @@ extension DiscoveryDataExtension on DiscoveryData {
       ..device_sn = device_sn ?? this.device_sn
       ..device_ip = device_ip ?? this.device_ip
       ..device_type = device_type ?? this.device_type
+      ..device_version = device_version ?? this.device_version
       ..added = added ?? this.added;
   }
 }

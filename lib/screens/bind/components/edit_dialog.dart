@@ -13,10 +13,10 @@ class EditDialog extends StatefulWidget {
   final DevicesData? device;
   final _formKey = GlobalKey<FormState>();
   final String? ip;
-
   final String? sn;
+  final String? version;
 
-  EditDialog({Key? key, this.device, this.ip, this.sn}) : super(key: key);
+  EditDialog({Key? key, this.device, this.ip, this.sn,this.version}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _EditDialog();
@@ -88,6 +88,7 @@ class _EditDialog extends State<EditDialog> {
     }
     ipC.text = widget.ip != null ? widget.ip as String : ipC.text;
     snC.text = widget.sn != null ? widget.sn as String : snC.text;
+    versionC.text = widget.version != null ? widget.version as String : versionC.text;
   }
 
   @override

@@ -27,6 +27,7 @@ class DiscoveryData {
 	String? device_sn = '';
 	String? device_ip = '';
 	String? device_type = '';
+	String? device_version = '';
 	String? added = '';
 
 	DiscoveryData();

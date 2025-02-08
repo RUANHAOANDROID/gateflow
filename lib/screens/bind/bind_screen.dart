@@ -336,6 +336,7 @@ class _NetScanner extends State<NetScanner> {
                 Text("SN:  ${data[index].device_name}"),
                 Text("IP:  ${data[index].device_ip}"),
                 Text("Type:  ${data[index].device_type}"),
+                Text("Version:  ${data[index].device_version}"),
               ],
             ),
           );
@@ -360,6 +361,7 @@ class _NetScanner extends State<NetScanner> {
                         return EditDialog(
                           sn: "${data[index].device_sn}",
                           ip: "${data[index].device_ip}",
+                          version: "${data[index].device_version}",
                         );
                       },
                     ).then((value) => onRefresh());
