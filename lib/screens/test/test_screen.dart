@@ -173,7 +173,7 @@ DataRow devicesDataRow(DevicesData info) {
                   color: Colors.blue,
                 ),
                 onPressed: () async {
-                  final Uri url = Uri.parse('http://192.168.1.141:8585');
+                  final Uri url = Uri.parse("http://${info.ip}:8080");
                   if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
                     throw '无法打开 $url';
                   }
